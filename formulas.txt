@@ -275,3 +275,60 @@ VERIFICATION
   The 3D simulation reaches only t=90 (memory limit), and its error oscillates and decays
   like t^(-3/2) (quantum/lazy_trend.py), as expected from the escaping part of the wave.
   Code: quantum/lazy.py, quantum/lazy_avg.py, quantum/lazy2d.py
+
+
+==========================================================================================
+FORMULA 5 — Trapping of the FLIP-FLOP Grover walk on 3D crystal lattices (simple cubic
+            and body-centred cubic), in closed form via Watson's lattice integrals
+Found: 2026-09-27.  Status: derived exactly, integer relations found at 40-70 digits,
+checked against brute-force simulations of both walks.
+Novelty: trapping in flip-flop Grover walks is known to exist (and is computed in 2D;
+Higuchi-Konno-Sato-Segawa give general-d integral descriptions). I found no exact 3D
+values, and no link to Watson's integrals. "Not found", not certainty.
+==========================================================================================
+
+THE QUESTION (plain English)
+  The "flip-flop" Grover walk is the version used in most quantum-search algorithms: after
+  each hop the walker's internal arrow flips to point back where it came from. On a 3D
+  crystal, what fraction of the walker stays trapped at the starting site forever?
+
+GENERAL RESULT (any lattice whose neighbour set is +/-delta_1, ..., +/-delta_P)
+  Long-time average return probability, starting in coin state phi:
+      pbar(phi) = ||M_+ phi||^2 + ||M_- phi||^2,     M_+ = I/2 - N
+  with N_{(s,p),(t,q)} = (1/4) [ G(0) - G(delta_p) - G(delta_q) + G(t*delta_q - s*delta_p) ]
+  where G(x) = E_k[ cos(k.x) / sum_r (1 - cos k.delta_r) ] is the lattice Green function.
+  For bipartite lattices (SC, BCC), M_- = M_+, so pbar = 2 ||M phi||^2.
+  Derivation: the flat bands of U = S(2|u><u| - I) live in K = {psi : <u,psi> = 0 = <u,S psi>},
+  where U = -S. So the +1 flat projector is (I-S)/2 - (I-S)uu^*(I-S)/(2<u,(I-S)u>);
+  averaging it over k gives the Green-function entries above.
+
+SIMPLE CUBIC (6 coin states)
+  Watson's integral  W = sqrt(6)/(32 pi^3) * Gamma(1/24) Gamma(5/24) Gamma(7/24) Gamma(11/24)
+                       = 1.5163860591519780181560...
+  M = I/2 - N,  N_diag = 1/6,
+      N(+i,-i)  = alpha = ( 7W + 54/(pi^2 W) - 12 ) / 36
+      N(i, j!=i) = beta  = ( 24 - 7W - 54/(pi^2 W) ) / 144      (note alpha + 4 beta = 1/3)
+  Start in one coin state (e.g. +x):
+      pbar = 2 [ 1/9 + alpha^2 + 4 beta^2 ] = 0.26672720352085343375733992...
+  Start in the uniform coin state: pbar = 0 (it escapes completely).
+
+BODY-CENTRED CUBIC (8 coin states, neighbours (+-1,+-1,+-1))
+  W_b = Gamma(1/4)^4 / (4 pi^3) = 1.3932039296856768591842...
+  N_diag = 1/8,
+      same pair, opposite arrow:          alpha   = ( 3 W_b + 36/(pi^2 W_b) - 6 ) / 16
+      other pair, difference (2,0,0)-type: beta_s = ( 2 - W_b + 4/(pi^2 W_b) ) / 16
+      other pair, difference (2,2,0)-type: beta_d = ( 1 - 8/(pi^2 W_b) ) / 8
+  (row sum 1/8 + alpha + 3 beta_s + 3 beta_d = 1/2 exactly)
+  Start in one coin state:
+      pbar = 2 [ 9/64 + alpha^2 + 3 beta_s^2 + 3 beta_d^2 ] = 0.32150479124143771009523...
+
+VERIFICATION
+  - Integer relations found by PSLQ at 40 digits (SC re-checked at 70 digits: identical
+    relations). Lattice Green functions were computed two independent ways: Bessel
+    integrals for SC and accelerated exact binomial series for BCC. The BCC series
+    reproduces Watson's BCC constant to 40 digits.
+  - Brute-force simulation of each actual walk (quantum/sim_flipflop.py, quantum/sim_bcc.py):
+       SC,  start +x: simulated time-average 0.266687 vs formula 0.266727
+       BCC, start one arrow: simulated 0.321756 vs formula 0.321505
+    (Simulations are limited to t <= 80 by memory; the escaping part decays like t^-3/2.)
+  Code: quantum/flipflop.py, quantum/bcc_lgf.py, quantum/bcc_trap.py
