@@ -1,0 +1,6 @@
+lieb origin 1: avg t=200..400 = 0.1249934  avg last quarter = 0.1250167  arc (1, 0, (0, 0))
+lieb origin 0: avg t=200..400 = 0.0836690  avg last quarter = 0.0836853  arc (0, 1, (0, 0))
+elongated_triangular(3^3.4^2) origin 0: avg t=200..400 = 0.2291791  avg last quarter = 0.2291753  arc (0, 0, (-1, 0))
+dice origin 0: avg t=200..400 = 0.1703641  avg last quarter = 0.1703590  arc (0, 1, (0, 0))
+dice origin 1: avg t=200..400 = 0.2291610  avg last quarter = 0.2291447  arc (1, 0, (0, 0))
+checkerboard origin 0: avg t=200..400 = 0.2910796  avg last quarter = 0.2913050  arc (0, 0, (-1, 0))

@@ -488,3 +488,57 @@ VERIFICATION
     (still decaying toward the limit; the escaping part falls off like 1/t in 2D).
   Code: quantum2d/engine.py, honey_kagome.py, kag_flat.py, kag_all.py, kag_sym.py,
         kag_bands.py, simgraph.py
+
+
+==========================================================================================
+FORMULA 9 — Exact flip-flop Grover-walk trapping on four more 2D lattices:
+            LIEB, DICE (T3), TRUNCATED SQUARE (4.8.8) and CHECKERBOARD (planar pyrochlore)
+Found: 2026-09-27.  Status: automatic exact engine (quantum/lattices/gen.py) + PSLQ; each
+value confirmed by an independent Bloch-diagonalisation grid check (lattices/gridcheck.py)
+and by direct simulation.  Novelty: not found in the literature.
+==========================================================================================
+
+METHOD (general engine, any 2D periodic graph)
+  Trapping = sum over flat eigenvalues of the walk: +1 (Laplacian transfer currents), -1
+  (signless-Laplacian transfer currents), plus mu +- i sqrt(1-mu^2) for every flat band mu
+  of the random walk D^{-1/2} A D^{-1/2} (weights 1/sqrt(deg), prefactor 1/(2(1-mu^2))).
+  Brillouin-zone averages are done by an exact residue sum in k2 and quadrature in k1.
+  pbar(start arc) = long-time average probability of being back at the start vertex.
+
+LIEB lattice (corner sites deg 4, edge-centre sites deg 2; flat band mu = 0 -> lambda = +-i)
+  start at a corner site:   pbar = (1 - 4/pi + 6/pi^2)/4 = 0.0836718892797159856...
+                            (+1 and -1 channels (1 - 4/pi + 6/pi^2)/16 each; flat channels
+                            (1 - 4/pi + 6/pi^2)/8)  -- exactly half the square-lattice value
+  start at an edge site:    pbar = 1/8 exactly   (channels 1/32, 1/32, 1/16)
+  grid check: 0.08367189, 0.125;  simulation: 0.083685, 0.125017
+
+DICE lattice (hub sites deg 6, rim sites deg 3; flat band mu = 0)
+  start at a hub:           pbar = (31 - 20 sqrt3/pi + 45/pi^2)/144 = 0.17036718996853721...
+                            (+1 = -1 channel = (27 - 16 sqrt3/pi + 36/pi^2)/288;
+                             flat channels (4 - 4 sqrt3/pi + 9/pi^2)/144)
+  start at a rim site:      pbar = 11/48 exactly   (channels 3/32, 3/32, 1/24)
+  grid check: 0.170359-0.170371, 0.229154-0.229173 (grid error ~1e-5 from Dirac points);
+  simulation: 0.170364, 0.229161
+
+TRUNCATED SQUARE 4.8.8 (bipartite, deg 3).  Let  c = sqrt(2) * arccos(1/3) / pi = 0.5541...
+  Edge resistances: square edge (2 + c)/4, octagon-octagon bridge 1 - c/2 (Foster's sum
+  rule holds exactly). The Laplacian determinant factorises as
+  64 - 4(3 + cos k1)(3 + cos k2), which is why arccos(1/3) appears.
+  start along a square edge:  pbar = (4 - 6c + 3c^2)/16 = 0.0997756085862333246820...
+  start along a bridge edge:  pbar = 3c^2/16            = 0.0575730175785728198532...
+  grid check: 0.0997768/0.0997745, 0.0575730; simulation (t<=400): 0.10004, 0.05778
+
+CHECKERBOARD (line graph of the square lattice, deg 6; flat band mu = -1/3)
+  Signless part = square-lattice Green function outside the band; with K = K(k), E = E(k),
+  k^2 = 1/4 (complete elliptic integrals, parameter m = 1/4):
+  start along a collinear neighbour:
+     pbar = 2097/1024 - 185/(128 pi) + 79/(32 pi^2) + 123 K/(32 pi) - 93 E/(8 pi)
+            + 39 K^2/(16 pi^2) - 57 K E/(4 pi^2) + 43 E^2/(2 pi^2)
+          = 0.2915287743505391056875...
+     (+1: (75 - 136/pi + 352/pi^2)/512 ; flat channels: (227 - 1208/pi + 1824/pi^2)/1024)
+  start along a perpendicular neighbour:
+     pbar = 777/1024 - 37/(64 pi) + 25/(32 pi^2) + 45 K/(64 pi) - 33 E/(16 pi)
+            + 3 K^2/(4 pi^2) - 3 K E/pi^2 + 7 E^2/(2 pi^2)
+          = 0.2954779129769429679370...
+     (+1: (91 - 88/pi + 64/pi^2)/512 ; flat channels: (91 - 416/pi + 672/pi^2)/1024)
+  grid check: 0.29152877, 0.2954770-0.2954788
