@@ -1218,7 +1218,7 @@ lattices. Closed forms for the three tilings below were not found.
 ==========================================================================================
 FORMULA 26 — Spanning-tree entropy of the snub square (3^2.4.3.4, Shastry-Sutherland) lattice
              and of its dual, the Cairo pentagonal lattice, in closed form
-Found: 2026-09-28 (just after midnight UTC).  Status: integer relation found at 60 digits with
+Found: 2026-09-27.  Status: integer relation found at 60 digits with
 coefficients (-3, 4, 40), residual < 1e-58; the underlying value matches a 2000x2000 grid
 (1.4108556891, grid error ~1e-8) and the literature's numerical value 1.41086.
 Novelty: the numerical value is known (Chang & Wang 2006, cond-mat/0604589; Li & Yan 2018 give
