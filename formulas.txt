@@ -390,3 +390,48 @@ VERIFICATION
   - The G' closed forms satisfy the lattice equations to 1e-42.
   - Brute-force simulation of the FCC flip-flop walk (quantum/sim_fcc.py):
     time-average 0.379379 vs formula 0.378915 (simulation limited to t = 56).
+
+
+==========================================================================================
+FORMULA 7 — Flip-flop Grover walk on the TRIANGULAR lattice: exact trapping probability
+            (plus a general "electrical network" form of flip-flop trapping)
+Found: 2026-09-27.  Status: closed form; lattice equations satisfied exactly; simulation
+agrees to 6 digits.  Novelty: not found in the literature.
+==========================================================================================
+
+GENERAL PRINCIPLE (holds for any periodic graph)
+  For the flip-flop Grover walk, the +1 flat-band projector is the projector onto the
+  cycle space: I minus the Kirchhoff "transfer-current" matrix Y of the lattice (the
+  same matrix that gives edge probabilities in uniform spanning trees). The -1 flat band
+  is the same with the signless Laplacian D + A in place of the Laplacian D - A.
+  So, starting on arc e at the origin:
+      pbar(e) = (1/4) * SUM_{arcs f at the origin} [ (delta_ef - Y(e,f))^2
+                                                  + (delta_ef - Y_signless(e,f))^2 ]
+  (This is how Formulas 5 and 6 arise; for bipartite lattices both terms are equal.)
+
+TRIANGULAR LATTICE (6 coin states)
+  Needed Green-function values. Laplacian potential kernel (classical resistances):
+      a(1) = 1/3,  a(sqrt3) = 2 sqrt3/pi - 2/3,  a(2) = 8/3 - 4 sqrt3/pi
+  Signless Laplacian (far band edge; these appear to be new closed forms):
+      X := G'(0) = E[ 1/(3 + cos k1 + cos k2 + cos(k1-k2)) ] = 2^(2/3) Gamma(1/3)^3 / (8 pi^2)
+                 = 0.38653175565464278858999735052334...
+      G'(1)      = (1 - 3X)/3
+      G'(sqrt3)  = (9X - 2 - sqrt3/(pi X)) / 3
+      G'(2)      = (3X - 4 + 2 sqrt3/(pi X)) / 3
+  THE RESULT, starting in one coin state:
+      +1 channel = (43 pi^2 - 120 sqrt3 pi + 324) / (72 pi^2)
+      -1 channel = X^2 - X/2 + 19/72 - sqrt3/(6 pi) - sqrt3/(18 pi X) + 1/(8 pi^2 X^2)
+      pbar = X^2 - X/2 + 31/36 - 11 sqrt3/(6 pi) + 9/(2 pi^2) - sqrt3/(18 pi X) + 1/(8 pi^2 X^2)
+           = 0.26795570253708055129404796163749...
+
+VERIFICATION
+  - Green functions computed to 45 digits (exact k2 integration + tanh-sinh quadrature);
+    PSLQ relations have small integer coefficients; G'(0) matches the Gamma form to 1e-46.
+  - The closed forms satisfy the triangular-lattice equations 3G'(x) + (1/2) SUM_nbrs
+    G'(x+e) = delta_{x,0} exactly.
+  - Brute-force simulation of the actual walk (quantum2d/sim2d.py), time average over
+    t = 201..500: 0.2679596 vs formula 0.2679557.
+  - Same code on the square lattice gives 0.16734378 (simulation 0.16734263). That is the
+    classical 2D case: 2(1/4 + (1/pi - 1/4)^2 + (1/8)(1 - 2/pi)^2 ... ) from a(1,1) = 2/pi,
+    a(2,0) = 2 - 4/pi; very likely known.
+  Code: quantum2d/lgf2d.py, flipflop2d.py, id_tri.py, tri_final.py, tri_sym.py, sim2d.py
