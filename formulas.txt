@@ -1,3 +1,27 @@
+INDEX OF RESULTS (see each entry for derivation, verification and novelty notes)
+------------------------------------------------------------------------------------------
+ 1  Added mass of a ball touching a spherical tank (ideal flow) ....... probably routine/minor
+ 2  Viscous torque, same geometry ...................................... NOT NEW (2017 paper)
+ 3  Grover walk (moving shift) trapping on Z^3, Z^4; erfc integral ..... not found in literature
+ 4  Lazy (lackadaisical) Grover walk trapping, 2D and 3D ............... not found
+ 5  Flip-flop Grover trapping on SC and BCC (Watson integrals) ........ not found
+ 6  Flip-flop Grover trapping on FCC; FCC far-edge Green function ...... walk part not found; G identity probably known (Joyce)
+ 7  Flip-flop Grover on triangular lattice (+ transfer-current principle)  not found
+ 8  Kagome (flat-band channels) and honeycomb (1/12) .................. not found
+ 9  Lieb, dice, 4.8.8, checkerboard ...................................... not found
+10  Star lattice 3.12.12 .................................................. not found
+11  Pyrochlore (all channels, incl. Joyce FCC reduction) ................. not found
+12  Triangular Green function below the band (real modulus) + L(triangular)  not found
+13  Line graphs: general reduction; line graph of simple cubic ........... not found
+14  Line graph of BCC (complete closed form) ............................. not found
+15  Line graph of FCC (complete closed form) ............................. not found
+16  Anisotropic square lattice Szegedy walk: elementary formula in alpha . not found
+17  Anisotropic honeycomb: formula for arbitrary bond weights ............ not found
+18  Anisotropic triangular: transfer currents at a vertex ................ diagonal = Kenyon; rest not found
+"Not found" = my web searches found no prior statement; OEIS/arXiv were not directly
+accessible from this environment, so experts should confirm novelty.
+==========================================================================================
+
 ==========================================================================================
 FORMULA 1 — Added mass of a ball touching a spherical tank (ideal fluid)
 Found: 2026-09-27.  Status: derived exactly + verified numerically.
