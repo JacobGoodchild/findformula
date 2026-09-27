@@ -24,6 +24,7 @@ INDEX OF RESULTS (see each entry for derivation, verification and novelty notes)
 22  Union Jack (tetrakis square) lattice: arccos(1/3) + lemniscatic K ..... not found
 23  Triakis triangular lattice; triangular Green function at t = 15 ...... not found
 24  Universal bound pbar >= (d-2)^2/(2d(d-1)); exact for diamond, Laves .. bound not found
+25  Exact adjacent resistances: snub square (algebraic), 4.8.8, Union Jack  closed forms not found (numerics known)
 "Not found" = my web searches found no prior statement; OEIS/arXiv were not directly
 accessible from this environment, so experts should confirm novelty.
 ==========================================================================================
@@ -1165,3 +1166,42 @@ the Laves graph and d-dimensional diamond were not found.
   and BCC: the off-diagonal transfer currents are nearly equal in practice.
   General form (any start arc, no symmetry): pbar >= (d / (4(d-1))) [ (1 - Y_aa)^2 + (1 - YQ_aa)^2 ].
   Code: diamond/projgrid3d.py, diamond/srs.py, diamond/hyperdiamond.py
+
+
+==========================================================================================
+FORMULA 25 — Exact resistance between adjacent nodes of infinite resistor networks on the
+             snub-square (Shastry-Sutherland), truncated-square (4.8.8) and tetrakis-square
+             (Union Jack) tilings; the snub-square values are ALGEBRAIC
+Found: 2026-09-27.  Status: exact transfer currents from the Bloch engine (30 digits), identified
+by PSLQ with coefficients <= 18; checked independently by solving Kirchhoff's laws on finite
+tori (60x60 and 120x120 cells, Richardson-extrapolated, agreement to ~1e-7).  Novelty: these
+networks' resistances were computed NUMERICALLY by Owaidat, Hijjawi & Khalifeh (arXiv:1305.5839);
+Cserti, Szechenyi & David (arXiv:1102.4537) gave exact mappings for kagome, dice and decorated
+lattices. Closed forms for the three tilings below were not found.
+==========================================================================================
+  All resistors 1 ohm; R = effective resistance between the two ends of one edge. (Equivalently
+  R is the probability that the uniform spanning tree contains that edge, and the self transfer
+  current Y_aa of Formulas 5-24.) Foster check: SUM over edges in a cell of R = vertices per cell.
+  SNUB SQUARE 3^2.4.3.4 (= Shastry-Sutherland lattice; degree 5; per cell 8 triangle-square
+  edges, 2 triangle-triangle edges):
+     R(triangle-square edge)   = 1/2 - sqrt3/18 = 0.40377495513506237258...
+     R(triangle-triangle edge) = 2 sqrt3/9      = 0.38490017945975050967...
+     (Foster: 8(1/2 - sqrt3/18) + 2(2 sqrt3/9) = 4.) Surprisingly there is no pi at all. The other
+     transfer currents at a vertex (arcs: two triangle-square arcs a, b around the same square
+     corner, the dimer arc d, and the two remaining triangle-square arcs a', b') are
+       Y(a,b) = 1 - sqrt3/2,  Y(a,d) = sqrt3/9,  Y(a',b') = (3 - sqrt3)/6,  Y(d,a') = 1/2 - 2sqrt3/9,
+       Y(a,a') = 5sqrt3/9 - 1 + 1/(2pi),  Y(a,b') = 1/2 - sqrt3/9 - 1/(2pi)
+     (rows sum to 1). Why algebraic: the Laplacian spectral curve's z2-discriminant has only one
+     simple factor, z1^2 - 98 z1 + 1 (roots (sqrt3 +- sqrt2)^4), so after removing the node at
+     k = 0 the curve has genus 0.
+  TRUNCATED SQUARE 4.8.8 (degree 3):   with c = sqrt2 arccos(1/3)/pi = 0.5541264239795719871...
+     R(square edge) = 1/2 + c/4 = 0.63853160599489299...     R(octagon-octagon edge) = 1 - c/2 = 0.72293678801021400...
+  TETRAKIS SQUARE (Union Jack; Formula 22):
+     R(corner-corner) = c/2 = 0.27706321198978599...        R(corner-centre) = (2 - c)/4 = 0.36146839400510700...
+  Torus check (120x120 cells, extrapolated): 0.4037749 / 0.3849002; 0.6385316 / 0.7229367; 0.2770633 / 0.3614684.
+  (Easy cases for comparison: triakis triangular 1/5 and 2/5, by star-triangle reduction.)
+  Not closed (numerics, for the record): ruby 3.4.6.4 0.54116212811899127673 / 0.45883787188100872327;
+  4.6.12: 0.62201910562094884644, 0.72145414931184019849, 0.65652674506721095507;
+  snub hexagonal 3^4.6: 0.37873865426799299025, 0.42731053665248728911, 0.38790161815903944127;
+  elongated triangular 3^3.4^2: 0.40160648694728075825, 0.37561116241332396901, 0.44556470127879054547.
+  Code: lattices/gen.py (transfer_matrix), lattices/torus_res.py, lattices/ss_Y.pkl
