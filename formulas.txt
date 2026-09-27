@@ -617,3 +617,39 @@ COROLLARY (general): if every edge at a vertex is equivalent (the vertex stabili
   transfer currents are forced: Y(e,e) = 2/d (Foster), Y(e,f) = (1 - 2/d)/(d-1). So
       pbar = (d-2)^2 / (2 d (d-1)).
   Honeycomb (d=3): 1/12 (checked, Formula 8); diamond (d=4): 1/6.
+
+
+==========================================================================================
+FORMULA 12 — Two special values of the triangular-lattice Green function, and exact
+             flip-flop Grover trapping on the LINE GRAPH of the triangular lattice
+Found: 2026-09-27.  Status: closed forms by PSLQ at 25-40 digits; full symbolic assembly
+matches the engine to 25 digits; grid check agrees.  Novelty: not found in the literature.
+==========================================================================================
+(a) Triangular-lattice Green function g(t) = E_k[ 1/(t - cos k1 - cos k2 - cos(k1-k2)) ]
+    - For t outside the band, the kagome/star work suggests the general formula
+        g(t) = 4 K(m) / (pi sqrt((e-1)^3 (e+3))),  e = sqrt(2t+3),  m = 16e/((e-1)^3 (e+3)).
+      Checked numerically at t = 11 (m = 5/32), t = 39 (m = 3/128), and by analytic
+      continuation at t = -3 and t = -7 (30 digits).
+    - BELOW the band (t = -7), the modulus is complex (tau has real part exactly 1/2),
+      but a modular transformation gives a REAL closed form:
+        E_k[ 1/(7 + cos k1 + cos k2 + cos(k1-k2)) ] = K(m*) / (135^(1/4) pi),
+        m* = 1/2 - 23 sqrt(15)/180   (root of 2160 m^2 - 2160 m + 11)
+        = 0.14687354484926574559989485088972545685...   (checked to 40 digits)
+    - (From Formula 7) t = -3: E[1/(3 + ...)] = 2^(2/3) Gamma(1/3)^3/(8 pi^2).
+
+(b) LINE GRAPH OF THE TRIANGULAR LATTICE (sites = bonds of the triangular lattice; degree 10;
+    its random walk has a doubly degenerate flat band mu = -1/5, handled exactly by
+    F = I - B^dag (B B^dag)^{-1} B, with B B^dag = the triangular signless dispersion).
+    Let X = 2^(2/3) Gamma(1/3)^3/(8 pi^2),  K = K(m*)/pi,  E = E(m*)/pi  (m* as above).
+    Start along a collinear neighbour:
+      +1   = (4681 pi^2 - 11772 sqrt3 pi + 35856) / (10368 pi^2)            = 0.17589974959243124286...
+      flat = 15X^2/64 - 115X/1728 + 4393/82944 - 275 sqrt3/(3456 pi)
+             - 283 sqrt3/(13824 pi X) + 365/(6912 pi^2 X^2)                  = 0.02499792706190364543...
+      -1   = 3713/4608 + (5395*375^(1/4)/3456 + 367*3^(3/4)*5^(1/4)/128) K
+             - (367*3^(3/4)*5^(1/4)/64) E + (1985/32 + 21863 sqrt15/1296) K^2
+             - (1985/16 + 345 sqrt15/8) K E + (345 sqrt15/8) E^2             = 0.17801981563856046176...
+      pbar = 0.37891749229289535007367...
+    The other two start classes (60 and 120 degrees) give pbar = 0.37983... and 0.38315...
+    (grid check); their exact forms use the same constants (engine run in progress).
+    Grid check (80 x 80): 0.37891451 (collinear).
+  Code: lattices/lg_tri.py, lgtri_sym.py, lgtri_fb.py; quantum2d/ (Green function checks)
