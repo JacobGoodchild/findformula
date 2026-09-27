@@ -14,3 +14,12 @@
   0.22157633698807354436, 0.22802366367916230407.
 - King's lattice flip-flop trapping: 0.32326601977799810277 (start along an axis); resistances
   not in simple bases (possibly elliptic).
+
+## Formula 19 (+1 channel, moving-shift Grover walk on the triangular lattice): structure found, no closed form
+- Denominator 3 + 2(c1+c2+c3) + (c1c2+c2c3+c3c1). Its z2-quartic factors as z1 (z2^2 + s+ z2 + z1)(z2^2 + s- z2 + z1),
+  s+- = (z1+1)[(u+4) +- sqrt((u+4)^2 - 20)]/2, u = 2cos k1.
+- Rationalising with u + 4 = sqrt5 (v + 1/v) and w = sqrt5 v, each branch has discriminant proportional to
+  (w - 1)(w^2 - w + 4): an elliptic curve, modulus m = 3/8 (or 5/8).
+- The integration path runs from the branch point w = 1 to w = 1 +- 2i (at u = -2), and (1 + 2i, 2i) is NOT a torsion
+  point (elliptic-log coordinates 0.0909379640545..., 0.3181240718909...). So the amplitudes involve INCOMPLETE elliptic
+  integrals; PSLQ with complete K(3/8), E(3/8) (several algebraic scalings) finds nothing, as expected.
