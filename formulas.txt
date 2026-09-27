@@ -605,11 +605,16 @@ Novelty: not found in the literature.
           = 0.1342600434822144...
      flat : 3W^2/64 + 9WX/256 - 13W/256 + 27X^2/4096 - 39X/2048 + 163/4096   (both lambdas)
           = 0.0260451956699648...
-     -1   : 0.133578355806662...  (signless Laplacian = FCC Green function at the generic
-            energy t = 15, which Joyce's formula gives as (15 sqrt15 - 15 sqrt3)/32 * (2K(k0)/pi)^2 / 15
-            with k0^2 = 1/2 - (sqrt3/2)(16/5)^(-3/2)(4/5 + (14/5)(2/sqrt5)). The same-tetrahedron
-            signless transfer current is exactly (4 - (sqrt15 - sqrt3)(2K(k0)/pi)^2)/16; the other
-            entries were not identified at 24 digits.)
+     -1   : closed form (added later in the session). Let g(t) = E_u[1/(t - s)], s = c1c2 + c2c3 + c3c1
+            (the FCC Green function), with g0 = g(15), g1 = g'(15), g2 = g''(15). By Joyce's formula
+            g(t) = (1/t) LGF(3/t), LGF(x) = 3^(3/2)(3+x)^(-3/2)(2 - sqrt(1-x)) (2K(k0)/pi)^2,
+            k0^2 = 1/2 - (sqrt3/2)(3+x)^(-3/2)(4x + (3-x) sqrt(1-x))  (checked to 30 digits at x = 1/5);
+            derivatives follow by the chain rule. The signless transfer currents are exactly
+            1/3, (1 - 8g0)/4 (x2), (352g0 + 12672g1 + 92160g2 - 19)/24, (23 - 256g0 - 12672g1 - 92160g2)/48 (x2)
+            (PSLQ at 45 digits, integer relations), giving
+            -1 = 1907/4608 - 319g0/36 - 671g1/2 - 2440g2 + 70g0^2 + 5280g0g1 + 38400g0g2
+                 + 104544g1^2 + 1520640g1g2 + 5529600g2^2
+               = 0.13357835580666387432761902262912249...
   TOTAL pbar = 0.29388359496...
   Grid check (40^3 momenta): +1 0.13425969, flat 2 x 0.01302234, -1 0.1335783558066627.
   The gapped -1 channel matches the engine to 15 digits; the others converge toward the
@@ -698,16 +703,22 @@ LINE GRAPH OF THE SIMPLE CUBIC LATTICE (sites = bonds of Z^3, degree 10, flat ba
          = 0.1773137350130005496228588
     flat = 259/1296 - 6233W/41472 - 453X/256 + 773765W^2/23887872 + 166595WX/221184 + 37685X^2/8192
          = 0.02504076002499835647653295
-    -1   = 0.17778193404565296486   (SC Green function at energy 7; Joyce's formula gives its
-           origin value (1/7)(1-9xi^4)/((1-xi)^3(1+3xi)) (2K(k)/pi)^2, k^2 = 16xi^3/((1-xi)^3(1+3xi)),
-           xi = (1+sqrt(40/49))^(-1/2) (1-sqrt(48/49))^(1/2); verified to 30 digits)
+    -1   = 193/72 - 55153g0/1152 - 141451g1/144 - 8515g2/3 + 2765143g0^2/12288 + 21197863g0g1/2304
+           + 1277695g0g2/48 + 18122239g1^2/192 + 1091735g1g2/2 + 789300g2^2
+         = 0.177781934045652964857876747363
+         where g(t) = E[1/(t - cos k1 - cos k2 - cos k3)], g0 = g(7), g1 = g'(7), g2 = g''(7).
+         Every needed Green function at energy 7 is a RATIONAL combination of 1, g0, g1, g2
+         (PSLQ at 45 digits). By Joyce, g(t) = (1/t)(1-9xi^4)/((1-xi)^3(1+3xi)) (2K(k)/pi)^2,
+         k^2 = 16xi^3/((1-xi)^3(1+3xi)), xi = (1+sqrt(1-z^2))^(-1/2)(1-sqrt(1-z^2/9))^(1/2), z = 3/t
+         (verified to 30 digits at z = 3/7).
     pbar = 0.38013642908365187095727
   start along a perpendicular neighbour:
     +1   = 2039/10368 - 467W/41472 - 23X/256 + 3319W^2/2985984 + 433WX/27648 + 103X^2/1024
          = 0.1781759949785616945441696
     flat = 3887/82944 - 6749W/331776 - 409X/2048 + 116365W^2/23887872 + 19195WX/221184 + 4285X^2/8192
          = 0.02500207330008460533126886
-    -1   = 0.17782774916395693606
+    -1   = 1511/4608 - 20591g0/9216 - 17447g1/384 - 1055g2/8 + 133379g0^2/12288 + 1162579g0g1/2304
+           + 67435g0g2/48 + 3564257g1^2/576 + 204905g1g2/6 + 47300g2^2 = 0.177827749163956936060686987910
     pbar = 0.38100581744260323593613
   Grid check (36^3): 0.3801364265 (collinear start) vs 0.3801364291.
   Code: lattices3d/lg_general.py (any d), lgsc_sym.py, grid_lgsc.py
