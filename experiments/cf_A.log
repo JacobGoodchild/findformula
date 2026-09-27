@@ -1,0 +1,31 @@
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/usr/lib/python3.11/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+           ^^^^^^^^^^^^^^^^
+  File "/home/user/findformula/experiments/cf_search.py", line 84, in work
+    ident = identify(x)
+            ^^^^^^^^^^^
+  File "/home/user/findformula/experiments/cf_search.py", line 50, in identify
+    rel = mp.pslq([x, 1], maxcoeff=10 ** 4, maxsteps=2000)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/mpmath/identification.py", line 169, in pslq
+    raise ValueError("PSLQ requires a vector of nonzero numbers")
+ValueError: PSLQ requires a vector of nonzero numbers
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/user/findformula/experiments/cf_search.py", line 120, in <module>
+    for res in pool.imap_unordered(work, tasks(which), chunksize=200):
+  File "/usr/lib/python3.11/multiprocessing/pool.py", line 451, in <genexpr>
+    return (item for chunk in result for item in chunk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/multiprocessing/pool.py", line 873, in next
+    raise value
+ValueError: PSLQ requires a vector of nonzero numbers
