@@ -872,3 +872,32 @@ neighbouring-edge transfer currents and the quantum-walk trapping formula were n
      p = (3/5,1/5,1/5):  pbar = 0.032345425786072444876223         (engine: identical)
      p = (0.6,0.25,0.15): pbar = 0.030744493261905700905           (simulation 0.030740)
   Code: aniso/honey_w.py (engine), honey_fit.py (law), honey_formula.py, honey_sim.py
+
+
+==========================================================================================
+FORMULA 18 — Exact transfer currents between all edges at a vertex of the ANISOTROPIC
+             TRIANGULAR lattice (uniform-spanning-tree edge correlations), and the ordinary
+             trapping channel of its Szegedy walk
+Found: 2026-09-27.  Status: law found by PSLQ on four weight choices, then confirmed on three
+FRESH weight choices to 26 digits (all six edges).  Novelty: the diagonal is Kenyon's
+isoradial theorem; Kenyon's theory implies the others in principle, but I have not found these
+explicit adjacent-edge formulas in print.
+==========================================================================================
+  Triangular lattice, bond directions e1, e2, e3 = e1 - e2 with conductances (or walk
+  probabilities) q1, q2, q3 (normalised q1 + q2 + q3 = 1). Isoradial angles:
+     theta_i = arctan(lambda q_i),  lambda = 1/sqrt(q1 q2 + q2 q3 + q3 q1),
+  which satisfy theta1 + theta2 + theta3 = pi/2. Let t_i = theta_i/pi, c1 = cot(theta1).
+  Unit current enters the origin and leaves at its +e1 neighbour. Current carried by each
+  edge at the origin (oriented outward):
+     T(+e1) = 2 t1                                                        (Kenyon)
+     T(-e1) = (2/pi)(c1 - theta1 c1^2)
+     T(+e2) = -q2/(2 q3) + [q2 (q1+q3)/(q1 q3)] t1 + [(q2+q3)/q3] t2
+     T(-e2) = [q2 (q1+q3)/q1^2] t1 + [(q2+q3)/q2] t2 - c1/pi
+     T(+e3) = 1/2 - [(q1-q3)/q1] t1 - [(q2+q3)/q2] t2
+     T(-e3) = 1 - (sum of the five above)
+  (Isotropic check: 1/3, 2sqrt3/pi - 1, and so on, reproducing the resistances of Formula 7.)
+  Szegedy walk (arc weights q_i/2): the +1 trapping channel starting on a +e1 arc is
+     (1/4) SUM_b (delta_{b,+e1} - sqrt(q_1/q_b) T(b))^2 ,
+  e.g. q = (0.4, 0.35, 0.25): 0.1179594093780618323...  The -1 channel needs the signless
+  Green function, an elliptic integral whose modulus depends on the q's (not reduced here).
+  Code: aniso/tri_w.py, tri_fit.py, tri_law2.py, tri_law_check.py
