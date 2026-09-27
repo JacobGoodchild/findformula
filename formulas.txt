@@ -432,6 +432,6 @@ VERIFICATION
   - Brute-force simulation of the actual walk (quantum2d/sim2d.py), time average over
     t = 201..500: 0.2679596 vs formula 0.2679557.
   - Same code on the square lattice gives 0.16734378 (simulation 0.16734263). That is the
-    classical 2D case: 2(1/4 + (1/pi - 1/4)^2 + (1/8)(1 - 2/pi)^2 ... ) from a(1,1) = 2/pi,
-    a(2,0) = 2 - 4/pi; very likely known.
+    classical 2D case, which simplifies to pbar = 1/2 - 2/pi + 3/pi^2 (from a(1,1) = 2/pi,
+    a(2,0) = 2 - 4/pi); very likely already known.
   Code: quantum2d/lgf2d.py, flipflop2d.py, id_tri.py, tri_final.py, tri_sym.py, sim2d.py
