@@ -766,3 +766,55 @@ Novelty: not found in the literature.
     pbar = 0.4177594673241385394020603...
   Grid check (24^3, collinear start): 0.41704667 (16^3: 0.41704077), converging to 0.41704935.
   Code: lattices3d/lg_bcc.py, lgbcc_sym.py, grid_lgbcc.py
+
+
+==========================================================================================
+FORMULA 15 — Line graph of the FACE-CENTRED CUBIC lattice: flip-flop Grover trapping in
+             complete closed form (four start classes)
+Found: 2026-09-27.  Status: exact reduction (Formula 13) with FCC Green functions (exact
+k3-integration + 2D quadrature, 34 digits). Every Green-function value was identified
+individually; the energy-8 relations were re-verified at 60 digits (one 34-digit PSLQ
+relation turned out to be SPURIOUS and was corrected). Channels were assembled
+symbolically and match the engine to 30 digits; 3D grid check agrees.
+Novelty: not found in the literature.
+==========================================================================================
+  Sites = bonds of FCC (12 neighbour vectors (+-1,+-1,0) etc.); degree 22; flat band mu = -1/11.
+  Constants:
+    W_f = 3 Gamma(1/3)^6/(2^(14/3) pi^4),  X_f = 1/(pi^2 W_f)          (FCC Watson)
+    Y = sqrt(2) W_sc,  X_Y = 1/(pi^2 Y),  r3 = sqrt(3)/pi               (FCC far band edge, Formula 6)
+    h(t) = E[1/(t + c1c2 + c2c3 + c3c1)],  h0 = h(8), h1 = h'(8), h2 = h''(8)
+           (h(t) = (1/t) LGF_FCC(-3/t) in Joyce's closed form)
+  Start classes = angle between the start bond and the neighbouring bond: 180 (collinear),
+  60, 90 and 120 degrees.
+
+  collinear start (arc (0,(-1,-1,0))):
+    +1   = 41383/82944 - 8381W_f/10368 - 7667X_f/6912 + 43W_f^2/72 + 223W_fX_f/144 + 6427X_f^2/6144
+    flat = 26387/829440 - 18637Y/12441600 - 32761X_Y/115200 - 857r3/34560 + 47927Y^2/79626240
+           - 111749X_Y Y/1843200 + 53449Y r3/16588800 + 454377X_Y^2/102400 - 1727X_Y r3/153600 + 15257r3^2/921600
+    -1   = 18523/11520 - 399853h0/3200 - 58399579h1/14400 - 11384219h2/900 + 39835099h0^2/12800
+           + 5793464047h0h1/28800 + 1120894159h0h2/1800 + 2497419995h1^2/768 + 2416693279h1h2/120
+           + 7019277881h2^2/225
+    pbar = 0.44924601047168703812866...
+  60-degree start (arc (2,(-1,0,-1))):
+    +1   = 19573/82944 - 347W_f/10368 - 871X_f/13824 + 35W_f^2/2592 + 259W_fX_f/6912 + 1097X_f^2/18432
+    flat = 17897/829440 - 383Y/155520 + 617X_Y/115200 - 781r3/86400 + 798017Y^2/1194393600
+           - 49423X_Y Y/5529600 + 407Y r3/16588800 + 28193X_Y^2/102400 - 3289X_Y r3/153600 + 2783r3^2/307200
+    -1   = 2821/11520 + 17857h0/28800 + 965293h1/57600 + 120197h2/3600 + 18336149h0^2/115200
+           + 543967193h0h1/57600 + 96150593h0h2/3600 + 4101570431h1^2/28800 + 80979899h1h2/100 + 86575258h2^2/75
+    pbar = 0.44932628436614800807223...
+  90-degree start (arc (1,(-1,1,0))):
+    +1   = 9199/41472 - 25W_f/1296 + 43X_f/6912 + 17W_f^2/2592 + W_fX_f/432 + 49X_f^2/9216
+    flat = 7847/414720 - 10819Y/12441600 - 263X_Y/23040 - 493r3/115200 + 212443Y^2/597196800
+           - 13277X_Y Y/2764800 - 1243Y r3/1658880 + 8107X_Y^2/51200 + 913X_Y r3/76800 + 451r3^2/92160
+    -1   = 157/640 + 1187h0/7200 - 17801h1/14400 - 3773h2/180 + 531571h0^2/28800 + 56716261h0h1/57600
+           + 10024861h0h2/3600 + 417231619h1^2/28800 + 15510803h1h2/180 + 9877714h2^2/75
+    pbar = 0.44943990277365356359418...
+  120-degree start (arc (2,(0,0,0))):
+    +1   = 12143/55296 - 91W_f/10368 - 211X_f/27648 + W_f^2/144 + 13W_fX_f/1152 + 35X_f^2/6144
+    flat = 55711/2764800 - 95621Y/49766400 - 9317X_Y/460800 - 121r3/30720 + 168707Y^2/398131200
+           - 2101X_Y Y/1843200 + 6281Y r3/16588800 + 13497X_Y^2/102400 + 2849X_Y r3/153600 + 209r3^2/102400
+    -1   = 29273/115200 - 6583h0/9600 - 325661h1/19200 - 213983h2/3600 + 47141h0^2/7200 + 2030273h0h1/4800
+           + 248479h0h2/180 + 812252861h1^2/115200 + 165623381h1h2/3600 + 3776773h2^2/50
+    pbar = 0.44977663121249284643983...
+  Grid check (14^3, collinear start): 0.44924499 (10^3: 0.44924337), converging to 0.44924601.
+  Code: lattices3d/lg_fcc.py, lgfcc_sym.py, fcc_t8_check.py, grid_lgfcc.py
