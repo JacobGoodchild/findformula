@@ -25,6 +25,7 @@ INDEX OF RESULTS (see each entry for derivation, verification and novelty notes)
 23  Triakis triangular lattice; triangular Green function at t = 15 ...... not found
 24  Universal bound pbar >= (d-2)^2/(2d(d-1)); exact for diamond, Laves .. bound not found
 25  Exact adjacent resistances: snub square & Cairo (algebraic), 4.8.8, Union Jack  closed forms not found
+26  Spanning-tree entropy of snub square & Cairo: (10/3pi)G + (1/3)ln(2+sqrt3)  closed form not found (numerics known)
 "Not found" = my web searches found no prior statement; OEIS/arXiv were not directly
 accessible from this environment, so experts should confirm novelty.
 ==========================================================================================
@@ -1212,3 +1213,33 @@ lattices. Closed forms for the three tilings below were not found.
   snub hexagonal 3^4.6: 0.37873865426799299025, 0.42731053665248728911, 0.38790161815903944127;
   elongated triangular 3^3.4^2: 0.40160648694728075825, 0.37561116241332396901, 0.44556470127879054547.
   Code: lattices/gen.py (transfer_matrix), lattices/torus_res.py, lattices/ss_Y.pkl
+
+
+==========================================================================================
+FORMULA 26 — Spanning-tree entropy of the snub square (3^2.4.3.4, Shastry-Sutherland) lattice
+             and of its dual, the Cairo pentagonal lattice, in closed form
+Found: 2026-09-28 (just after midnight UTC).  Status: integer relation found at 60 digits with
+coefficients (-3, 4, 40), residual < 1e-58; the underlying value matches a 2000x2000 grid
+(1.4108556891, grid error ~1e-8) and the literature's numerical value 1.41086.
+Novelty: the numerical value is known (Chang & Wang 2006, cond-mat/0604589; Li & Yan 2018 give
+exact INTEGRALS for Cairo; arXiv:2505.05688 lists 1.41086). I found no closed form. CAVEAT: a
+search summary mentioned follow-up work deriving spanning-tree generating functions for all 11
+Archimedean lattices (after Guttmann & Rogers, arXiv:1207.2815) that I could not open; the value
+may appear there in another form (hypergeometric / L-values).
+==========================================================================================
+  Number of spanning trees of an N-vertex piece grows like exp(z N). With G = Catalan's constant:
+     snub square 3^2.4.3.4:   z = (10/(3 pi)) G + (1/3) ln(2 + sqrt3) = 1.41085564574433483666963...
+     Cairo pentagonal (dual, 6 vertices per cell instead of 4, same tree count per cell):
+                              z = (20/(9 pi)) G + (2/9) ln(2 + sqrt3) = 0.94057043049622322444642...
+  Equivalently (per unit cell of 4 vertices, Mahler measure of the Laplacian determinant):
+     E_k[ ln det L(k) ] = (40/(3 pi)) G + (4/3) ln(2 + sqrt3),
+     det L(k) = 2(170 - 72(cos k1 + cos k2) - 28 cos k1 cos k2 + cos 2k1 + cos 2k2).
+  How it was found: the discriminant analysis of Formula 25 showed the Laplacian spectral curve has
+  genus 0 once the node at k = 0 is removed (its only simple branch factor is z1^2 - 98 z1 + 1, with
+  roots (sqrt3 +- sqrt2)^4). So the entropy had to be a combination of dilogarithms at algebraic
+  points, and PSLQ over {log 2, log 3, log(1+sqrt2), log(2+sqrt3), log(sqrt2+sqrt3), G/pi,
+  Cl2(pi/3)/pi, Cl2(pi/12)/pi, Cl2(5pi/12)/pi} returned the relation -3E + 4 ln(2+sqrt3) + 40 G/pi = 0.
+  Compare: square lattice z = 4G/pi = 1.16624; the snub square mixes the square lattice's Catalan
+  constant with ln(2 + sqrt3).
+  Code: inline computation (inner k2 integral exact via Jensen's formula, outer tanh-sinh), see
+  lattices/tree_entropy.py
