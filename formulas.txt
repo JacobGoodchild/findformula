@@ -1,7 +1,10 @@
 ==========================================================================================
 FORMULA 1 — Added mass of a ball touching a spherical tank (ideal fluid)
 Found: 2026-09-27.  Status: derived exactly + verified numerically.
-Literature search found no prior statement of it (see "Novelty" below).
+NOVELTY UPDATE: probably a minor/routine extension. The viscous analogue (Formula 2) was
+published by Papavassiliou & Alexander (J. Fluid Mech. 2017, arXiv:1602.06912), and the
+external two-sphere potential-flow case was treated by Small & Weihs (1975). The inside-
+touching closed form has not been found in print, but an expert would likely call it an exercise.
 ==========================================================================================
 
 THE QUESTION (plain English)
@@ -92,7 +95,10 @@ WHY IT MATTERS
 ==========================================================================================
 FORMULA 2 — Viscous torque on a spinning ball touching the inside of a spherical tank
 Found: 2026-09-27.  Status: derived exactly + verified numerically (independent stress
-integration). Literature search found no prior statement of the closed form.
+integration).
+NOVELTY UPDATE: NOT NEW. The same Hurwitz-zeta formula (inside and outside versions) is in
+Papavassiliou & Alexander, "Exact solutions for hydrodynamic interactions of two squirming
+spheres", J. Fluid Mech. (2017), eqs. (11)-(12); arXiv:1602.06912. Kept here as a rediscovery.
 ==========================================================================================
 
 THE QUESTION (plain English)
