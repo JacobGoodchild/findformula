@@ -818,3 +818,29 @@ Novelty: not found in the literature.
     pbar = 0.44977663121249284643983...
   Grid check (14^3, collinear start): 0.44924499 (10^3: 0.44924337), converging to 0.44924601.
   Code: lattices3d/lg_fcc.py, lgfcc_sym.py, fcc_t8_check.py, grid_lgfcc.py
+
+
+==========================================================================================
+FORMULA 16 — Anisotropic square lattice: exact trapping of the Szegedy (weighted Grover,
+             flip-flop) quantum walk as an ELEMENTARY FUNCTION of the anisotropy
+Found: 2026-09-27.  Status: derived analytically (1D elementary integrals), checked against
+direct numerics (25 digits) and simulations of the walk.  Novelty: not found.
+==========================================================================================
+  Model: square lattice random walk with P(+-x) = alpha/2, P(+-y) = beta/2 (alpha + beta = 1).
+  Its Szegedy walk: at each vertex, coin 2|s><s| - I with |s> = (sqrt(alpha/2), sqrt(alpha/2),
+  sqrt(beta/2), sqrt(beta/2)) on the arcs (+x, -x, +y, -y); flip-flop shift.
+  Weighted version of the cycle-space principle: the +1 flat band projects onto divergence-free
+  flows for the conductances P(e); the -1 band is equal by bipartiteness.
+
+  Let theta = arcsin(sqrt(alpha)). Starting on the +x arc, the transfer currents are
+     Y(+x,+x)  = 2 theta / pi
+     Y(+x,-x)  = (2/pi) (cot theta - theta cot^2 theta)
+     Y(+x,+-y) = (tan theta / 2) * [ 1 - (2/pi)(theta + cot theta - theta cot^2 theta) ]
+  and the long-time average return probability is
+     pbar(alpha) = (1/2) [ (1 - 2theta/pi)^2 + Y(+x,-x)^2 + 2 Y(+x,y)^2 ].
+  (Key integral: E[(1 - cos k1)/(alpha(1-cos k1) + beta(1-cos k2))] = 2 arcsin(sqrt(alpha))/(pi alpha).)
+  Checks:  alpha = 1/2 gives 1/2 - 2/pi + 3/pi^2 = 0.16734377855943197 (isotropic, Formula 7);
+           alpha = 1/4 (theta = pi/6): pbar = 0.25400036756659953284  (simulation 0.2540013)
+           alpha = 0.7:                pbar = 0.10771461463761465554  (simulation 0.1077147)
+  Starting on a y-arc: swap alpha and beta.
+  Code: aniso/sq.py, aniso/sq_check.py
