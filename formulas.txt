@@ -2,7 +2,7 @@ INDEX OF RESULTS (see each entry for derivation, verification and novelty notes)
 ------------------------------------------------------------------------------------------
  1  Added mass of a ball touching a spherical tank (ideal flow) ....... probably routine/minor
  2  Viscous torque, same geometry ...................................... NOT NEW (2017 paper)
- 3  Grover walk (moving shift) trapping on Z^3, Z^4; erfc integral ..... not found in literature
+ 3  Grover walk (moving shift) trapping on Z^3, Z^4, Z^5; erfc integral  not found (d=5 integral prob. known) in literature
  4  Lazy (lackadaisical) Grover walk trapping, 2D and 3D ............... not found
  5  Flip-flop Grover trapping on SC and BCC (Watson integrals) ........ not found
  6  Flip-flop Grover trapping on FCC; FCC far-edge Green function ...... walk part not found; G identity probably known (Joyce)
@@ -219,8 +219,18 @@ THE FORMULA
       d = 2 :  1/2 - 1/pi                          (B_2 = 1/pi)
       d = 3 :  1/2 - (3 - sqrt(3))/pi              = 0.0963992368704200348980...
       d = 4 :  1/2 - (18 - 8*sqrt(3))/(3*pi)       = 0.0603510706887014361369...
-      d = 5 :  0.0415386564485422292429... (no closed form found in a basis of pi,
-               sqrt(2), sqrt(3), sqrt(5), arctan(sqrt2), 1/pi^2 terms)
+      d = 5 :  1/2 - 10/pi + 40 sqrt(3)/(3 pi) - 20 sqrt(3) arccos(1/4)/pi^2
+               = 0.0415386564485422292429170321891...   [added later the same night: PSLQ at
+               80 digits, confirmed to 1e-80. Why it closes: A_d = (1/2) E[min Z_k^2] is a
+               moment over a region of the sphere S^(d-1), and on the even sphere S^4 such
+               integrals reduce to lower-dimensional angles. For d = 6 (odd sphere S^5) no
+               closed form was found. By min/max inclusion-exclusion the same result says
+               E[max of 5 squared standard normals] = 1 + 20 sqrt3/pi - 40 sqrt3 arccos(1/4)/pi^2
+               = 2.77374906709428422583...; this is the mean-square max of 5 half-normals, which
+               S. Finch (arXiv:1112.0499, "Mean width of a regular cross-polytope") appears to treat
+               ("mean square counterparts", n <= 6), so the integral itself is PROBABLY KNOWN.
+               The new part is only its use here: 5D trapping, start +x,
+               pbar = 5A^2 + B^2 = 0.03373729729788322185391...; uniform start 50A^2 = 0.08627299897750094626...]
 
   Headline 3D numbers:
       start in one direction (e.g. +x):  pbar = 3A^2 + B^2 = 0.0840162046742951524...
