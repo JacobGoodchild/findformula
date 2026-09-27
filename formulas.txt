@@ -152,3 +152,70 @@ NOVELTY
   bispherical coordinates, including slip variants), and Jeffery (1915) has the wall
   case. I found no explicit Hurwitz-zeta closed form for the internally touching case.
   With arXiv/OEIS blocked, "not found" is the honest status.
+
+
+==========================================================================================
+FORMULA 3 — How much a 3D (and 4D) quantum walker stays "stuck" at its starting point
+Found: 2026-09-27.  Status: derived exactly, checked by two independent computations.
+Novelty: the 2D case is almost certainly known (Inui, Konno, Segawa 2004). I found no
+statement of the 3D/4D closed forms or the all-dimensions integral, but I could not open
+several papers (IOP/arXiv blocked), so "not found" is the honest status.
+==========================================================================================
+
+THE QUESTION (plain English)
+  A quantum walk is the quantum version of a random walk. A classical random walker on a
+  3D grid wanders off and the chance of finding it back at the start dies away to zero.
+  The "Grover" quantum walk, a standard model in quantum computing, behaves differently:
+  part of the wave stays trapped near the start forever. What exactly is the long-run
+  chance of finding the walker back at its starting point?
+
+MODEL
+  Grover walk on the d-dimensional grid Z^d, 2d coin states (one per direction +x,-x,...),
+  Grover coin G = (1/d)J - I, moving shift. Start: at the origin with coin state phi.
+  pbar(phi) = long-time average of Prob(walker at origin).
+
+THE FORMULA
+  Let  A_d = INTEGRAL_0^inf erfc(sqrt(s))^d ds  (equivalently E[1/(d + t_1^2+...+t_d^2)]
+  for independent standard Cauchy variables t_i), and B_d = (1 - d*A_d)/d. Then
+
+      pbar(phi) = 2 * [ (d*A_d)^2 * |<u|phi>|^2  +  B_d^2 * ||P_anti phi||^2 ]
+
+  where u = (1,...,1)/sqrt(2d) is the uniform coin state and P_anti projects onto the
+  d states e_{+i} - e_{-i} (normalised). Coin states orthogonal to both never get stuck.
+
+  Exact values of A_d:
+      d = 1 :  1/2
+      d = 2 :  1/2 - 1/pi                          (B_2 = 1/pi)
+      d = 3 :  1/2 - (3 - sqrt(3))/pi              = 0.0963992368704200348980...
+      d = 4 :  1/2 - (18 - 8*sqrt(3))/(3*pi)       = 0.0603510706887014361369...
+      d = 5 :  0.0415386564485422292429... (no closed form found in a basis of pi,
+               sqrt(2), sqrt(3), sqrt(5), arctan(sqrt2), 1/pi^2 terms)
+
+  Headline 3D numbers:
+      start in one direction (e.g. +x):  pbar = 3A^2 + B^2 = 0.0840162046742951524...
+      start in the uniform coin state:   pbar = 18 A^2     = 0.1672706316455882907...
+                                        (the most "sticky" possible start)
+      At even times the return probability itself tends to 2*pbar; at odd times to 0.
+
+DERIVATION (sketch)
+  In momentum space the walk operator S(k)G has eigenvalues +1 and -1 for every k (flat
+  bands); these cause the trapping. Solving G psi = lambda S(k)^* psi gives the flat-band
+  eigenvector v_j = 1/(1 + lambda*conj(s_j)). For lambda = +1 its components are
+  (1 +/- i*tan(k_i/2))/2, and for lambda = -1 they are (1 -/+ i*cot(k_i/2))/2. When k_i is
+  uniform on the circle, tan(k_i/2) and cot(k_i/2) are standard Cauchy variables, so the
+  momentum-averaged projector becomes
+      M = (A/2) J + (B/2) * blockdiag([[1,-1],[-1,1]]),
+  with A = E[1/(d + sum t_i^2)]. Writing 1/x = INTEGRAL e^{-sx} ds and using
+  E[e^{-s t^2}] = e^s erfc(sqrt s) gives A_d = INTEGRAL erfc(sqrt s)^d ds. Then
+  pbar = 2 ||M phi||^2, and the +1 and -1 bands give equal contributions. The closed
+  forms were found by integer-relation search (PSLQ) at 60 digits with small
+  coefficients, e.g. 6*A_4 - 3 + 36/pi - 16*sqrt(3)/pi = 0.
+
+VERIFICATION
+  1. Brute-force simulation of the actual walk (quantum/sim_grover.py):
+       3D, start +x: predicted P(return, even t -> inf) = 0.168032;
+                     simulated t=68: 0.168233, t=70: 0.167271 (oscillating in towards it)
+       2D, start +x: predicted 0.334688; simulated t=398: 0.334106, t=400: 0.335266
+  2. Numerical diagonalisation of the walk at 64^3 momenta, averaging the +1 projector
+     (quantum/torus_check.py): agrees with the matrix M above to 2e-7 (grid error).
+  3. The 3D and 4D closed forms agree with the integral to 60 digits (quantum/grover_A.py).
