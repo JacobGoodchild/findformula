@@ -18,6 +18,7 @@ INDEX OF RESULTS (see each entry for derivation, verification and novelty notes)
 16  Anisotropic square lattice Szegedy walk: elementary formula in alpha . not found
 17  Anisotropic honeycomb: formula for arbitrary bond weights ............ not found
 18  Anisotropic triangular: transfer currents at a vertex ................ diagonal = Kenyon; rest not found
+19  Moving-shift Grover walk on triangular lattice (partial) ............. not found
 "Not found" = my web searches found no prior statement; OEIS/arXiv were not directly
 accessible from this environment, so experts should confirm novelty.
 ==========================================================================================
@@ -937,7 +938,7 @@ numerical to 30+ digits; grid check agrees.  Novelty: not found.
   and tan((k1-k2)/2) = (x-y)/(1+xy), the flat-band projector averages become integrals of
   rational functions. Start in coin state +e1:
     -1 flat band: amplitudes 1/6, (4 - 9sqrt3/pi)/12, (2 - 3sqrt3/pi)/12 (x2), (2 - 3sqrt3/pi)/6 (x2)
-        channel = 1/3 - 29 sqrt3/(24 pi) + 11/(8 pi^2) = 0.042518189496772244754...
+        channel = 5/12 - 4 sqrt3/(3 pi) + 57/(16 pi^2) = 0.042518189496772244754...
     +1 flat band: amplitudes 1/6, -0.061153868285971696191026864733, 0.063699122904411481263290015261 (x2),
         0.041813675476283489212349786673 (x2); channel = 0.043129496815370293906...
         (no closed form found in bases of pi, sqrt3, logs, Clausen, Catalan, arccos(1/3))
