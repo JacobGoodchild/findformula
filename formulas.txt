@@ -1187,8 +1187,9 @@ lattices. Closed forms for the three tilings below were not found.
      R(triangle-square edge)   = 1/2 - sqrt3/18 = 0.40377495513506237258...
      R(triangle-triangle edge) = 2 sqrt3/9      = 0.38490017945975050967...
      (Foster: 8(1/2 - sqrt3/18) + 2(2 sqrt3/9) = 4.) Surprisingly there is no pi at all. The other
-     transfer currents at a vertex (arcs: two triangle-square arcs a, b around the same square
-     corner, the dimer arc d, and the two remaining triangle-square arcs a', b') are
+     transfer currents at a vertex (arcs: the dimer arc d; a, b = the two arcs that each form a
+     triangle with d; a', b' = the other two arcs, which form a triangle with each other, a' being
+     collinear with a and b' with b, so that a and b' bound a square) are
        Y(a,b) = 1 - sqrt3/2,  Y(a,d) = sqrt3/9,  Y(a',b') = (3 - sqrt3)/6,  Y(d,a') = 1/2 - 2sqrt3/9,
        Y(a,a') = 5sqrt3/9 - 1 + 1/(2pi),  Y(a,b') = 1/2 - sqrt3/9 - 1/(2pi)
      (rows sum to 1). Why algebraic: the Laplacian spectral curve's z2-discriminant has only one
