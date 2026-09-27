@@ -626,7 +626,7 @@ Found: 2026-09-27.  Status: closed forms by PSLQ at 25-40 digits; full symbolic 
 matches the engine to 25 digits; grid check agrees.  Novelty: not found in the literature.
 ==========================================================================================
 (a) Triangular-lattice Green function g(t) = E_k[ 1/(t - cos k1 - cos k2 - cos(k1-k2)) ]
-    - For t outside the band, the kagome/star work suggests the general formula
+    - For t above the band the classical (Horiguchi-type) formula holds:
         g(t) = 4 K(m) / (pi sqrt((e-1)^3 (e+3))),  e = sqrt(2t+3),  m = 16e/((e-1)^3 (e+3)).
       Checked numerically at t = 11 (m = 5/32), t = 39 (m = 3/128), and by analytic
       continuation at t = -3 and t = -7 (30 digits).
