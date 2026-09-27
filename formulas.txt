@@ -2,7 +2,7 @@ INDEX OF RESULTS (see each entry for derivation, verification and novelty notes)
 ------------------------------------------------------------------------------------------
  1  Added mass of a ball touching a spherical tank (ideal flow) ....... probably routine/minor
  2  Viscous torque, same geometry ...................................... NOT NEW (2017 paper)
- 3  Grover walk (moving shift) trapping on Z^3, Z^4, Z^5; erfc integral  not found (d=5 integral prob. known) in literature
+ 3  Grover walk (moving shift) trapping on Z^3, Z^4, Z^5; erfc integral  not found (d=5 integral probably known)
  4  Lazy (lackadaisical) Grover walk trapping, 2D and 3D ............... not found
  5  Flip-flop Grover trapping on SC and BCC (Watson integrals) ........ not found
  6  Flip-flop Grover trapping on FCC; FCC far-edge Green function ...... walk part not found; G identity probably known (Joyce)
