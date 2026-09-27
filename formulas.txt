@@ -24,7 +24,7 @@ INDEX OF RESULTS (see each entry for derivation, verification and novelty notes)
 22  Union Jack (tetrakis square) lattice: arccos(1/3) + lemniscatic K ..... not found
 23  Triakis triangular lattice; triangular Green function at t = 15 ...... not found
 24  Universal bound pbar >= (d-2)^2/(2d(d-1)); exact for diamond, Laves .. bound not found
-25  Exact adjacent resistances: snub square (algebraic), 4.8.8, Union Jack  closed forms not found (numerics known)
+25  Exact adjacent resistances: snub square & Cairo (algebraic), 4.8.8, Union Jack  closed forms not found
 "Not found" = my web searches found no prior statement; OEIS/arXiv were not directly
 accessible from this environment, so experts should confirm novelty.
 ==========================================================================================
@@ -1201,6 +1201,12 @@ lattices. Closed forms for the three tilings below were not found.
      R(corner-corner) = c/2 = 0.27706321198978599...        R(corner-centre) = (2 - c)/4 = 0.36146839400510700...
   Torus check (120x120 cells, extrapolated): 0.4037749 / 0.3849002; 0.6385316 / 0.7229367; 0.2770633 / 0.3614684.
   (Easy cases for comparison: triakis triangular 1/5 and 2/5, by star-triangle reduction.)
+  DUALITY: for a planar lattice and its dual, R(e) + R(e*) = 1 (e is in the spanning tree exactly
+  when e* is not in the dual tree). 4.8.8 and Union Jack are duals, and the values above satisfy it
+  (1 - (1/2 + c/4) = (2 - c)/4, 1 - (1 - c/2) = c/2), a built-in consistency check. It also gives the
+  CAIRO PENTAGONAL tiling (dual of the snub square) in closed form:
+     R = 1/2 + sqrt3/18 = 0.59622504486493762742 (edges dual to triangle-square edges)
+     R = 1 - 2 sqrt3/9  = 0.61509982054024949033 (edges dual to triangle-triangle edges)
   Not closed (numerics, for the record): ruby 3.4.6.4 0.54116212811899127673 / 0.45883787188100872327;
   4.6.12: 0.62201910562094884644, 0.72145414931184019849, 0.65652674506721095507;
   snub hexagonal 3^4.6: 0.37873865426799299025, 0.42731053665248728911, 0.38790161815903944127;
