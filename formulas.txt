@@ -23,6 +23,7 @@ INDEX OF RESULTS (see each entry for derivation, verification and novelty notes)
 21  Lazy flip-flop Grover walk on Z^2 as a function of laziness .......... not found
 22  Union Jack (tetrakis square) lattice: arccos(1/3) + lemniscatic K ..... not found
 23  Triakis triangular lattice; triangular Green function at t = 15 ...... not found
+24  Universal bound pbar >= (d-2)^2/(2d(d-1)); exact for diamond, Laves .. bound not found
 "Not found" = my web searches found no prior statement; OEIS/arXiv were not directly
 accessible from this environment, so experts should confirm novelty.
 ==========================================================================================
@@ -1111,3 +1112,38 @@ digits.  Novelty: not found.
   Side identity found on the way: 5g + 228g' + 1134g'' = 0 at t = 15 (the Green function's
   second-order differential equation at this energy), so 1, g, g' span every value needed.
   Code: lattices/triakis_closed.py (asserts every entry), lattices/full.py, lattices/gen.py
+
+
+==========================================================================================
+FORMULA 24 — A universal lower bound for Grover-walk trapping, exact on "2-arc-symmetric"
+             bipartite lattices: pbar >= (d-2)^2 / (2 d (d-1))
+Found: 2026-09-27.  Status: proved (short argument below); equality cases checked numerically
+by averaging the walk's own eigenprojectors over the Brillouin zone.  Novelty: the ingredients
+(Foster's theorem, Cauchy-Schwarz) are classical; the bound and the exact values for diamond,
+the Laves graph and d-dimensional diamond were not found.
+==========================================================================================
+  Setting: flip-flop Grover walk on any periodic graph (any dimension), started on an arc a at a
+  vertex o of degree d. As in Formulas 5-23, the long-time average return probability is
+     pbar = (1/4) SUM_b (delta_ab - Y_ab)^2 + (1/4) SUM_b (delta_ab - YQ_ab)^2 + (flat-band terms >= 0)
+  with Y, YQ the transfer currents of the Laplacian L and signless Laplacian Q.
+  FACTS:
+   (i)  Rows sum to 1: SUM_b Y_ab = SUM_b YQ_ab = 1 (because SUM_b (e_o - e_hb) = L e_o, SUM_b (e_o + e_hb) = Q e_o).
+   (ii) Foster-type trace identities per unit cell: SUM_edges Y_ee = SUM_edges YQ_ee = (vertices per cell)
+        (trace of L^-1 L and Q^-1 Q). So on an edge-transitive d-regular lattice Y_aa = YQ_aa = 2/d.
+  BOUND (Cauchy-Schwarz on the d - 1 off-diagonal entries, whose sum is 1 - Y_aa by (i)):
+     each channel >= (d / (4(d-1))) (1 - Y_aa)^2, so for edge-transitive d-regular lattices
+        pbar >= (d - 2)^2 / (2 d (d - 1)).
+  EQUALITY holds iff all off-diagonal currents from a are equal in both bands and there are no
+  other flat bands. This happens for bipartite lattices whose vertex symmetry permutes the d arcs
+  2-transitively (then YQ is Y up to signs):
+     honeycomb (d = 3)  pbar = 1/12   (Formula 8)
+     Laves graph / K4 crystal / srs net (d = 3, 3D)  pbar = 1/12   (grid: 0.0416667 per channel)
+     diamond (d = 4)    pbar = 1/6    (grid 12^3: 0.16650, 16^3: 0.16660)
+     d-dimensional diamond (degree D = d + 1): pbar = (d - 1)^2 / (2 d (d + 1));  4D: 9/40 (grid 8^4: 0.22490)
+  How tight it is elsewhere (exact values from earlier formulas vs the bound):
+     square   0.1673438 vs 1/6       triangular 0.2679557 vs 4/15     simple cubic 0.2667272 vs 4/15
+     BCC      0.3215048 vs 9/28      FCC        0.3789146 vs 25/66    (kagome +-1 part 0.1705 vs 1/6)
+  So the bound captures every lattice to within about 1e-3, and to within 1e-4 for simple cubic
+  and BCC: the off-diagonal transfer currents are nearly equal in practice.
+  General form (any start arc, no symmetry): pbar >= (d / (4(d-1))) [ (1 - Y_aa)^2 + (1 - YQ_aa)^2 ].
+  Code: diamond/projgrid3d.py, diamond/srs.py, diamond/hyperdiamond.py
