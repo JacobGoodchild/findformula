@@ -87,3 +87,62 @@ WHY IT MATTERS
   geometry, which is notoriously hard to resolve numerically. It also gives the effective
   inertia of a body resting against the wall of a spherical fluid-filled tank (bearings,
   sloshing/fluid-structure models, particles in droplets or cavities).
+
+
+==========================================================================================
+FORMULA 2 — Viscous torque on a spinning ball touching the inside of a spherical tank
+Found: 2026-09-27.  Status: derived exactly + verified numerically (independent stress
+integration). Literature search found no prior statement of the closed form.
+==========================================================================================
+
+THE QUESTION (plain English)
+  A ball sits against the inside wall of a closed spherical tank filled with a very
+  viscous fluid (think honey; "Stokes flow"). The ball spins slowly about the line
+  through the two centres. How much twisting force (torque) does the fluid resist with?
+
+THE FORMULA
+  Ball radius a, tank radius b, r = a/b, q = 1/(1-r) = b/(b-a), viscosity mu,
+  spin rate Omega:
+
+      Torque = 8*pi*mu*Omega*a^3 * SUM_{k=0..inf} 1/(1 + k(1-r))^3
+             = 8*pi*mu*Omega*a^3 * q^3 * zeta(3, q)          (Hurwitz zeta)
+
+  (8*pi*mu*Omega*a^3 is the torque on the same ball spinning in unbounded fluid.)
+
+  Unified form: fixed sphere of signed radius b (b>0 container, b=inf wall, b<0 external
+  ball touching from outside), lambda = 1 - a/b:
+      Torque = 8*pi*mu*Omega*a^3 * lambda^(-3) * zeta(3, 1/lambda)
+
+  Special cases:
+     flat wall:                     8 pi mu Omega a^3 * zeta(3)        (Jeffery 1915, known, reproduced)
+     tank of twice the ball radius: 8 pi mu Omega a^3 * 8(zeta(3)-1) = 1.6164552... x unbounded value
+     equal external fixed ball:     8 pi mu Omega a^3 * (7/8) zeta(3)  (may be known classically)
+
+DERIVATION
+  Azimuthal (swirling) Stokes flow can be built exactly from point "rotlets" on the axis.
+  A rotlet of strength G at distance f from the centre of a no-slip sphere of radius R is
+  cancelled on that sphere by a rotlet of strength -G(R/f)^3 at the inverse point. This is
+  exact: for axial rotlets the velocity is purely azimuthal, u_phi = G*rho/d^3, and on a
+  sphere the distance ratio to a point and its inverse point is constant. The chain of
+  images between the two touching spheres has the same arithmetic-progression geometry
+  as in Formula 1, so the strengths telescope to G_k = Omega a^3/(1 + k(1-r))^3. The torque
+  on the ball is 8*pi*mu times the total rotlet strength inside it. (Images outside the
+  ball give a flow that is regular inside the ball, so they exert no net torque.)
+
+VERIFICATION (physics/verify_torque.py)
+  Flow built from 6000 images; no-slip checked at 3000 random points per surface
+  (errors 1e-9 .. 1e-25). The torque was then computed independently by numerically
+  integrating the viscous shear stress over the ball's surface:
+       case            numeric       formula
+       wall (b=1e9)    1.20205685    1.20205690  (= zeta(3))
+       a=1, b=2        1.61645482    1.61645523
+       a=1, b=5        1.29662095    1.29662103
+       a=1, b=-1       1.05179979    1.05179979  (= 7/8 zeta(3))
+       a=1, b=-3       1.11852418    1.11852419
+  (Numbers are torque / (8 pi mu Omega a^3). Remaining gaps are image-truncation error.)
+
+NOVELTY
+  Rotating eccentric spheres are studied in the literature (e.g. series solutions in
+  bispherical coordinates, including slip variants), and Jeffery (1915) has the wall
+  case. I found no explicit Hurwitz-zeta closed form for the internally touching case.
+  With arXiv/OEIS blocked, "not found" is the honest status.
