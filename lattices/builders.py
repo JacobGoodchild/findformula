@@ -132,3 +132,15 @@ def line_graph_of_bravais(dirs):
                         if rk not in edges: edges.add(key)
     return P, sorted(edges)
 LATTICES["linegraph_triangular"] = lambda: line_graph_of_bravais([(1, 0), (0, 1), (1, -1)])
+
+def union_jack():      # tetrakis square: corners (0) deg 8, face centres (1) deg 4
+    E = [(0, 0, (1, 0)), (0, 0, (0, 1)),
+         (0, 1, (0, 0)), (0, 1, (-1, 0)), (0, 1, (0, -1)), (0, 1, (-1, -1))]
+    return 2, E
+def triakis_triangular():   # triangular lattice (0) + centroids of up (1) and down (2) triangles
+    E = [(0, 0, (1, 0)), (0, 0, (0, 1)), (0, 0, (1, -1)),
+         (0, 1, (0, 0)), (0, 1, (-1, 0)), (0, 1, (0, -1)),
+         (0, 2, (-1, 0)), (0, 2, (0, -1)), (0, 2, (-1, -1))]
+    return 3, E
+LATTICES["union_jack"] = union_jack
+LATTICES["triakis_triangular"] = triakis_triangular

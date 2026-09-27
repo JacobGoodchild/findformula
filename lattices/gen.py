@@ -41,19 +41,48 @@ class Averager:
         """E_{k2}[N/Det] at fixed z1: N = z2^{nmin} * sum Ncoefs[j] z2^j (low->high)."""
         pc = [mp.mpc(f(zz1)) for f in self.Pcoef]
         # strip leading zeros
-        while abs(pc[0]) == 0: pc = pc[1:]
-        roots = mp.polyroots(pc, maxsteps=200, extraprec=4 * mp.mp.prec)
+        # drop (near-)vanishing leading coefficients: the corresponding roots run off to infinity,
+        # lie outside the unit circle and do not contribute; keeping them stalls polyroots
+        big = max(abs(c) for c in pc)
+        while abs(pc[0]) <= big * mp.mpf(10)**(-mp.mp.dps): pc = pc[1:]
+        roots, err = mp.polyroots(pc, maxsteps=400, extraprec=4 * mp.mp.prec, error=True)
+        if err > mp.mpf(10)**(-mp.mp.dps // 2):
+            raise ValueError("polyroots did not converge: err=%s" % mp.nstr(err, 5))
+        # Newton-polish the roots near/inside the unit circle (polyroots' accuracy is relative
+        # to the largest root, which is poor when the leading coefficient is tiny)
+        dpc0 = [c * (len(pc) - 1 - j) for j, c in enumerate(pc[:-1])]
+        pol = []
+        for r in roots:
+            if abs(r) < 2:
+                for _ in range(8):
+                    r = r - mp.polyval(pc, r) / mp.polyval(dpc0, r)
+            pol.append(r)
+        roots = pol
         lead = pc[0]
         Nc = [mp.mpc(f(zz1)) for f in Ncoefs]
         # R(z)/z = z^{e} * PN(z) / PD(z),  e = nmin - dmin - 1
         e = nmin - self.dmin - 1
         PN = lambda z: mp.fsum(c * z**j for j, c in enumerate(Nc))
         res = mp.mpc(0)
+        dpc = [c * (len(pc) - 1 - j) for j, c in enumerate(pc[:-1])]     # derivative coefficients
+        tiny = [r for r in roots if abs(r) < mp.mpf('1e-3')]
+        if e < 0 and tiny:
+            # roots clustered at the pole z = 0: residues cancel catastrophically, so take the
+            # combined residue of {0} U cluster as a contour integral on |z| = rho (trapezoid,
+            # geometrically convergent), plus ordinary residues of the remaining inside roots
+            rest = [r for r in roots if abs(r) >= mp.mpf('1e-3')]
+            rc = max(abs(r) for r in tiny); ro = min(abs(r) for r in rest) if rest else mp.mpf(10)
+            rho = mp.sqrt(rc * ro); q = mp.sqrt(rc / ro)
+            M = int(mp.ceil(mp.mp.prec * mp.log(2) / -mp.log(q))) + 4
+            g = lambda z: z**e * PN(z) / mp.polyval(pc, z)
+            res += mp.fsum(g(rho * mp.expj(2 * mp.pi * j / M)) * rho * mp.expj(2 * mp.pi * j / M) for j in range(M)) / M
+            for r in rest:
+                if abs(r) < 1:
+                    res += r**e * PN(r) / mp.polyval(dpc, r)
+            return res
         for i, r in enumerate(roots):
             if abs(r) < 1:
-                dP = lead
-                for j, s in enumerate(roots):
-                    if j != i: dP *= (r - s)
+                dP = mp.polyval(dpc, r)
                 res += r**e * PN(r) / dP
         if e < 0:   # pole at z = 0 of order -e: residue = coeff of z^{-e-1} in PN/PD (PD(0) != 0)
             n = -e - 1

@@ -21,6 +21,7 @@ INDEX OF RESULTS (see each entry for derivation, verification and novelty notes)
 19  Moving-shift Grover walk on triangular lattice (partial) ............. not found
 20  Weighted Grover walk on Z^d; elementary 3D formula for any weights ... not found (2D may overlap arXiv:2103.00515)
 21  Lazy flip-flop Grover walk on Z^2 as a function of laziness .......... not found
+22  Union Jack (tetrakis square) lattice: arccos(1/3) + lemniscatic K ..... not found
 "Not found" = my web searches found no prior statement; OEIS/arXiv were not directly
 accessible from this environment, so experts should confirm novelty.
 ==========================================================================================
@@ -1008,3 +1009,57 @@ matches direct evaluation (25 digits) and simulations.  Novelty: not found.
           eps = 0.2: pbar = 0.2394017102742275788...  (simulation 0.2394074)
           eps = 0.5: pbar = 0.2898985493253448531647 (simulation 0.2899007)
   Code: lazyff/lazy_sq.py, lazyff/lazy_id.py
+
+
+==========================================================================================
+FORMULA 22 — Flip-flop Grover walk on the UNION JACK (tetrakis square) lattice: exact
+             trapping from every start, via arccos(1/3) and the lemniscatic K(1/sqrt2)
+Found: 2026-09-27.  Status: exact entries found by PSLQ at 25 digits, confirmed at 40 digits
+(max deviation 8e-41), rows sum to 1 exactly; independently checked by a Bloch-grid average of
+the walk's own eigenprojectors (agrees to 1e-15 for the -1 part) and by simulation.
+Novelty: not found.
+==========================================================================================
+  Lattice: square-lattice corners (degree 8: 4 axis neighbours + 4 face centres) plus one
+  centre per square face (degree 4). Grover coin at each vertex, flip-flop shift.
+  Two constants run everything:
+     c = sqrt2 * arccos(1/3) / pi = 0.55412642397957198712...   (same c as the 4.8.8 lattice)
+     K = K(1/sqrt2) = Gamma(1/4)^2 / (4 sqrt(pi)),  kappa = K/pi = 0.59017029950804811302...,
+     lambda = 1/K = 0.53935260118837935667...   (note kappa * lambda = 1/pi)
+  Why these: the Laplacian determinant is 4(4x1 + 4x2 - x1 x2) with x_i = 1 - cos k_i; after the
+  exact k2 integral the k1 integrand has a double root, so the Laplacian part is ELEMENTARY
+  (arcsin/arccos of 1/3). The signless determinant is 4(8 - x1 x2), whose Green function is
+  SUM_n C(2n,n)^2 / (8 * 32^n) = (2/pi) K(k)/8 with k^2 = 1/2, the lemniscatic case.
+
+  Transfer currents (Y = Laplacian/+1 band, YQ = signless/-1 band); corner arcs +x,-x,+y,-y,
+  centre arcs NE,NW,SE,SW. From the corner's +x arc:
+     Y  : +x c/2 | -x 2/pi - c | +-y 2c - 1 | NE,SE c/4 | NW,SW 3/2 - 1/pi - 2c
+     YQ : +x lambda/2 | -x (4 kappa - 3 lambda)/6 | +-y kappa + lambda - 1
+          NE,SE (2 - 2 kappa - lambda)/4 | NW,SW (12 - 10 kappa - 9 lambda)/12
+  From the corner's NE (centre-bound) arc:
+     Y  : NE (2 - c)/4 | NW,SE 1 - 1/(2 pi) - 11c/8 | SW (13c - 9 + 6/pi)/2
+     YQ : NE (2 - lambda)/4 | NW,SE kappa/6 | SW (28 kappa + 27 lambda - 30)/12
+     (entries to the axis arcs follow from symmetry of the rows above)
+  From a face centre (4 arcs; 'opp' = the diagonally opposite corner):
+     Y  : self (2 - c)/4 | sides (1 - c)/2 | opp (5c - 2)/4
+     YQ : self (2 - lambda)/4 | sides (1 - kappa)/2 | opp (4 kappa + lambda - 2)/4
+  Trapping pbar = (1/4) SUM_b [(delta_ab - Y_ab)^2 + (delta_ab - YQ_ab)^2]  (no other flat bands):
+   centre start:
+     pbar = 1/2 - c/2 + 17c^2/32 - kappa/2 + 3 kappa^2/8 + 1/(8 pi) + lambda^2/32
+          = 0.270467455630923280867326724052
+   corner, axis start:
+     pbar = 13/4 - 21c/4 + 139c^2/32 + c/pi - 3/(2pi) + 3/(2pi^2)
+            - 25 kappa/12 + 13 kappa^2/12 + 19/(12 pi) - 17 lambda/8 + 15 lambda^2/16
+          = 0.303902930693968604065556442698
+   corner, diagonal (centre-bound) start:
+     pbar = 9 - 303c/16 + 1735c^2/128 + 199c/(16 pi) - 35/(4 pi) + 23/(8 pi^2)
+            - 4 kappa + 133 kappa^2/72 + 27/(8 pi) - 29 lambda/8 + 51 lambda^2/32
+          = 0.233616768512290564885908741413
+  Checks: eigenprojector grid (60x60): centre +1 0.13606034, -1 0.1344071178147525 (exact
+  0.134407117814752952); corner axis total 0.3039029278 (exact 0.3039029307); simulation (400
+  steps) corner axis 0.303913. The centre-start simulation converges only like (log t)/t (a
+  dispersive band touches the flat bands), reaching 0.27093 at t = 600 and still falling.
+  Engine note: this lattice exposed a cancellation bug in lattices/gen.py (a root of the z2
+  polynomial merging with the pole at z2 = 0 at k1 = 0); fixed by a small contour integral around
+  the cluster. Re-running star, elongated triangular, triangular and kagome reproduced the earlier
+  values to all digits, so earlier entries are unaffected.
+  Code: lattices/gen.py, full.py, uj_closed.py, projgrid.py, ujcheck.py
