@@ -1074,6 +1074,14 @@ Novelty: not found.
   polynomial merging with the pole at z2 = 0 at k1 = 0); fixed by a small contour integral around
   the cluster. Re-running star, elongated triangular, triangular and kagome reproduced the earlier
   values to all digits, so earlier entries are unaffected.
+  Side result (resistor networks / spanning trees): Y_aa is the effective resistance across an
+  edge of a unit-resistor network and the probability that the uniform spanning tree uses that
+  edge. So on the Union Jack lattice
+     R(corner, adjacent corner) = c/2 = sqrt2 arccos(1/3)/(2 pi) = 0.27706321198978599...
+     R(corner, centre)          = (2 - c)/4                   = 0.36146839400510700...
+  (Foster check: 2 x 0.27706 + 4 x 0.36147 = 2 = vertices per cell). These two numbers appear
+  NUMERICALLY (0.2771, 0.3615) in Owaidat, Hijjawi & Khalifeh, arXiv:1305.5839; the closed forms
+  here are not given there as far as the search snippet shows.
   Code: lattices/gen.py, full.py, uj_closed.py, projgrid.py, ujcheck.py
 
 

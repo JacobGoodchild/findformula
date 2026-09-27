@@ -144,3 +144,14 @@ def triakis_triangular():   # triangular lattice (0) + centroids of up (1) and d
     return 3, E
 LATTICES["union_jack"] = union_jack
 LATTICES["triakis_triangular"] = triakis_triangular
+# Laves tilings on the triangular lattice. Cell: 0 lattice point, 1-3 edge midpoints (edges e1, e2, e1-e2),
+# 4 up-triangle centre (R, R+e1, R+e2), 5 down-triangle centre (R, R+e1, R+e1-e2)
+def _deltoidal_edges():
+    return [(0, 1, (0, 0)), (1, 0, (1, 0)), (0, 2, (0, 0)), (2, 0, (0, 1)), (0, 3, (0, 0)), (3, 0, (1, -1)),
+            (4, 1, (0, 0)), (4, 2, (0, 0)), (4, 3, (0, 1)), (5, 1, (0, 0)), (5, 3, (0, 0)), (5, 2, (1, -1))]
+def deltoidal_trihexagonal():   # dual of 3.4.6.4: degrees 6 (lattice), 4 (midpoints), 3 (centres)
+    return 6, _deltoidal_edges()
+def kisrhombille():              # dual of 4.6.12 (barycentric subdivision of triangular): degrees 12, 4, 6
+    return 6, _deltoidal_edges() + [(4, 0, (0, 0)), (4, 0, (1, 0)), (4, 0, (0, 1)), (5, 0, (0, 0)), (5, 0, (1, 0)), (5, 0, (1, -1))]
+LATTICES["deltoidal_trihexagonal"] = deltoidal_trihexagonal
+LATTICES["kisrhombille"] = kisrhombille
