@@ -670,3 +670,44 @@ matches the engine to 25 digits; grid check agrees.  Novelty: not found in the l
       pbar = 0.38314651208017409854...
     Grid check (80 x 80): 0.37891451 (collinear).
   Code: lattices/lg_tri.py, lgtri_sym.py, lgtri_fb.py; quantum2d/ (Green function checks)
+
+
+==========================================================================================
+FORMULA 13 — Flip-flop Grover trapping on LINE GRAPHS of lattices: a general exact
+             reduction, and the line graph of the SIMPLE CUBIC lattice in closed form
+Found: 2026-09-27.  Status: exact reduction + PSLQ (32 digits, all transfer currents
+identified individually) + symbolic assembly; 3D Bloch-grid check agrees.
+Novelty: not found in the literature.
+==========================================================================================
+GENERAL REDUCTION (line graph L(G) of a Bravais lattice G with bond vectors e_1..e_P)
+  Let B(k) = (1 + e^{i k.e_t})_t (a 1 x P row). Then A_{L(G)} + 2 = B^dag B, deg = 4P - 2, and
+     L^{-1} = (1/4P)      [ I + B^dag B / (4P - B B^dag) ],       4P - BB^dag     = 2 SUM_t (1 - cos k.e_t)
+     Q^{-1} = (1/(4P-4))  [ I - B^dag B / (4P - 4 + B B^dag) ],   4P - 4 + BB^dag = 2 (3P - 2 + SUM_t cos k.e_t)
+     F      = I - B^dag B / (B B^dag)                              (flat band mu = -2/(4P-2))
+  So every trapping channel on L(G) is a finite combination of the base lattice's Green
+  functions at three energies: its Laplacian, its signless Laplacian, and energy 3P - 2.
+  (Checkerboard = L(square), kagome = L(honeycomb) and L(triangular) (Formulas 8, 9, 12)
+  are instances.) For bipartite G the first two reduce to the Watson-type constant of G.
+
+LINE GRAPH OF THE SIMPLE CUBIC LATTICE (sites = bonds of Z^3, degree 10, flat band mu = -1/5)
+  W = sqrt(6)/(32 pi^3) Gamma(1/24)Gamma(5/24)Gamma(7/24)Gamma(11/24) (SC Watson), X = 1/(pi^2 W).
+  Transfer currents are all in Q + QW + QX, e.g. collinear-neighbour resistance
+  (36 - 7W - 54X)/108, and one perpendicular transfer current is exactly 1/12.
+  start along a collinear neighbour:
+    +1   = 65/324 - 109W/2592 - 9X/16 + 45701W^2/2985984 + 9347WX/27648 + 1973X^2/1024
+         = 0.1773137350130005496228588
+    flat = 259/1296 - 6233W/41472 - 453X/256 + 773765W^2/23887872 + 166595WX/221184 + 37685X^2/8192
+         = 0.02504076002499835647653295
+    -1   = 0.17778193404565296486   (SC Green function at energy 7; Joyce's formula gives its
+           origin value (1/7)(1-9xi^4)/((1-xi)^3(1+3xi)) (2K(k)/pi)^2, k^2 = 16xi^3/((1-xi)^3(1+3xi)),
+           xi = (1+sqrt(40/49))^(-1/2) (1-sqrt(48/49))^(1/2); verified to 30 digits)
+    pbar = 0.38013642908365187095727
+  start along a perpendicular neighbour:
+    +1   = 2039/10368 - 467W/41472 - 23X/256 + 3319W^2/2985984 + 433WX/27648 + 103X^2/1024
+         = 0.1781759949785616945441696
+    flat = 3887/82944 - 6749W/331776 - 409X/2048 + 116365W^2/23887872 + 19195WX/221184 + 4285X^2/8192
+         = 0.02500207330008460533126886
+    -1   = 0.17782774916395693606
+    pbar = 0.38100581744260323593613
+  Grid check (36^3): 0.3801364265 (collinear start) vs 0.3801364291.
+  Code: lattices3d/lg_general.py (any d), lgsc_sym.py, grid_lgsc.py
