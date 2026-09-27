@@ -157,7 +157,8 @@ NOVELTY
 ==========================================================================================
 FORMULA 3 — How much a 3D (and 4D) quantum walker stays "stuck" at its starting point
 Found: 2026-09-27.  Status: derived exactly, checked by two independent computations.
-Novelty: the 2D case is almost certainly known (Inui, Konno, Segawa 2004). I found no
+Novelty: the 2D case is known (Inui, Konishi, Konno, Phys. Rev. A 69, 052323 (2004)); the
+2D values reproduced here match theirs exactly. I found no
 statement of the 3D/4D closed forms or the all-dimensions integral, but I could not open
 several papers (IOP/arXiv blocked), so "not found" is the honest status.
 ==========================================================================================
