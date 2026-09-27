@@ -976,4 +976,7 @@ computations; reduces to Formula 3 (isotropic) and to Formula 16 (2D).  Novelty:
   Examples:  p = (1/3,1/3,1/3): pbar = 0.084016204674295152449  (= Formula 3)
              p = (0.2,0.3,0.5):  pbar = 0.053620259159185159663  (Bloch grid 50^3: 0.05357)
              p = (sqrt2/10, sqrt7/10, 1 - ...): pbar = 0.040166409207156575558
+  Related prior work: localization for 2D walks with generalized Grover coins is studied in
+  arXiv:2103.00515 (Phys. Rev. A), so the d = 2 case may overlap. The general-d theorem and the
+  3D elementary formula were not found.
   Code: moving/weighted_zd.py, weighted3d_exact.py, weighted3d_final.py
