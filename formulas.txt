@@ -19,7 +19,8 @@ INDEX OF RESULTS (see each entry for derivation, verification and novelty notes)
 17  Anisotropic honeycomb: formula for arbitrary bond weights ............ not found
 18  Anisotropic triangular: transfer currents at a vertex ................ diagonal = Kenyon; rest not found
 19  Moving-shift Grover walk on triangular lattice (partial) ............. not found
-20  Weighted Grover walk on Z^d; elementary 3D formula for any weights ... not found
+20  Weighted Grover walk on Z^d; elementary 3D formula for any weights ... not found (2D may overlap arXiv:2103.00515)
+21  Lazy flip-flop Grover walk on Z^2 as a function of laziness .......... not found
 "Not found" = my web searches found no prior statement; OEIS/arXiv were not directly
 accessible from this environment, so experts should confirm novelty.
 ==========================================================================================
@@ -980,3 +981,30 @@ computations; reduces to Formula 3 (isotropic) and to Formula 16 (2D).  Novelty:
   arXiv:2103.00515 (Phys. Rev. A), so the d = 2 case may overlap. The general-d theorem and the
   3D elementary formula were not found.
   Code: moving/weighted_zd.py, weighted3d_exact.py, weighted3d_final.py
+
+
+==========================================================================================
+FORMULA 21 — LAZY flip-flop Grover (Szegedy) walk on the square lattice: exact trapping as a
+             function of the laziness, via complete elliptic integrals
+Found: 2026-09-27.  Status: derived (Szegedy flat bands + square Green function off the band);
+the Green-function relations were found by PSLQ at six energies and fitted exactly; the result
+matches direct evaluation (25 digits) and simulations.  Novelty: not found.
+==========================================================================================
+  Walk: Z^2 random walk that stays put with probability eps and otherwise steps to a random
+  neighbour; its Szegedy walk (coin 2|s><s| - I, |s> = (sqrt((1-eps)/4) x4, sqrt(eps)),
+  flip-flop shift on the four moving arcs; the self-loop arc stays put). Start on the +x arc.
+  Let k = (1 - eps)/(1 + eps) and write K = K(k)/pi, E = E(k)/pi (complete elliptic integrals,
+  modulus k). Needed square-lattice Green-function values, g(x) = E[cos(k.x)/(t + c1 + c2)] with t = 2/k:
+      g(0,0) = k K,  g(1,0) = (1 - 2K)/2,  g(1,1) = (2/k - k) K - (2/k) E,  g(2,0) = -2/k + k K + (4/k) E.
+  The +1 flat band is unchanged by laziness (self-loops carry no circulation):
+      +1 channel = 1/4 - 1/pi + 3/(2 pi^2)
+  The -1 flat band now includes the loop arc; its amplitudes are
+      A(+x)  = 1/4 + (1 - k) K / 2
+      A(-x)  = -[ 1 - 2/k + 2(k - 1) K + 4E/k ] / 4
+      A(+-y) = -[ 1 + (2/k - 2) K - 2E/k ] / 4        (two arcs)
+      A(loop)= -sqrt((1 - k)/(2k)) * ( 1/2 - (1 - k) K )
+  pbar(eps) = 1/4 - 1/pi + 3/(2 pi^2) + A(+x)^2 + A(-x)^2 + 2 A(y)^2 + A(loop)^2.
+  Checks: eps -> 0 (k -> 1) gives 1/2 - 2/pi + 3/pi^2 (Formula 7's square value);
+          eps = 0.2: pbar = 0.2394017102742275788...  (simulation 0.2394074)
+          eps = 0.5: pbar = 0.2898985493253448531647 (simulation 0.2899007)
+  Code: lazyff/lazy_sq.py, lazyff/lazy_id.py
