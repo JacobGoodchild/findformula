@@ -578,3 +578,42 @@ simulation agree.  Novelty: not found in the literature.
   edge classes: 0.23328925868537919944, 0.23188836982107697332, 0.22198045285555102298,
   0.22157633698807354436, 0.22802366367916230407). Their Bloch determinants are not functions
   of the triangular dispersion, and PSLQ found no relation in pi, sqrt3.
+
+
+==========================================================================================
+FORMULA 11 — Flip-flop Grover walk on the PYROCHLORE lattice (3D, frustrated-magnet
+             lattice): exact ordinary and flat-band trapping channels
+             + corollary for edge-transitive bipartite lattices (honeycomb, diamond)
+Found: 2026-09-27.  Status: 3D exact engine (lattices3d/gen3d.py, validated on simple cubic
+to 12 digits) + PSLQ + symbolic assembly; independent 3D Bloch-grid check.
+Novelty: not found in the literature.
+==========================================================================================
+  Pyrochlore = line graph of diamond (corner-sharing tetrahedra), degree 6. Its random walk
+  has a DOUBLY DEGENERATE flat band mu = -1/3, so the walker is trapped through channels
+  +1, -1 and lambda = -1/3 +- i 2sqrt2/3. The flat-band projector is written exactly as
+  F = I - B^dag (B B^dag)^{-1} B with B the diamond incidence matrix (B^dag B = A + 2),
+  so everything except the -1 channel reduces to the FCC lattice Green function.
+
+  Let W = W_f = 3 Gamma(1/3)^6 / (2^(14/3) pi^4)  (FCC Watson constant),  X = 1/(pi^2 W).
+  Transfer currents from an edge at the origin (Laplacian):
+     start edge 1/3; the other two edges of the same tetrahedron 1/6 each (exact);
+     edges of the other tetrahedron: (1 + 8W + 3X)/48 and (15 - 8W - 3X)/96 (x2).
+  Flat-band projector values: F(o,o) = 1/2, F(o,h) = -1/6,
+     F(h_b,h_a) = 1/2, -1/6, -1/6, (8W + 3X - 4)/6, (5 - 8W - 3X)/12 (x2).
+  Channel contributions (start on any edge; all edges are equivalent):
+     +1   : W^2/96 + WX/128 - 13W/1152 + 3X^2/2048 - 13X/3072 + 2531/18432
+          = 0.1342600434822144...
+     flat : 3W^2/64 + 9WX/256 - 13W/256 + 27X^2/4096 - 39X/2048 + 163/4096   (both lambdas)
+          = 0.0260451956699648...
+     -1   : 0.133578355806662...  (signless Laplacian = FCC Green function at the generic
+            energy t = 15; no closed form attempted/found yet)
+  TOTAL pbar = 0.29388359496...
+  Grid check (40^3 momenta): +1 0.13425969, flat 2 x 0.01302234, -1 0.1335783558066627.
+  The gapped -1 channel matches the engine to 15 digits; the others converge toward the
+  exact values as the grid is refined (20^3 -> 40^3).
+
+COROLLARY (general): if every edge at a vertex is equivalent (the vertex stabiliser acts
+  transitively on its d edges) and the lattice is bipartite and amenable, then the
+  transfer currents are forced: Y(e,e) = 2/d (Foster), Y(e,f) = (1 - 2/d)/(d-1). So
+      pbar = (d-2)^2 / (2 d (d-1)).
+  Honeycomb (d=3): 1/12 (checked, Formula 8); diamond (d=4): 1/6.

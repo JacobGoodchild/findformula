@@ -115,3 +115,20 @@ if __name__ == "__main__":
         deg = [0] * nv
         for (u, v, o) in E: deg[u] += 1; deg[v] += 1
         print(f"{name:34s} nv={nv:2d} edges={len(E):2d} degrees={deg}")
+
+def line_graph_of_bravais(dirs):
+    """line graph of a 2D Bravais lattice with nearest-neighbour vectors dirs (one per pair)."""
+    P = len(dirs)
+    def ends(t, x, y):
+        d = dirs[t]; return {(x, y), (x + d[0], y + d[1])}
+    edges = set()
+    for t0 in range(P):
+        for t in range(P):
+            for x in range(-3, 4):
+                for y in range(-3, 4):
+                    if (t, x, y) == (t0, 0, 0): continue
+                    if ends(t, x, y) & ends(t0, 0, 0):
+                        key = (t0, t, (x, y)); rk = (t, t0, (-x, -y))
+                        if rk not in edges: edges.add(key)
+    return P, sorted(edges)
+LATTICES["linegraph_triangular"] = lambda: line_graph_of_bravais([(1, 0), (0, 1), (1, -1)])

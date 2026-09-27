@@ -1,0 +1,37 @@
+Traceback (most recent call last):
+  File "/home/user/findformula/lattices/full.py", line 22, in <module>
+    ex[str(m0)] = flat_projector_channel(nv, E, origin, m0, H, deg, s)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/findformula/lattices/gen.py", line 143, in flat_projector_channel
+    Foo = F(O, O); Foa = F(O, ha)
+          ^^^^^^^
+  File "/home/user/findformula/lattices/gen.py", line 141, in F
+    return av.avg(N)
+           ^^^^^^^^^
+  File "/home/user/findformula/lattices/gen.py", line 82, in avg
+    v = mp.quad(lambda k: mp.re(f(k)), pts) / (2 * mp.pi)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/mpmath/calculus/quadrature.py", line 746, in quad
+    v, err = rule.summation(f, points[0], prec, epsilon, m, verbose)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/mpmath/calculus/quadrature.py", line 233, in summation
+    result = self.sum_next(f, nodes, degree, prec, results, verbose)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/mpmath/calculus/quadrature.py", line 308, in sum_next
+    S += self.ctx.fdot((w,f(x)) for (x,w) in nodes)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/mpmath/ctx_mp_python.py", line 938, in fdot
+    for a, b in A:
+  File "/usr/local/lib/python3.11/dist-packages/mpmath/calculus/quadrature.py", line 308, in <genexpr>
+    S += self.ctx.fdot((w,f(x)) for (x,w) in nodes)
+                          ^^^^
+  File "/home/user/findformula/lattices/gen.py", line 82, in <lambda>
+    v = mp.quad(lambda k: mp.re(f(k)), pts) / (2 * mp.pi)
+                                ^^^^
+  File "/home/user/findformula/lattices/gen.py", line 77, in f
+    return self.inner(Ncoefs, nmin, mp.exp(1j * k1))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/findformula/lattices/gen.py", line 44, in inner
+    while abs(pc[0]) == 0: pc = pc[1:]
+              ~~^^^
+IndexError: list index out of range
