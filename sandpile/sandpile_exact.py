@@ -1,6 +1,7 @@
 """Exact P1 from pickled resistances: PSLQ each R in a lattice-specific basis, then symbolic determinant."""
 import sys, pickle, sympy as sp, mpmath as mp
 BASES = {
+ "triangular": (["1", "s3/pi"], lambda: [1, mp.sqrt(3) / mp.pi]),
  "kagome": (["1", "s3/pi"], lambda: [1, mp.sqrt(3) / mp.pi]),
  "checkerboard": (["1", "1/pi"], lambda: [1, 1 / mp.pi]),
  "triakis_triangular": (["1", "s3/pi"], lambda: [1, mp.sqrt(3) / mp.pi]),

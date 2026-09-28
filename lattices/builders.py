@@ -163,3 +163,4 @@ def honeycomb_nnn():   # honeycomb + all next-nearest neighbours (unit weights),
 LATTICES["honeycomb_nnn"] = honeycomb_nnn
 LATTICES["honeycomb"] = lambda: (2, [(0, 1, (0, 0)), (0, 1, (-1, 0)), (0, 1, (0, -1))])
 LATTICES["kagome"] = lambda: (3, [(0, 1, (0, 0)), (0, 2, (0, 0)), (1, 2, (0, 0)), (1, 0, (1, 0)), (2, 0, (0, 1)), (1, 2, (1, -1))])
+LATTICES["triangular"] = lambda: (1, [(0, 0, (1, 0)), (0, 0, (0, 1)), (0, 0, (1, -1))])

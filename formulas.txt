@@ -1775,4 +1775,8 @@ Novelty: not found (the theorem's z -> infinity limit, 1 + Poisson(1), is the kn
      kagome (deg 4), r = sqrt3/pi: P = (5 + 3r)(17 - 6r)/324, (18r^2 - 21r + 158)/324, (18r^2 - 21r + 77)/324, (4 - 3r)(1 + 6r)/324
                                = 0.281193095330776, 0.468806904669224, 0.218806904669224, 0.0311930953307759
                                (note P(1) - P(4) = P(2) - P(3) = 1/4 exactly)
+     triangular (deg 6), r = sqrt3/pi (P(1) = 6 P1 with P1 = (3r-1)(6r-5)^2(6r+1)^2/648 = 0.0536234, consistent with the
+                               known triangular sandpile value, arXiv:1708.03493; the higher degrees may also be derivable there):
+                               P(1) = (3r - 1)(6r - 5)^2 (6r + 1)^2/108 = 0.321740371327119,  P(6) = (1 - 2r)^2 (6r - 5)^2 (7 - 12r)/48 = 0.000241406204377504,
+                               P(2..5) = 0.417095808685931, 0.206596264858047, 0.0487999651220120, 0.00552618380251276
   Code: ust/ust_more.py, ust/ust2d.py, ust/ustdeg.py
