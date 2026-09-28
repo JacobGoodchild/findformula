@@ -28,6 +28,7 @@ INDEX OF RESULTS (see each entry for derivation, verification and novelty notes)
 26  Spanning-tree entropy of snub square & Cairo: (10/3pi)G + (1/3)ln(2+sqrt3)  closed form not found (numerics known)
 27  Shastry-Sutherland network, any J'/J: resistances + tree entropy (Clausen) not found
 28  King lattice (square + diagonals, any w): resistances; tree entropy, z(1)=20G/(3pi)  not found (z(1) maybe known)
+29  Flip-flop Grover walk on the king lattice (third-kind elliptic Pi(3/4|7/8))  not found
 30  Axis-bond resistance of any square lattice with diagonal bonds (4 conductances)  not found as one formula
 "Not found" = my web searches found no prior statement; OEIS/arXiv were not directly
 accessible from this environment, so experts should confirm novelty.
@@ -1335,6 +1336,43 @@ be known there (the spanning-tree literature I could reach gives only integrals 
   diagonal resistance at w = 1 is 1/2 - 1/(2 pi) (PSLQ).
   Code: lattices/king.py (Rdiag, Elogdet), lattices/genus_scan.py, genus_scan2.py, checker.py
 
+
+==========================================================================================
+FORMULA 29 — Flip-flop Grover walk on the KING lattice (square + both diagonals, degree 8):
+             exact trapping, with a complete elliptic integral of the THIRD kind
+Found: 2026-09-28.  Status: all 32 transfer currents identified by PSLQ (coefficients <= 31) and
+confirmed against a 40-digit engine run (max deviation 2e-41); totals reproduced; independent
+Bloch-eigenprojector grid (80x80): -1 part 0.15867294195183934 (exact 0.158672941951839378...),
++1 part within 2e-9.  Novelty: not found.
+==========================================================================================
+  Constants:  L = ln(2 + sqrt3)/(pi sqrt3) = 0.24202564754285515484   (= R_axis of Formula 28 at w = 1)
+              with m = 7/8:  kappa = sqrt2 K(m)/pi = 1.1135094974060614117,
+              eps = sqrt2 E(m)/pi = 0.50625566361913688954,
+              rho = sqrt2 Pi(3/4 | m)/pi = 2.6440517717200616024
+              (Pi(n|m) = INT_0^{pi/2} dt / ((1 - n sin^2 t) sqrt(1 - m sin^2 t)), the third kind).
+  Why: the signless determinant is 8 + 2cos k1 + 2cos k2 + 4cos k1 cos k2 = 7 + (1 + 2cos k1)(1 + 2cos k2);
+  after the exact k2 average the quartic under the root has roots 3, 1, -1, -5/3, giving
+  m = 7/8, and the numerator cos k1 puts a pole at sn^2 = 4/3, i.e. characteristic n = 3/4.
+  E.g. E_k[1/Q] = kappa/8, E_k[cos k1/Q] = (2 rho - 5 kappa)/24 (both checked).
+  Transfer currents, arcs [+x, -x, +y, -y, (1,1), (-1,-1), (1,-1), (-1,1)]:
+   from +x:  Y  = [L, 3L - 2/pi, (6L-1)/4, (6L-1)/4, (1-2L)/4, (1+2/pi-6L)/2, (1-2L)/4, (1+2/pi-6L)/2]
+             YQ = [(rho-kappa)/6, (kappa-24eps+5rho)/18, q, q, q, s, q, s],
+                   q = (3 - 4kappa + rho)/12,  s = (13kappa + 12eps - 7rho)/18
+   from (1,1): Y  = [(1-2L)/4, (1+2/pi-6L)/2, (1-2L)/4, (1+2/pi-6L)/2, (1-2L)/2, 6L + 2/pi - 2, t, t],  t = (1 - 4/pi + 2L)/2
+             YQ = [q, s, q, s, (3 + kappa - rho)/6, (-18 - 31kappa + 24eps + 16rho)/18, u, u],
+                   u = (9 + 7kappa - 24eps - rho)/18
+   (every row sums to 1; the self terms satisfy the Foster identities 2Y_ax + 2Y_dg = 1 = 2YQ_ax + 2YQ_dg).
+  TRAPPING  pbar = (1/4) SUM_b [(delta - Y)^2 + (delta - YQ)^2]  (no other flat bands):
+   start along an axis:
+     pbar = [7/16 - 5L/2 + 33L^2/4 + 1/(2pi) - 6L/pi + 3/(2pi^2)]
+          + [5/16 - kappa/12 - rho/24 + 41kappa^2/108 + 2eps^2/3 + 47rho^2/432 + 4 eps kappa/9 - 4 eps rho/9 - 37 kappa rho/108]
+          = 0.3232660197779981027653377   (+1 part 0.164593077826158724, -1 part 0.158672941951839378)
+   start along a diagonal:
+     pbar = [43/32 - 55L/8 + 115L^2/8 - 5/(2pi) + L/pi + 7/(2pi^2)]
+          + [15/32 + 67kappa/72 - 4eps/3 - 59rho/144 + 739kappa^2/648 + 14eps^2/9 + 739rho^2/2592
+             - 32 eps kappa/27 + 11 eps rho/27 - 719 kappa rho/648]
+          = 0.320710336517048982556892    (+1 part 0.157748208989739566, -1 part 0.162962127527309417)
+  Code: lattices/king_closed.py (compares every entry with the engine), lattices/full.py king, lattices/projgrid.py
 
 ==========================================================================================
 FORMULA 30 — Resistance across an axis bond of ANY square lattice with diagonal bonds
