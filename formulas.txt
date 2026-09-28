@@ -28,6 +28,7 @@ INDEX OF RESULTS (see each entry for derivation, verification and novelty notes)
 26  Spanning-tree entropy of snub square & Cairo: (10/3pi)G + (1/3)ln(2+sqrt3)  closed form not found (numerics known)
 27  Shastry-Sutherland network, any J'/J: resistances + tree entropy (Clausen) not found
 28  King lattice (square + diagonals, any w): resistances; tree entropy, z(1)=20G/(3pi)  not found (z(1) maybe known)
+30  Axis-bond resistance of any square lattice with diagonal bonds (4 conductances)  not found as one formula
 "Not found" = my web searches found no prior statement; OEIS/arXiv were not directly
 accessible from this environment, so experts should confirm novelty.
 ==========================================================================================
@@ -1333,3 +1334,33 @@ be known there (the spanning-tree literature I could reach gives only integrals 
   graph of Z^2, w' = 0). Checked: w = 1/2 gives E ln det = 5.7181100581270955... both ways; the
   diagonal resistance at w = 1 is 1/2 - 1/(2 pi) (PSLQ).
   Code: lattices/king.py (Rdiag, Elogdet), lattices/genus_scan.py, genus_scan2.py, checker.py
+
+
+==========================================================================================
+FORMULA 30 — Resistance across an axis bond of ANY square lattice with diagonal bonds
+             (four independent conductances): one elementary formula
+Found: 2026-09-28.  Status: derived (exact k2 average; the remaining k1 integral has a node at
+k = 0 and reduces to INT du/sqrt(u(p - q + q u))); checked against direct 2D integration to
+~1e-26 for random conductances (including anisotropic and w- = 0 cases).  Novelty: not found as a
+single formula; special cases are classical (square lattice: 1/2; anisotropic triangular: Kenyon's
+isoradial formula) or Formula 28 (king lattice).
+==========================================================================================
+  Network: Z^2 with conductance w1 on bonds along e1, w2 along e2, w+ along e1 + e2, w- along e1 - e2.
+  Let  sigma = w+ + w-,   Delta = 4 w+ w- - w1^2.  Then
+     R(e1 bond) = (2/(pi sqrt(Delta))) arcsinh( sqrt( Delta / ((w1 + sigma)(w1 + w2)) ) )        (Delta > 0)
+                = (2/(pi sqrt(-Delta))) arcsin( sqrt( -Delta / ((w1 + sigma)(w1 + w2)) ) )      (Delta < 0)
+                = 2 / (pi sqrt((w1 + sigma)(w1 + w2)))                                          (Delta = 0)
+  and R(e2 bond) is the same with w1 <-> w2. With Foster's identity
+     w1 R(e1) + w2 R(e2) + w+ R(e1+e2) + w- R(e1-e2) = 1
+  this also gives the diagonal resistances whenever w+ = w- (anisotropic king lattice, 3 parameters).
+  Special cases:  square (w+- = 0): arcsin(1/sqrt2) * 2/pi = 1/2.
+     king (w1 = w2 = 1, w+- = w): 2 arcsin(sqrt((1 - 2w)/2)) = arccos(2w), i.e. Formula 28.
+     triangular (w- = 0): R(e1) = (2/(pi w1)) arcsin( w1 / sqrt((w1 + w+)(w1 + w2)) ), the isoradial
+     (Kenyon) value; e.g. isotropic: (2/pi) arcsin(1/2) = 1/3.
+  Derivation: at fixed k1 the k2-average of 1/D is 1/sqrt(A^2 - M^2) with
+     A^2 - M^2 = 4 (1 - x)(p + q x),  x = cos k1,  p = (w1+w2+sigma)^2 - w2^2 - (w+ - w-)^2,  q = Delta,
+  the factor (1 - x) being the node at k = 0; then R(e1) = (1/pi) INT_{-1}^{1} dx / sqrt((1+x)(p + q x)),
+  and p - q = 2 (w1 + sigma)(w1 + w2).
+  Examples (checked): (w1,w2,w+,w-) = (1, 0.43, 0.4, 0.45): R(e1) = 0.398660451266091...;
+     (1, 1, 0.8, 0.8): R(e1+e2) = 0.2914728335899647583560279 (via Foster = direct integration).
+  Code: lattices/sqdiag.py

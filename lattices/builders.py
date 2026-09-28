@@ -155,3 +155,6 @@ def kisrhombille():              # dual of 4.6.12 (barycentric subdivision of tr
     return 6, _deltoidal_edges() + [(4, 0, (0, 0)), (4, 0, (1, 0)), (4, 0, (0, 1)), (5, 0, (0, 0)), (5, 0, (1, 0)), (5, 0, (1, -1))]
 LATTICES["deltoidal_trihexagonal"] = deltoidal_trihexagonal
 LATTICES["kisrhombille"] = kisrhombille
+def king():   # square lattice + both diagonals (degree 8), one site per cell
+    return 1, [(0, 0, (1, 0)), (0, 0, (0, 1)), (0, 0, (1, 1)), (0, 0, (1, -1))]
+LATTICES["king"] = king
