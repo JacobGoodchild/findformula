@@ -26,6 +26,7 @@ INDEX OF RESULTS (see each entry for derivation, verification and novelty notes)
 24  Universal bound pbar >= (d-2)^2/(2d(d-1)); exact for diamond, Laves .. bound not found
 25  Exact adjacent resistances: snub square & Cairo (algebraic), 4.8.8, Union Jack  closed forms not found
 26  Spanning-tree entropy of snub square & Cairo: (10/3pi)G + (1/3)ln(2+sqrt3)  closed form not found (numerics known)
+27  Shastry-Sutherland network, any J'/J: resistances + tree entropy (Clausen) not found
 "Not found" = my web searches found no prior statement; OEIS/arXiv were not directly
 accessible from this environment, so experts should confirm novelty.
 ==========================================================================================
@@ -1243,3 +1244,39 @@ may appear there in another form (hypergeometric / L-values).
   constant with ln(2 + sqrt3).
   Code: inline computation (inner k2 integral exact via Jensen's formula, outer tanh-sinh), see
   lattices/tree_entropy.py
+
+
+==========================================================================================
+FORMULA 27 — The Shastry-Sutherland resistor network with ANY dimer/square conductance ratio:
+             exact dimer resistance, square-bond resistance and spanning-tree entropy
+Found: 2026-09-28.  Status: the dimer resistance R_d(w) was identified by PSLQ at six weights
+(w = 1/8, 1, 2, 3, 5, 8, 24; small coefficients, 34 digits) and then checked to 1e-31 at w = 0.3;
+the entropy formula follows by integrating R_d in w (Kirchhoff: d ln(tree count)/dw = SUM over
+dimer edges of R_e) and matches direct evaluation to 50 digits at w = 0.01, 0.3, 1, 2, 3.7, 10, 100;
+both resistances match weighted-torus Kirchhoff solves (120x120 cells) to ~1e-9 at w = 3 and 0.4.
+Novelty: not found (the w = 1 value of the entropy is known numerically, see Formula 26).
+==========================================================================================
+  Network: the Shastry-Sutherland lattice (square lattice plus orthogonal diagonal "dimer" bonds
+  on every other plaquette; topologically the snub square tiling 3^2.4.3.4). Square bonds have
+  conductance 1, dimer bonds conductance w >= 0 (the J'/J ratio of the Shastry-Sutherland model).
+  Let  Phi = arccos(1/(w+1))   (0 at w = 0, pi/3 at w = 1, arccos(1/3) at w = 2, -> pi/2 as w -> inf).
+     R(dimer bond)  = 2 Phi / (pi sqrt(w(w+2)))
+     R(square bond) = 1/2 - sqrt(w) Phi / (2 pi sqrt(w+2))          (Foster: 8 R_sq + 2 w R_d = 4)
+     spanning-tree entropy per vertex (weighted: sum over spanning trees of the product of conductances):
+        z(w) = (1/pi) [ 2G + Phi arccosh(w+1) + Cl2(pi/2 + Phi) + Cl2(pi/2 - Phi) ]
+     (G = Catalan, Cl2 = Clausen function, arccosh(w+1) = ln(w+1+sqrt(w(w+2))).)
+  Derivation of z: z(0) = 4G/pi (square lattice); dz/dw = (1/2) R_d(w); substituting u + 1 = sec(phi),
+     INTEGRAL_0^Phi phi sec(phi) dphi = Phi ln tan(pi/4 + Phi/2) - 2G + Cl2(pi/2+Phi) + Cl2(pi/2-Phi).
+  Checks and special cases:
+     w -> 0 : R_d -> 2/pi (square-lattice diagonal resistance), R_sq -> 1/2, z -> 4G/pi.       [classical]
+     w = 1  : R_d = 2 sqrt3/9, R_sq = 1/2 - sqrt3/18, z = (10/(3pi))G + (1/3)ln(2+sqrt3)       [Formulas 25, 26;
+              uses Cl2(pi/6) + Cl2(5pi/6) = 4G/3]
+     w = 2  : R_d = sqrt2 arccos(1/3)/(2 pi), and z(2) = 1.5733685507576643582433... equals the
+              UNION JACK lattice's spanning-tree entropy per vertex (computed independently:
+              1.57336855075766435824331597899), so the Union Jack value is
+              (1/pi)[2G + 2 arccos(1/3) ln(1+sqrt2) + Cl2(pi/2 + arccos(1/3)) + Cl2(pi/2 - arccos(1/3))].
+     w -> inf: z ~ (1/2) ln w + (1/pi)(2G) + ... (each dimer contributes ln w per 2 vertices).
+  Sample values: z(3.7) = 1.76614147642855364944364000429, z(10) = 2.15659737940973978896651319694.
+  By planar duality (R(e) + R(e*) = 1 with dual conductances 1/c) this also gives the weighted
+  Cairo pentagonal network.
+  Code: lattices/ss_weighted.py (entropy by exact inner integral), inline checks in the session log.
