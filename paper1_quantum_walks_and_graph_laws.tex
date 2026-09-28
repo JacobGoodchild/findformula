@@ -52,6 +52,9 @@ $1+\mathrm{Binomial}(z-1,1/(z-1))$, and we give closed forms for the simple-cubi
 BCC, FCC, pyrochlore, king and snub-square lattices. All closed forms were
 identified by integer-relation (PSLQ) searches at 25--80 digits and checked
 independently by Brillouin-zone diagonalization, direct simulation, or both.
+This research, including the discovery of the formulas, the computations and
+the writing of this manuscript, was carried out with extensive use of an AI
+system; see the AI-use statement at the end of the paper.
 \end{abstract}
 
 \maketitle
@@ -69,9 +72,9 @@ walk in two or more dimensions is \emph{localization}: even on a perfect lattice
 the probability of finding the walker at its starting site does not decay to zero.
 Inui, Konishi and Konno established this for the two-dimensional Grover walk
 and computed the limiting return probability~\cite{Inui2004}. Higuchi, Konno, Sato
-and Segawa related localization of Grover walks on crystal lattices to flat
-bands of the walk operator and gave integral descriptions in any
-dimension~\cite{Higuchi2014}. What has been missing is a systematic set of
+and Segawa analysed the spectrum of Grover walks on general crystal lattices through
+twisted Szegedy walks, and gave conditions under which localization
+occurs~\cite{Higuchi2014}. What has been missing is a systematic set of
 \emph{closed forms} beyond the square lattice.
 
 This paper supplies them. The main structural observation (Sec.~\ref{sec:model}) is
@@ -105,6 +108,15 @@ treated by Finch~\cite{Finch2011}), Kenyon's isoradial diagonal transfer
 currents~\cite{Kenyon2002}, and the mean-field limit of the UST degree law. For the
 remaining statements our searches found no prior closed form. Novelty should be
 understood in that limited sense.
+
+\emph{Use of AI.} The results in this paper were found with extensive use of an AI
+system (the Claude Code agent, based on a large language model developed by Anthropic). The AI
+system chose candidate problems, wrote and ran the numerical and symbolic code, found the
+closed forms by integer-relation searches, carried out the checks described below, and drafted
+the text of this manuscript, working under the author's direction. Every formula was
+re-verified by independent numerical computation, and every bibliographic entry was checked
+against publisher or arXiv records. Details are given in the AI-use statement at the end of
+the paper. The author takes full responsibility for the content.
 
 %=====================================================================
 \section{Model setup}
@@ -461,7 +473,7 @@ $g=4K(m)/(\pi\sqrt{(r-1)^3(r+3)})$. Then
 At $\varepsilon=0$ this gives $1/12$.
 
 \emph{Diamond.} Let $r=4(1+\varepsilon)/(1-\varepsilon)$ and $\tau=(r^2-4)/4$, and let $g=\E[1/(\tau-s)]$ be the FCC Green
-function in Joyce's closed form~\cite{Joyce1998},
+function in Joyce's closed form~\cite{Joyce1994,Joyce1998},
 $g=\tau^{-1}\mathcal L(3/\tau)$ with
 $\mathcal L(x)=3^{3/2}(3+x)^{-3/2}(2-\sqrt{1-x})(2K(m)/\pi)^2$ and
 $m=\tfrac12-\tfrac{\sq}{2}(3+x)^{-3/2}(4x+(3-x)\sqrt{1-x})$. Then
@@ -786,10 +798,26 @@ Open problems include a closed form for the $+1$ channel of the moving-shift tri
 integral $A_6$, and the $-1$ channel of the anisotropic triangular walk. The latter needs a signless
 Green function whose elliptic parameter depends on the weights.
 
+\section*{AI-use statement}
+Generative AI was used throughout this work, in both the research and the writing. Specifically,
+an AI coding agent (Claude Code, developed by Anthropic) was used to
+(i) select and formulate the problems studied,
+(ii) write and execute all numerical and symbolic code (lattice Green-function quadrature,
+exact Bloch-matrix calculations, finite-volume determinants, Monte Carlo and quantum-walk
+simulations),
+(iii) discover the closed-form expressions by PSLQ integer-relation searches and derive the
+accompanying proofs and derivation outlines,
+(iv) draft the full text of this manuscript, including equations and tables, and
+(v) search the literature, assess novelty, and check each bibliographic reference.
+All formulas were cross-checked by independent numerical recomputation from their defining
+integrals or by simulation, as described in the text. All references were verified against
+publisher or arXiv records to guard against fabricated citations. The AI system is not an
+author. The author directed the work and takes full responsibility for the content, including
+any errors. The code used for every computation is available in the accompanying repository.
+
 \begin{acknowledgments}
-The computations and the first draft of this manuscript were carried out with the assistance
-of an AI coding agent (Claude Code). All numerical code is available in the accompanying
-repository.
+The author thanks Anthropic for the Claude Code agent used in this work, as described in the
+AI-use statement above.
 \end{acknowledgments}
 
 \begin{thebibliography}{99}
@@ -824,7 +852,7 @@ Spectral and asymptotic properties of Grover walks on crystal lattices,
 
 \bibitem{Kirchhoff1847}
 G.~Kirchhoff,
-\"Uber die Aufl\"osung der Gleichungen, auf welche man bei der Untersuchung der linearen
+Ueber die Aufl\"osung der Gleichungen, auf welche man bei der Untersuchung der linearen
 Vertheilung galvanischer Str\"ome gef\"uhrt wird,
 \href{https://doi.org/10.1002/andp.18471481202}{Ann.\ Phys.\ Chem.\ \textbf{72}, 497 (1847)}.
 

@@ -48,6 +48,9 @@ girth-$\ge6$ lattices to one Green function (elliptic for the honeycomb, Joyce's
 diamond). Every result was identified by PSLQ at 25--60 digits and confirmed independently by
 exact finite-volume computations or Monte Carlo simulation. An appendix gives a Hurwitz-zeta
 closed form for the added mass of a sphere touching the inside of a spherical container.
+This research, including the discovery of the formulas, the computations and the writing of
+this manuscript, was carried out with extensive use of an AI system; see the AI-use statement
+at the end of the paper.
 \end{abstract}
 
 \maketitle
@@ -64,24 +67,38 @@ functions~\cite{MajumdarDhar1991}. On the square lattice this gives
 $P_1=2/\pi^2-4/\pi^3$. Priezzhev computed the higher heights~\cite{Priezzhev1994}. Exact values
 have since been obtained on the honeycomb~\cite{AzimiTafreshi2010}, triangular and
 hexagonal~\cite{PonceletRuelle2017}, and, very recently, kagome~\cite{Liu2026} lattices. The
-Majumdar--Dhar method applies in any dimension. Nevertheless, to our knowledge no closed form for
-$P_1$ on a three-dimensional lattice has appeared. The obstacle is the need for exact
-resistances beyond nearest neighbours.
+Majumdar--Dhar method applies in any dimension, and their original paper already treats the
+$d$-dimensional hypercubic lattice, expressing $P_1$ through lattice Green functions. What we did
+not find in the literature we could access is an explicit closed form for $P_1$ on the BCC, FCC or
+pyrochlore lattices, or a fully explicit expression for the simple-cubic lattice in terms of Watson's
+integral. The obstacle is the need for exact resistances beyond nearest neighbours.
 
-We remove that obstacle by identifying every needed resistance in the natural basis
+We address that obstacle by identifying every needed resistance in the natural basis
 $\{1,W,1/(\pi^2W)\}$ of the relevant Watson integral~\cite{Watson1939,GlasserZucker1977}. The
 same machinery, based on Kirchhoff's transfer currents~\cite{Kirchhoff1847} and their spanning-tree
 interpretation~\cite{BurtonPemantle1993,LyonsPeres2016}, also gives new spanning-tree entropies.
-Numerical values for many Archimedean lattices are known from Chang and Wang~\cite{ChangWang2006},
-Chang and Shrock~\cite{ChangShrock2006}, and Guttmann and Rogers~\cite{GuttmannRogers2012}; we add
-closed forms. It also gives exact resistances on networks whose resistances were previously known
+Exact integral representations of spanning-tree constants for several lattices were given by
+Chang and Wang~\cite{ChangWang2006} and Chang and Shrock~\cite{ChangShrock2006}. Guttmann and
+Rogers~\cite{GuttmannRogers2012} gave closed forms for the regular lattices via Mahler measures. We add
+closed forms for further lattices. It also gives exact resistances on networks whose resistances were previously known
 only numerically~\cite{Owaidat2013} or via mappings~\cite{Cserti2011}.
 
 \emph{Status of novelty.} All statements were checked by web search against the literature. The
+simple-cubic $P_1$ is, in principle, contained in the $d$-dimensional analysis of
+Ref.~\cite{MajumdarDhar1991}; our contribution there is the explicit Watson-integral form. The
 honeycomb and kagome values of $P_1$ are known~\cite{AzimiTafreshi2010,Liu2026}; we reproduce them
 as validation. The king-lattice entropy $20G/(3\pi)$ may be implicit in the Mahler-measure
 literature~\cite{GuttmannRogers2012}. For the remaining results our searches found no prior closed
 form. Novelty should be read in that limited sense.
+
+\emph{Use of AI.} The results in this paper were found with extensive use of an AI
+system (the Claude Code agent, based on a large language model developed by Anthropic). The AI
+system chose candidate problems, wrote and ran the numerical and symbolic code, found the
+closed forms by integer-relation searches, carried out the checks described below, and drafted
+the text of this manuscript, working under the author's direction. Every formula was
+re-verified by independent numerical computation, and every bibliographic entry was checked
+against publisher or arXiv records. Details are given in the AI-use statement at the end of
+the paper. The author takes full responsibility for the content.
 
 \subsection*{Notation}
 All resistors are $1\,\Omega$ unless a conductance is specified, and $R(x)$ is the effective
@@ -331,8 +348,8 @@ The Cairo pentagonal tiling is the planar dual. It has the same number of trees 
 $z_1^2-98z_1+1$, whose roots are $(\sq\pm\sqrt2)^4$. After the node at $k=0$ is removed, the curve therefore has genus zero. The entropy must then be
 a combination of dilogarithms at algebraic points. PSLQ over
 $\{\ln2,\ln3,\ln(1+\sqrt2),\ln(2+\sq),\ln(\sqrt2+\sq),G/\pi,\Cl(\pi/3)/\pi,\Cl(\pi/12)/\pi,\Cl(5\pi/12)/\pi\}$
-returned $-3\,\E\ln\det L+4\ln(2+\sq)+40G/\pi=0$~\cite{PSLQ1999} with residual below $10^{-58}$ at 60 digits. The numerical value
-$1.41086$ is known~\cite{ChangWang2006}; we found no prior closed form.
+returned $-3\,\E\ln\det L+4\ln(2+\sq)+40G/\pi=0$~\cite{PSLQ1999} with residual below $10^{-58}$ at 60 digits. Numerical values of this
+constant ($\approx1.41086$) appear in the spanning-tree literature; we found no prior closed form.
 
 The same genus-zero structure gives \emph{algebraic} resistances (Table~\ref{tab:res}):
 $R_{\rm tri\text{-}sq}=\tfrac12-\sq/18$ and $R_{\rm tri\text{-}tri}=2\sq/9$. Foster's sum rule
@@ -533,10 +550,26 @@ Hurwitz-zeta values.
 $1.424682623$ ($N=6000$ images) against $1.424682838$ for $a=1,b=2$. The truncation gap shrinks by a factor
 of about 4 per doubling of $N$. This result is probably a routine extension of classical image methods.
 
+\section*{AI-use statement}
+Generative AI was used throughout this work, in both the research and the writing. Specifically,
+an AI coding agent (Claude Code, developed by Anthropic) was used to
+(i) select and formulate the problems studied,
+(ii) write and execute all numerical and symbolic code (lattice Green-function quadrature,
+exact Bloch-matrix calculations, finite-volume determinants, Monte Carlo and quantum-walk
+simulations),
+(iii) discover the closed-form expressions by PSLQ integer-relation searches and derive the
+accompanying proofs and derivation outlines,
+(iv) draft the full text of this manuscript, including equations and tables, and
+(v) search the literature, assess novelty, and check each bibliographic reference.
+All formulas were cross-checked by independent numerical recomputation from their defining
+integrals or by simulation, as described in the text. All references were verified against
+publisher or arXiv records to guard against fabricated citations. The AI system is not an
+author. The author directed the work and takes full responsibility for the content, including
+any errors. The code used for every computation is available in the accompanying repository.
+
 \begin{acknowledgments}
-The computations and the first draft of this manuscript were carried out with the assistance
-of an AI coding agent (Claude Code). All numerical code is available in the accompanying
-repository.
+The author thanks Anthropic for the Claude Code agent used in this work, as described in the
+AI-use statement above.
 \end{acknowledgments}
 
 \begin{thebibliography}{99}
@@ -591,7 +624,7 @@ Extended Watson integrals for the cubic lattices,
 
 \bibitem{Kirchhoff1847}
 G.~Kirchhoff,
-\"Uber die Aufl\"osung der Gleichungen, auf welche man bei der Untersuchung der linearen
+Ueber die Aufl\"osung der Gleichungen, auf welche man bei der Untersuchung der linearen
 Vertheilung galvanischer Str\"ome gef\"uhrt wird,
 \href{https://doi.org/10.1002/andp.18471481202}{Ann.\ Phys.\ Chem.\ \textbf{72}, 497 (1847)}.
 
