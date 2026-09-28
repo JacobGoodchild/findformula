@@ -34,7 +34,7 @@ INDEX OF RESULTS (see each entry for derivation, verification and novelty notes)
 32  Lazy flip-flop Grover walk on the triangular lattice (any laziness) ......... not found
 33  NNN resistors on bipartite girth>=6 lattices: reduction (diamond -> FCC Green fn)  not found
 34  Abelian sandpile on the king lattice: exact height-1 probability ............ not found
-35  Sandpile height-1 prob.: 4.8.8, star, dice, Lieb, Union Jack, snub square; diamond 2/27  not found (kagome/honeycomb known)
+35  Sandpile height-1 prob.: 4.8.8, star, dice, Lieb, Union Jack, snub square, checkerboard, triakis; diamond 2/27  not found (kagome/honeycomb known)
 36  3D sandpile height-1 probabilities: simple cubic, BCC, FCC, pyrochlore (Watson integrals)  not found
 "Not found" = my web searches found no prior statement; OEIS/arXiv were not directly
 accessible from this environment, so experts should confirm novelty.
@@ -1557,6 +1557,15 @@ arXiv:0912.3331; triangular: arXiv:1708.03493).
    algebraic resistances of Formula 25; the king lattice is Formula 34.)
   Code: sandpile/sandpile_gen.py (resistances + numeric P1), sandpile/sandpile_exact.py (PSLQ + symbolic
   determinant), sandpile/sim_gen.py (generic simulation)
+  ADDED (same method, P1 = det(I - Y') with Y the exact transfer currents; checked by exact finite boxes
+  40^2, 80^2, 160^2 cells with dissipative boundary, converging to the values below):
+     checkerboard / planar pyrochlore (deg 6):
+        P1 = 13 (7 - 8/pi)(11 + 8/pi)(1 + 16/pi - 16/pi^2) / 65536 = 0.05351525370368361765
+        (boxes: 0.0535660, 0.0535281, 0.0535185)
+     triakis triangular, lattice vertex (deg 12):
+        P1 = (6 sqrt3/pi - 1)(5 + 18 sqrt3/pi)^2 (41 - 42 sqrt3/pi)^2 / 45562500 = 0.00359238258113540057
+        (boxes: 0.0035988, 0.0035940, 0.0035928)
+     triakis triangular, triangle centre (deg 3):   P1 = 27/100
   GENERAL RESULT (bipartite lattices with symmetric second neighbours): let the lattice be z-regular,
   bipartite, of girth >= 6 (so A^2 = zI + A_2), edge-transitive, and let its second-neighbour graph be
   edge-transitive. Then R(nearest) = 2/z and R(second neighbours) = 2/(z-1) exactly
