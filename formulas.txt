@@ -39,6 +39,7 @@ INDEX OF RESULTS (see each entry for derivation, verification and novelty notes)
 37  Lazy flip-flop Grover walk on the honeycomb lattice (any laziness) .......... not found
 38  Lazy flip-flop Grover walk on the diamond lattice (FCC Green fn, Joyce) .... not found
 39  Uniform spanning tree degree distribution on SC, BCC, FCC (closed forms) .. not found (method: cf. arXiv:2312.14992)
+40  UST degree = 1 + Binomial(z-1, 1/(z-1)) on 2-arc-symmetric lattices; pyrochlore, king, snub square  not found
 "Not found" = my web searches found no prior statement; OEIS/arXiv were not directly
 accessible from this environment, so experts should confirm novelty.
 ==========================================================================================
@@ -1712,3 +1713,37 @@ fermionic/determinant approach to UST degree statistics; I could not check wheth
                 0.00156279097152104867, 0.000152591339149984242, 0.0000105854643512313797,
                 5.11387887310726762e-7, 1.63887053737321624e-8, 3.13628797744622369e-10   (ust/fcc.log)
   Code: ust/ustdeg.py (method + square check), ust/ust3d.py
+
+
+==========================================================================================
+FORMULA 40 — Uniform-spanning-tree degree at a vertex: an exact binomial law for 2-arc-symmetric
+             lattices, and closed forms for the pyrochlore, king and snub-square lattices
+Found: 2026-09-28.  Status: proved (theorem) / exact symbolic computation (lattices); every
+distribution sums to 1 with mean degree exactly 2; degree-1 values equal z * P1 of Formulas 34-36.
+Novelty: not found (the theorem's z -> infinity limit, 1 + Poisson(1), is the known mean-field law).
+==========================================================================================
+  THEOREM. If the symmetry of a vertex acts 2-transitively on its z edges and the lattice is
+  edge-transitive (e.g. honeycomb, diamond, Laves graph/srs, d-dimensional diamond), then the degree of the
+  vertex in the uniform spanning tree is exactly
+        deg = 1 + Binomial(z - 1, 1/(z - 1)).
+  Proof: Y = a I + b (J - I) with a = 2/z (Foster) and rows summing to 1, so Y has eigenvalue 1 (on the
+  all-ones vector) and a - b = 1/(z - 1) (multiplicity z - 1); the generating function
+  SUM P(deg = k) x^k = det(I + (x - 1) Y) = x ((z - 2)/(z - 1) + x/(z - 1))^(z - 1).
+  Honeycomb: 1/4, 1/2, 1/4 (degree 1, 2, 3).  Diamond: 8/27, 4/9, 2/9, 1/27.  (Also gives the sandpile
+  P1 = (z-2)^(z-1)/(z (z-1)^(z-1)) of Formula 35 as P(deg = 1)/z.)
+  PYROCHLORE (W = FCC Watson constant, X = 1/(pi^2 W)):
+     P(1) = [(31 - 8W - 3X)(67 + 24W + 9X)]^2 / 14155776             = 0.321497700833733694
+     P(6) = [(8W + 3X + 1)(24W + 9X - 29)]^2 / 28311552              = 0.000257114517586699387
+     P(2..5) = 0.417957467319073550, 0.205763756736217818, 0.0488663957529956378, 0.00565756484039260098
+  KING (p = 1/pi, L = ln(2+sqrt3)/(pi sqrt3)):
+     P(1) = 8 P1(king) (Formula 34) = 0.336448291762952952
+     P(8) = (1 + 2p - 7L)(4p - 1 - 2L)(6L + 12p - 5)(1 + 20L - 12L^2 - 32p + 48p^2)^2 / 128 = 8.81169962728673452e-7
+     P(2..7) = 0.400710464352351055, 0.199520541826037891, 0.0539188699382499213, 0.00855994356406901243,
+               0.000800144583450389272, 0.0000408628029260503070
+  SNUB SQUARE / SHASTRY-SUTHERLAND (p = 1/pi), all degrees:
+     P(1) = 5 [8953 - 5058 sqrt3 + (6336 sqrt3 - 10692) p + (1836 - 1296 sqrt3) p^2] / 3888 = 0.309572776767145308
+     P(2) = [30245 sqrt3 - 51893 + (52758 - 30708 sqrt3) p + (5940 sqrt3 - 9666) p^2] / 972   = 0.431195874421888930
+     P(3) = [56447 - 32500 sqrt3 + (28872 sqrt3 - 50112) p + (9504 - 5400 sqrt3) p^2] / 648  = 0.212135139792872705
+     P(4) = [32055 sqrt3 - 55511 + (45522 - 26172 sqrt3) p + (4860 sqrt3 - 8694) p^2] / 972   = 0.0438509900800065665
+     P(5) = [50057 - 28910 sqrt3 + (22608 sqrt3 - 38988) p + (7236 - 4320 sqrt3) p^2] / 3888 = 0.00324521893808648996
+  Code: ust/ust_more.py, ust/ustdeg.py
