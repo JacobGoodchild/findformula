@@ -1570,6 +1570,10 @@ arXiv:0912.3331; triangular: arXiv:1708.03493).
         P1 = (6 sqrt3/pi - 1)(5 + 18 sqrt3/pi)^2 (41 - 42 sqrt3/pi)^2 / 45562500 = 0.00359238258113540057
         (boxes: 0.0035988, 0.0035940, 0.0035928)
      triakis triangular, triangle centre (deg 3):   P1 = 27/100
+  VALIDATION AGAINST THE LITERATURE: the same pipeline gives for KAGOME
+     P1 = (5 + 3 sqrt3/pi)(17 - 6 sqrt3/pi)/1296 = 0.07029827383269397637,
+  matching the value just published in arXiv:2609.10352 (0.070298, "exact"); so the kagome P1 is NOT new, but it
+  independently confirms the method used for all the lattices above.
   HONEYCOMB + NEXT-NEAREST NEIGHBOURS (unit weights, deg 9; Formula 31): with r = sqrt3/pi,
      g = 4K(64/189)/(3 sqrt21 pi) = 0.16088977460548913890 (triangular Green function at t = 13/2) and g' = dg/dt,
      all resistances among the site and its 9 neighbours are rational combinations of 1, r, g, g' (PSLQ, 25 digits;
@@ -1768,4 +1772,7 @@ Novelty: not found (the theorem's z -> infinity limit, 1 + Poisson(1), is the kn
      checkerboard (deg 6):     P(1) = 39(7 - 8p)(11 + 8p)(1 + 16p - 16p^2)/32768 = 0.321091522222102,
                                P(6) = 3(8p - 5)(24p - 5)(32p^2 - 16p + 1)/65536 = 0.000252178936645721
      (Union Jack corner, triakis vertex: full polynomial forms in ust/ust2d.log.)
+     kagome (deg 4), r = sqrt3/pi: P = (5 + 3r)(17 - 6r)/324, (18r^2 - 21r + 158)/324, (18r^2 - 21r + 77)/324, (4 - 3r)(1 + 6r)/324
+                               = 0.281193095330776, 0.468806904669224, 0.218806904669224, 0.0311930953307759
+                               (note P(1) - P(4) = P(2) - P(3) = 1/4 exactly)
   Code: ust/ust_more.py, ust/ust2d.py, ust/ustdeg.py

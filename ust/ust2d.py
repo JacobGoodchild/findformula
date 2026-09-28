@@ -3,7 +3,7 @@ sys.path.insert(0, '/home/user/findformula/sandpile')
 from sandpile_exact import BASES
 from ustdeg import degree_distribution
 mp.mp.dps = 25
-for pkl, lat in [("R_truncated_square_0.pkl", "truncated_square"), ("R_union_jack_0.pkl", "union_jack"), ("R_union_jack_1.pkl", "union_jack"),
+for pkl, lat in [("R_kagome_0.pkl", "kagome"), ("R_truncated_square_0.pkl", "truncated_square"), ("R_union_jack_0.pkl", "union_jack"), ("R_union_jack_1.pkl", "union_jack"),
                  ("R_star_0.pkl", "star"), ("R_dice_0.pkl", "dice"), ("R_dice_1.pkl", "dice"), ("R_lieb_0.pkl", "lieb"),
                  ("R_checkerboard_0.pkl", "checkerboard"), ("R_triakis_triangular_0.pkl", "triakis_triangular"), ("R_triakis_triangular_1.pkl", "triakis_triangular")]:
     nbrs, R = pickle.load(open('/home/user/findformula/sandpile/' + pkl, 'rb'))
