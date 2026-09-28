@@ -35,7 +35,7 @@ INDEX OF RESULTS (see each entry for derivation, verification and novelty notes)
 33  NNN resistors on bipartite girth>=6 lattices: reduction (diamond -> FCC Green fn)  not found
 34  Abelian sandpile on the king lattice: exact height-1 probability ............ not found
 35  Sandpile height-1 prob.: 4.8.8, star, dice, Lieb, Union Jack, snub square; diamond 2/27  not found (kagome/honeycomb known)
-36  3D sandpile height-1 probabilities: simple cubic, BCC, FCC (Watson integrals)  not found
+36  3D sandpile height-1 probabilities: simple cubic, BCC, FCC, pyrochlore (Watson integrals)  not found
 "Not found" = my web searches found no prior statement; OEIS/arXiv were not directly
 accessible from this environment, so experts should confirm novelty.
 ==========================================================================================
@@ -1176,6 +1176,8 @@ the Laves graph and d-dimensional diamond were not found.
   So the bound captures every lattice to within about 1e-3, and to within 1e-4 for simple cubic
   and BCC: the off-diagonal transfer currents are nearly equal in practice.
   General form (any start arc, no symmetry): pbar >= (d / (4(d-1))) [ (1 - Y_aa)^2 + (1 - YQ_aa)^2 ].
+  (Note: the bipartite equality case was already recorded as a corollary in Formula 11; Formula 24 adds
+   the general bound and the Laves-graph and d-dimensional cases.)
   Code: diamond/projgrid3d.py, diamond/srs.py, diamond/hyperdiamond.py
 
 
@@ -1596,6 +1598,14 @@ Majumdar & Dhar's original method applies in any dimension but I found no closed
      R(2,1,1) = (2W + 3q - 1)/3, R(2,2,0) = (8 - 12W - 9q)/3.
      P1 = (5 - 4W - 6q)^2 (7 - 8W - 3q)^3 (8W + 3q + 1)^3 (16W + 15q - 5)^3 / 6^10 = 0.029126520511690535258
   (With Formula 35's diamond value 2/27 this gives exact P1 for all four common 3D lattices.)
+  PYROCHLORE (z = 6; corner-sharing tetrahedra). Key simplification used here: the Majumdar-Dhar matrix
+     M is exactly the transfer-current matrix Y at the site (M_ab = (R(o,a) + R(o,b) - R(a,b))/2 = Y(a,b)),
+     so P1 = det(I - Y') with Y' = Y minus one arc. With the pyrochlore Laplacian currents of Formula 11
+     (W = FCC Watson constant as above, X = 1/(pi^2 W)): same tetrahedron 1/3 (self), 1/6; other tetrahedron
+     (1 + 8W + 3X)/48 (collinear partner), (15 - 8W - 3X)/96 (the other two):
+     P1 = [ (31 - 8W - 3X)(67 + 24W + 9X) / 9216 ]^2 = 0.053582950138955615678
+     (exact finite boxes 10^3, 16^3, 22^3 cells: 0.0536309, 0.0535949, 0.0535876 -> 0.0535830; independent of
+     which arc is kept.)  UST leaf probability 6 x P1 = 0.3214977.
   Code: sandpile/sc.py, bcc.py, fcc.py (resistances + PSLQ), box_fcc.py (exact finite-box check),
         sim_sc.py, sim_bcc.py, sim_fcc.py (simulations)
   COROLLARY (Formulas 34-36): because P1 does not depend on which bond of the site is kept, the probability
