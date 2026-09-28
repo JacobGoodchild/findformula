@@ -34,6 +34,7 @@ INDEX OF RESULTS (see each entry for derivation, verification and novelty notes)
 32  Lazy flip-flop Grover walk on the triangular lattice (any laziness) ......... not found
 33  NNN resistors on bipartite girth>=6 lattices: reduction (diamond -> FCC Green fn)  not found
 34  Abelian sandpile on the king lattice: exact height-1 probability ............ not found
+35  Sandpile height-1 prob.: 4.8.8, star, dice, Lieb, Union Jack, snub square; diamond 2/27  not found (kagome/honeycomb known)
 "Not found" = my web searches found no prior statement; OEIS/arXiv were not directly
 accessible from this environment, so experts should confirm novelty.
 ==========================================================================================
@@ -1520,3 +1521,46 @@ Novelty: not found.
   Method: P1 = det(I - M), M_jk = D(x_j) + D(x_k) - D(x_j - x_k), D = R/2, over the 7 neighbours whose
   bonds to the origin are cut.
   Code: sandpile/sandpile.py (method + square check), sandpile/sim_king.py (simulation)
+
+
+==========================================================================================
+FORMULA 35 — Abelian sandpile: exact height-1 probabilities on the 4.8.8, star (3.12.12),
+             dice, Lieb, Union Jack and snub-square (Shastry-Sutherland) lattices
+Found: 2026-09-28.  Status: Majumdar-Dhar defect-matrix method with resistances from the exact Bloch
+engine (25 digits), each resistance identified by PSLQ in the lattice's natural basis, then an exact
+symbolic determinant. Built-in check: the result must not depend on WHICH bond of the site is kept,
+and for every lattice below it does not (for 4.8.8, dice, Lieb and Union Jack the kept bonds are
+inequivalent, so this is a genuine check). Monte-Carlo simulations (open patches, bulk average): 4.8.8 0.0807-0.0817 (+-0.0006) vs 0.08096;
+star 0.0697-0.0706 (+-0.0008) vs 0.07; dice hub 0.01273(30) vs 0.01262, rim 0.1888/0.1885(10) vs 0.1875;
+Union Jack corner 0.02024(30) vs 0.02043, centre 0.1535(8) vs 0.1540.  Novelty: not found
+(kagome's value was just published, arXiv:2609.10352; square: Majumdar-Dhar 1991; honeycomb:
+arXiv:0912.3331; triangular: arXiv:1708.03493).
+==========================================================================================
+  Sandpile: heights 1..deg(v); a site with more than deg(v) grains topples, one grain to each
+  neighbour. P1 = stationary probability that the site has height 1.
+  With c = sqrt2 arccos(1/3)/pi = 0.55412642397957198712 (the 4.8.8 / Union Jack constant):
+     truncated square 4.8.8 (deg 3):        P1 = c (4 - 3c)/16                         = 0.08095858841632017693
+     Union Jack, face centre (deg 4):       P1 = 9 c^2 (1 - c)/8                         = 0.15402172338027135905
+     Union Jack, corner (deg 8):            P1 = (9c - 2 - 4/pi)(6 - 7c - 4/pi)(7 - 9c - 4/pi)
+                                                 x (81c^2 - 105c + 34 - 4/pi - 16/pi^2)^2 / 256  = 0.02043343799324922073
+     star lattice 3.12.12 (deg 3):          P1 = 7/100 exactly
+     dice lattice, rim site (deg 3):        P1 = 3/16 exactly
+     dice lattice, hub site (deg 6):        P1 = [ (1 + 2 sqrt3/pi)(11 - 6 sqrt3/pi) / 144 ]^2      = 0.01261518916334840149
+     Lieb lattice, corner site (deg 4):     P1 = (pi - 2)/(4 pi^3)   (exactly 1/8 of the square lattice's value) = 0.00920452869398469827
+     Lieb lattice, edge site (deg 2):       P1 = 1/4
+     snub square / Shastry-Sutherland (deg 5):
+        P1 = 8953/3888 - 281 sqrt3/216 + (44 sqrt3/27 - 11/4)/pi + (17/36 - sqrt3/3)/pi^2 = 0.06191455535342906165
+  (the Union Jack corner value used the resistances of Formula 22/25; the snub-square value uses the
+   algebraic resistances of Formula 25; the king lattice is Formula 34.)
+  Code: sandpile/sandpile_gen.py (resistances + numeric P1), sandpile/sandpile_exact.py (PSLQ + symbolic
+  determinant), sandpile/sim_gen.py (generic simulation)
+  GENERAL RESULT (bipartite lattices with symmetric second neighbours): let the lattice be z-regular,
+  bipartite, of girth >= 6 (so A^2 = zI + A_2), edge-transitive, and let its second-neighbour graph be
+  edge-transitive. Then R(nearest) = 2/z and R(second neighbours) = 2/(z-1) exactly
+  (proof: L_2 = z^2 I - A^2 = L Q acts within each sublattice, so R_L(u,v) = z R_{L_2}(u,v) for u, v on the
+  same sublattice, and Foster on the edge-transitive second-neighbour graph gives R_{L_2} = 2/(z(z-1))),
+  and the Majumdar-Dhar determinant collapses to
+     P1 = (z - 2)^(z-1) / ( z (z - 1)^(z-1) ).
+  honeycomb (z = 3): 1/12 (known, arXiv:0912.3331 -- reproduced, and also by the engine to 25 digits);
+  Laves graph / srs (z = 3): 1/12;   DIAMOND (z = 4): 2/27 = 0.0740740...;   d-dimensional diamond:
+  z = d + 1.  (The same symmetry gives honeycomb R_2 = 1 and diamond R_2 = 2/3.)
