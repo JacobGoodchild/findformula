@@ -1316,4 +1316,12 @@ be known there (the spanning-tree literature I could reach gives only integrals 
   J = 1/sqrt((A - B)(A + B)), A - B = 2(1-x)(1+2w); substituting x = -1 + t^2 leaves
   INT dt/((1 - 2w + 2w t^2) sqrt(4 + (2w-1)t^2)) whose discriminant 8w + (2w-1)^2 = (2w+1)^2 is a
   perfect square, which is why everything collapses to the single angle arccos(2w).
-  Code: lattices/king.py (Rdiag, Elogdet), lattices/genus_scan.py (how the lattice was flagged)
+  COROLLARY (Union Jack with centre-bond conductance w): eliminating each face centre (star-mesh)
+  turns it into this king lattice with axis conductance 1 + w/2 and diagonal conductance w/4, i.e.
+  ratio w' = w/(4 + 2w). Hence R(corner-corner) = R_axis(w')/(1 + w/2), and
+  E ln det_UJ(w) = ln(4w) + ln(1 + w/2) + E ln det_king(w'). At w = 1 (w' = 1/6):
+  R = (2/3) arccos(1/3)/(pi sqrt(8/9)) = sqrt2 arccos(1/3)/(2 pi), exactly Formula 22/25's c/2, and
+  ln 6 + E ln det_king(1/6) = 3.146737101515328... = Union Jack value (checked). The genus screen also
+  flags the breathing kagome, but Delta-Y + series reduction maps it to a uniform honeycomb network
+  (conductance 3w/(1+w)), so that family is elementary and not new.
+  Code: lattices/king.py (Rdiag, Elogdet), lattices/genus_scan.py, genus_scan2.py (how lattices were flagged)
