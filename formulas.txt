@@ -1593,6 +1593,8 @@ arXiv:0912.3331; triangular: arXiv:1708.03493).
   honeycomb (z = 3): 1/12 (known, arXiv:0912.3331 -- reproduced, and also by the engine to 25 digits);
   Laves graph / srs (z = 3): 1/12;   DIAMOND (z = 4): 2/27 = 0.0740740...;   d-dimensional diamond:
   z = d + 1.  (The same symmetry gives honeycomb R_2 = 1 and diamond R_2 = 2/3.)
+  Exact finite-box checks (dissipative boundary, N^3 cells): Laves graph N = 10, 16, 24: 0.0834488, 0.0833615, 0.0833418
+  -> 1/12; diamond: 0.0742235, 0.0741125, 0.0740859 -> 2/27 = 0.0740741.  (sandpile/box_srs.py, box_diamond.py)
 
 
 ==========================================================================================
