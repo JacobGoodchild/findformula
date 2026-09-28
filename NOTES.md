@@ -23,3 +23,28 @@
 - The integration path runs from the branch point w = 1 to w = 1 +- 2i (at u = -2), and (1 + 2i, 2i) is NOT a torsion
   point (elliptic-log coordinates 0.0909379640545..., 0.3181240718909...). So the amplitudes involve INCOMPLETE elliptic
   integrals; PSLQ with complete K(3/8), E(3/8) (several algebraic scalings) finds nothing, as expected.
+
+## Genus-0 diagonal decorations of the square lattice (2x2 period) — classification (lattices/plaquette_search.py)
+Each plaquette of a 2x2 block gets nothing '.', '/', '\' or 'X'. Up to symmetry, the decorations whose Laplacian
+spectral curve is genus 0 after removing the node (hence elementary resistances, Clausen-type tree entropies) are:
+  ....(square)  ...X  /.\.  ..XX  /..\(snub square, F26/27)  /..X  .XX.(checkerboard)  /XX.  .XXX  ////(triangular)
+  //\\  /\\/(Union Jack)  /X\X  /XX/  /XX\  XXXX(king, F28)
+E ln det per 4-site cell (45 digits computed; 30 shown), closed forms where found:
+  ....  4.66497446449310048221415130349  = 16G/pi
+  ...X  5.63164375130332902671634143782   (odd factor z^2 - 10z + 1, rho = (sqrt2+sqrt3)^2)
+  /.\.  5.58454671667953564832521801423   (z^2 - 82z + 1)
+  ..XX  6.44942187292124365217700140508   (z^2 - 7z + 1, rho = phi^4)
+  /..\  5.64342258297733934667852121599  = 40G/(3pi) + (4/3) ln(2+sqrt3)
+  /..X  6.06983523543591051694249502142   (z^2 - 18z + 1, rho = (2+sqrt5)^2)
+  .XX.  6.49137031560622209761046838050  = 8G/pi + 6 ln2   (line graph of Z^2)
+  /XX.  6.83334058516703239962365131035
+  .XXX  7.17185152094717409212058941072
+  ////  6.46131894438901028187273021448  = 4 z_tri = 20 Cl2(pi/3)/pi  (my first basis wrongly had sqrt3 Cl2(pi/3))
+  //\\  6.46131894438901028187273021448  (same as triangular; z^2 - 194z + 1)
+  /\\/  6.29347420303065743297326391596  (= Union Jack = SS(w=2), F27)
+  /X\X  7.13002116816469326074473897393
+  /XX/  7.13812264332348844151004533034
+  /XX\  7.17430657185560998476862293732
+  XXXX  7.77495744082183413702358550582  = 80G/(3pi)
+The unidentified ones need their own angle (as Phi in F27 / arccos(2w) in F28); a weighted-family fit per lattice
+(as done for SS and king) should close each of them.
