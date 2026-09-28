@@ -36,6 +36,7 @@ INDEX OF RESULTS (see each entry for derivation, verification and novelty notes)
 34  Abelian sandpile on the king lattice: exact height-1 probability ............ not found
 35  Sandpile height-1 prob.: 4.8.8, star, dice, Lieb, Union Jack, snub square, checkerboard, triakis; diamond 2/27  not found (kagome/honeycomb known)
 36  3D sandpile height-1 probabilities: simple cubic, BCC, FCC, pyrochlore (Watson integrals)  not found
+37  Lazy flip-flop Grover walk on the honeycomb lattice (any laziness) .......... not found
 "Not found" = my web searches found no prior statement; OEIS/arXiv were not directly
 accessible from this environment, so experts should confirm novelty.
 ==========================================================================================
@@ -1621,3 +1622,24 @@ Majumdar & Dhar's original method applies in any dimension but I found no closed
   that a vertex of degree z is a LEAF of the uniform spanning tree is exactly z * P1 (square lattice check:
   4(2/pi^2 - 4/pi^3) = (8/pi^2)(1 - 2/pi), the known value). E.g. simple cubic 6 x 0.0545825 = 0.3274948,
   BCC 0.3396340, FCC 0.3495182, diamond 8/27, king 0.3364483, snub square 0.3095728.
+
+
+==========================================================================================
+FORMULA 37 — LAZY flip-flop Grover walk on the HONEYCOMB lattice: exact trapping for any laziness,
+             one complete elliptic integral (completes the square / triangular / honeycomb set,
+             Formulas 21, 32)
+Found: 2026-09-28.  Status: derived (Szegedy -1 band; the 2x2 Bloch determinant reduces to the
+triangular Green function, and all needed values are expressed through g alone); matches direct
+2D numerical integration to 19 digits at eps = 0.3, 0.6 and eps -> 0 (1/12, Formula 8); simulations
+(300 steps): eps = 0.3: 0.198290 vs 0.198286, eps = 0.6: 0.249694 vs 0.249683.  Novelty: not found.
+==========================================================================================
+  Walk: honeycomb lattice, stay with probability eps, else step to one of the 3 neighbours; Szegedy coin,
+  flip-flop shift, start on a moving arc. Put
+     r = 3(1 + eps)/(1 - eps),   m = 16 r / ((r - 1)^3 (r + 3)),   g = 4 K(m) / (pi sqrt((r - 1)^3 (r + 3)))
+  (g is the triangular Green function E[1/(tau - S)] at tau = (r^2 - 3)/2, i.e. Horiguchi's e = r).
+  -1 band amplitudes:  start arc (gr^2 - 3gr + 1)/6;   other two arcs -(gr^3 - 4gr^2 + 3gr - 2r + 8)/24;
+     loop arc: squared value (r - 3)(g r^2 - 3 g r - 2)^2 / 72.   The +1 band is unchanged: 1/24.
+  RESULT:
+     pbar(eps) = [ g^2 r^2 (r-3)^2 (r-1)(r+3) - 4 g r (r-4)(r-3)(r+3) + 4 (r^2 - 4r + 9) ] / 288
+  Checks: r = 3 (eps = 0) gives 24/288 = 1/12.  eps = 0.3: 0.19828553171385187388;  eps = 0.6: 0.24968334326346156426.
+  Code: lazyff/lazy_hc.py (numerics + simulation), lazyff/lazy_hc_closed.py (closed form)
