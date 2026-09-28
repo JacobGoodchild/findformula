@@ -1746,4 +1746,17 @@ Novelty: not found (the theorem's z -> infinity limit, 1 + Poisson(1), is the kn
      P(3) = [56447 - 32500 sqrt3 + (28872 sqrt3 - 50112) p + (9504 - 5400 sqrt3) p^2] / 648  = 0.212135139792872705
      P(4) = [32055 sqrt3 - 55511 + (45522 - 26172 sqrt3) p + (4860 sqrt3 - 8694) p^2] / 972   = 0.0438509900800065665
      P(5) = [50057 - 28910 sqrt3 + (22608 sqrt3 - 38988) p + (7236 - 4320 sqrt3) p^2] / 3888 = 0.00324521893808648996
-  Code: ust/ust_more.py, ust/ustdeg.py
+  MORE 2D LATTICES (same method; exact star resistances from Formulas 22-25/35; c = sqrt2 arccos(1/3)/pi,
+  p = 1/pi, r = sqrt3/pi; the mean degree at a vertex equals the sum of its edge resistances, checked):
+     truncated square 4.8.8:   P(1) = P(3) = 3c(4 - 3c)/16 = 0.242875765248961,  P(2) = (9c^2 - 12c + 8)/8 = 0.514248469502079
+     star 3.12.12:             P = 21/100, 29/50, 21/100
+     Union Jack, face centre:  P = 9c^2(1-c)/2, 3c(18c^2 - 23c + 8)/4, (2 - 3c)(9c^2 - 8c + 2)/2, (2c - 1)(3c - 2)^2/4
+                               = 0.616086893521085, 0.325037511742719, 0.0557907199308772, 0.00308487480531810
+     Lieb, corner (deg 4):     P = p^2(1 - 2p), 2p(3p^2 - 3p + 1), (1 - p)(6p^2 - 3p + 1), 2p(1 - p)^2
+     dice, rim (deg 3):        1 + Binomial(2, 1/4):  9/16, 3/8, 1/16
+     triakis, triangle centre: 1 + Binomial(2, 1/10): 81/100, 9/50, 1/100
+     dice, hub (deg 6):        P(1) = [(1 + 2r)(11 - 6r)]^2/3456,  P(6) = [(3 - 2r)(1 + 6r)]^2/6912
+     checkerboard (deg 6):     P(1) = 39(7 - 8p)(11 + 8p)(1 + 16p - 16p^2)/32768 = 0.321091522222102,
+                               P(6) = 3(8p - 5)(24p - 5)(32p^2 - 16p + 1)/65536 = 0.000252178936645721
+     (Union Jack corner, triakis vertex: full polynomial forms in ust/ust2d.log.)
+  Code: ust/ust_more.py, ust/ust2d.py, ust/ustdeg.py
