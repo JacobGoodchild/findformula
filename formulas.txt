@@ -32,6 +32,7 @@ INDEX OF RESULTS (see each entry for derivation, verification and novelty notes)
 30  Axis-bond resistance of any square lattice with diagonal bonds (4 conductances)  not found as one formula
 31  Honeycomb + next-nearest-neighbour resistor network: elliptic closed form ...... not found
 32  Lazy flip-flop Grover walk on the triangular lattice (any laziness) ......... not found
+33  NNN resistors on bipartite girth>=6 lattices: reduction (diamond -> FCC Green fn)  not found
 "Not found" = my web searches found no prior statement; OEIS/arXiv were not directly
 accessible from this environment, so experts should confirm novelty.
 ==========================================================================================
@@ -1467,3 +1468,29 @@ continuations of Horiguchi's result).
   Values: eps = 0.05: 0.28336682002461117107;  0.2: 0.31653136185695229253;  0.5: 0.35388644533661557374;
           0.8: 0.37475947673168127334.  (eps -> 0: 0.26795570253708055129 = Formula 7.)
   Code: lazyff/lazy_tri.py
+
+
+==========================================================================================
+FORMULA 33 — Adding next-nearest-neighbour resistors to a bipartite lattice without 4-cycles:
+             exact reduction to one Green function (honeycomb, diamond, Laves graph, ...)
+Found: 2026-09-28.  Status: derived (the Laplacian is a polynomial in the adjacency matrix);
+honeycomb case checked to 20 digits (Formula 31); diamond case checked against 3D Kirchhoff solves
+on 12^3, 16^3, 20^3 tori (w = 1: formula 0.1234707, tori 0.1234547 -> 0.1234640 -> 0.1234673;
+w = 0.5: 0.1901032 vs 0.1900743 -> 0.1900910 -> 0.1900970; w -> 0 gives 1/2).  Novelty: not found.
+==========================================================================================
+  Setting: a z-regular bipartite periodic lattice with girth >= 6 (so each second neighbour is reached
+  by exactly one 2-step path and A^2 = z I + A_2). Unit resistors on the lattice bonds, conductance w
+  on every second-neighbour bond. With f(k) the Bloch hopping (|f|^2 = eigenvalue of A^2 on a sublattice):
+     L = (z + z(z-1)w) I - A - w (A^2 - z I),   det = u (1 + 2zw + w^2 u),   u = z^2 - |f|^2,
+  and by the symmetry E[Re f / det] = E[|f|^2 / (z det)] the nearest-neighbour resistance collapses to
+     R_NN(w)  = 2 (w + 1/z) E_k[ 1 / (1 + 2 z w + w^2 (z^2 - |f(k)|^2)) ],
+     R_NNN(w) = (2 - z R_NN) / (z (z - 1) w)                       (Foster).
+  Explicit cases:
+     honeycomb (z = 3, |f|^2 = 3 + 2S): R_NN = ((3w+1)/(3w^2)) g_tri(3 + (6w+1)/(2w^2))  -> Formula 31 (elliptic).
+     diamond   (z = 4, |f|^2 = 4 + 4s, s = c1c2 + c2c3 + c3c1 with c_i = cos(k_i/2) in cubic axes):
+        R_NN = ((4w+1)/(8w^2)) P_FCC(3 + (8w+1)/(4w^2)),   P_FCC(t) = E[1/(t - s)],
+        the face-centred-cubic lattice Green function, which Joyce evaluated in closed form (products of
+        complete elliptic integrals); w = 1: t = 21/4, R_NN = 0.12347073437196593577, R_NNN = 0.12550975520934468...
+        (R_NNN = (1 - 2 R_NN)/(6w)); w = 0.5: R_NN = 0.19010321159518099303.
+     Laves graph / srs (z = 3, girth 10) and d-dimensional diamond (z = d + 1) reduce the same way.
+  Code: lattices3d/diamond_nnn.py (formula + 3D torus Kirchhoff check)
