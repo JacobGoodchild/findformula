@@ -1570,6 +1570,15 @@ arXiv:0912.3331; triangular: arXiv:1708.03493).
         P1 = (6 sqrt3/pi - 1)(5 + 18 sqrt3/pi)^2 (41 - 42 sqrt3/pi)^2 / 45562500 = 0.00359238258113540057
         (boxes: 0.0035988, 0.0035940, 0.0035928)
      triakis triangular, triangle centre (deg 3):   P1 = 27/100
+  HONEYCOMB + NEXT-NEAREST NEIGHBOURS (unit weights, deg 9; Formula 31): with r = sqrt3/pi,
+     g = 4K(64/189)/(3 sqrt21 pi) = 0.16088977460548913890 (triangular Green function at t = 13/2) and g' = dg/dt,
+     all resistances among the site and its 9 neighbours are rational combinations of 1, r, g, g' (PSLQ, 25 digits;
+     see sandpile/hcnnn_exact.py for each one), and
+        P1 = (2 - 7g)(12r - 14 - 105g - 1120g')(729120 g g' + 1764 g r^2 - 7224 g r + 9163 g + 8202600 g'^2
+             - 136080 g' r + 305760 g' + 792 r^2 - 2688 r + 2548)^2 / 196036848 = 0.037899503465150422174
+     (exact finite boxes 40^2, 80^2, 160^2: 0.0379335, 0.0379082, 0.0379017 -> 0.0378995; same for any kept bond).
+     UST degree distribution: 0.341095531186353800, 0.395627511614136720, 0.197304110986448744, 0.0553146229148595194,
+     0.00954601049276125483, 0.00103965883291128006, 0.0000698597945121550379, 2.65065841933638440e-6, 4.35195971912390974e-8.
   GENERAL RESULT (bipartite lattices with symmetric second neighbours): let the lattice be z-regular,
   bipartite, of girth >= 6 (so A^2 = zI + A_2), edge-transitive, and let its second-neighbour graph be
   edge-transitive. Then R(nearest) = 2/z and R(second neighbours) = 2/(z-1) exactly
