@@ -158,3 +158,6 @@ LATTICES["kisrhombille"] = kisrhombille
 def king():   # square lattice + both diagonals (degree 8), one site per cell
     return 1, [(0, 0, (1, 0)), (0, 0, (0, 1)), (0, 0, (1, 1)), (0, 0, (1, -1))]
 LATTICES["king"] = king
+def honeycomb_nnn():   # honeycomb + all next-nearest neighbours (unit weights), degree 9
+    return 2, [(0, 1, (0, 0)), (0, 1, (-1, 0)), (0, 1, (0, -1))] + [(s, s, o) for s in (0, 1) for o in [(1, 0), (0, 1), (1, -1)]]
+LATTICES["honeycomb_nnn"] = honeycomb_nnn
