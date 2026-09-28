@@ -1249,7 +1249,7 @@ may appear there in another form (hypergeometric / L-values).
 ==========================================================================================
 FORMULA 27 — The Shastry-Sutherland resistor network with ANY dimer/square conductance ratio:
              exact dimer resistance, square-bond resistance and spanning-tree entropy
-Found: 2026-09-28.  Status: the dimer resistance R_d(w) was identified by PSLQ at six weights
+Found: 2026-09-28.  Status: the dimer resistance R_d(w) was identified by PSLQ at seven weights
 (w = 1/8, 1, 2, 3, 5, 8, 24; small coefficients, 34 digits) and then checked to 1e-31 at w = 0.3;
 the entropy formula follows by integrating R_d in w (Kirchhoff: d ln(tree count)/dw = SUM over
 dimer edges of R_e) and matches direct evaluation to 50 digits at w = 0.01, 0.3, 1, 2, 3.7, 10, 100;
@@ -1275,7 +1275,7 @@ Novelty: not found (the w = 1 value of the entropy is known numerically, see For
               UNION JACK lattice's spanning-tree entropy per vertex (computed independently:
               1.57336855075766435824331597899), so the Union Jack value is
               (1/pi)[2G + 2 arccos(1/3) ln(1+sqrt2) + Cl2(pi/2 + arccos(1/3)) + Cl2(pi/2 - arccos(1/3))].
-     w -> inf: z ~ (1/2) ln w + (1/pi)(2G) + ... (each dimer contributes ln w per 2 vertices).
+     w -> inf: z = (1/2) ln(2w) + 2G/pi + o(1) (each dimer contributes ln w per 2 vertices).
   Sample values: z(3.7) = 1.76614147642855364944364000429, z(10) = 2.15659737940973978896651319694.
   By planar duality (R(e) + R(e*) = 1 with dual conductances 1/c) this also gives the weighted
   Cairo pentagonal network.
