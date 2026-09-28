@@ -1598,3 +1598,7 @@ Majumdar & Dhar's original method applies in any dimension but I found no closed
   (With Formula 35's diamond value 2/27 this gives exact P1 for all four common 3D lattices.)
   Code: sandpile/sc.py, bcc.py, fcc.py (resistances + PSLQ), box_fcc.py (exact finite-box check),
         sim_sc.py, sim_bcc.py, sim_fcc.py (simulations)
+  COROLLARY (Formulas 34-36): because P1 does not depend on which bond of the site is kept, the probability
+  that a vertex of degree z is a LEAF of the uniform spanning tree is exactly z * P1 (square lattice check:
+  4(2/pi^2 - 4/pi^3) = (8/pi^2)(1 - 2/pi), the known value). E.g. simple cubic 6 x 0.0545825 = 0.3274948,
+  BCC 0.3396340, FCC 0.3495182, diamond 8/27, king 0.3364483, snub square 0.3095728.
