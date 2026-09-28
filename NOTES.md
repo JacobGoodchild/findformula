@@ -48,3 +48,15 @@ E ln det per 4-site cell (45 digits computed; 30 shown), closed forms where foun
   XXXX  7.77495744082183413702358550582  = 80G/(3pi)
 The unidentified ones need their own angle (as Phi in F27 / arccos(2w) in F28); a weighted-family fit per lattice
 (as done for SS and king) should close each of them.
+
+## Open leads (end of night 2026-09-27/28)
+- Formula 19 (+1 channel, triangular moving walk): elliptic curve y^2 = (w-1)(w^2-w+4), m = 3/8, but the path ends at a
+  non-torsion point -> incomplete elliptic integrals; a closed form in F(phi|3/8), E(phi|3/8) should exist.
+- Snub square / Shastry-Sutherland Grover walk: +1 channel elementary (Formula 25 currents), -1 channel unsolved
+  (signless curve: nested radical; conic w^2 = 4 + 6t^2 rationalises to y^2 = (mu^2+1)(mu^2+9/5) but the path is incomplete).
+- Genus-0 plaquette decorations of Z^2 (NOTES above): entropies need per-lattice angles (weighted-family fits).
+- Honeycomb + NNN tree entropy = z_tri + ln(2w^2) + E ln(t_w - S): a triangular Mahler measure at t = 13/2 (w = 1).
+- Four-parameter square+diagonals lattice (Formula 30): diagonal resistances when w+ != w- need extra arctan terms.
+- Useful identities found: sandpile Majumdar-Dhar matrix = transfer-current matrix Y; UST degree generating
+  function = det(I + (x-1) Y); lazy Szegedy -1 band = inverse of (I + P_walk)/2.
+- Pitfall: `pkill -f` / `pgrep -f` with a pattern that also appears in the current shell command kills that shell.
