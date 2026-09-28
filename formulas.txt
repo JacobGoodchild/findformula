@@ -33,6 +33,7 @@ INDEX OF RESULTS (see each entry for derivation, verification and novelty notes)
 31  Honeycomb + next-nearest-neighbour resistor network: elliptic closed form ...... not found
 32  Lazy flip-flop Grover walk on the triangular lattice (any laziness) ......... not found
 33  NNN resistors on bipartite girth>=6 lattices: reduction (diamond -> FCC Green fn)  not found
+34  Abelian sandpile on the king lattice: exact height-1 probability ............ not found
 "Not found" = my web searches found no prior statement; OEIS/arXiv were not directly
 accessible from this environment, so experts should confirm novelty.
 ==========================================================================================
@@ -1494,3 +1495,28 @@ w = 0.5: 0.1901032 vs 0.1900743 -> 0.1900910 -> 0.1900970; w -> 0 gives 1/2).  N
         (R_NNN = (1 - 2 R_NN)/(6w)); w = 0.5: R_NN = 0.19010321159518099303.
      Laves graph / srs (z = 3, girth 10) and d-dimensional diamond (z = d + 1) reduce the same way.
   Code: lattices3d/diamond_nnn.py (formula + 3D torus Kirchhoff check)
+
+
+==========================================================================================
+FORMULA 34 — Abelian sandpile on the KING lattice (degree 8): exact probability of height 1
+Found: 2026-09-28.  Status: Majumdar-Dhar defect-matrix method (validated by reproducing the square
+lattice's 2/pi^2 - 4/pi^3 to 20 digits); all needed resistances identified by PSLQ (30 digits,
+coefficients <= 14); the 7x7 determinant computed symbolically, agreeing with the numerical
+determinant to 30 digits; the result is the same whichever bond of the origin is kept (axis or
+diagonal), as it must be; Monte-Carlo simulation on a 96x96 king lattice: 0.04218 +- 0.00033.
+Novelty: not found.
+==========================================================================================
+  Model: Bak-Tang-Wiesenfeld / abelian sandpile on Z^2 with all 8 king-move neighbours; heights 1..8,
+  a site with more than 8 grains topples, sending one grain to each neighbour. P1 = probability that a
+  site has the minimal height 1 in the stationary (recurrent) state.
+  Constants: p = 1/pi,  L = ln(2 + sqrt3)/(pi sqrt3) = 0.24202564754285515484 (Formula 28).
+  Resistances needed (unit resistors on all 8 bonds), R(x) for x = (a, b):
+     R(1,0) = L,   R(1,1) = 1/2 - L,   R(2,0) = 4/pi - 4L,
+     R(2,1) = 6L - 1/2 - 2/pi,   R(2,2) = 5 - 4/pi - 14L
+  RESULT (fully factorised):
+     P1 = -(3 + 4p - 14L)(1 + 4p - 2L)(6L + 12p - 7)(13 - 32p + 48p^2 - 52L - 12L^2)^2 / 2048
+        = 0.0420560364703691189817391052881...
+  (Compare square lattice 2/pi^2 - 4/pi^3 = 0.0736; the extra diagonal bonds make height 1 rarer.)
+  Method: P1 = det(I - M), M_jk = D(x_j) + D(x_k) - D(x_j - x_k), D = R/2, over the 7 neighbours whose
+  bonds to the origin are cut.
+  Code: sandpile/sandpile.py (method + square check), sandpile/sim_king.py (simulation)
