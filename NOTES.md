@@ -60,3 +60,6 @@ The unidentified ones need their own angle (as Phi in F27 / arccos(2w) in F28); 
 - Useful identities found: sandpile Majumdar-Dhar matrix = transfer-current matrix Y; UST degree generating
   function = det(I + (x-1) Y); lazy Szegedy -1 band = inverse of (I + P_walk)/2.
 - Pitfall: `pkill -f` / `pgrep -f` with a pattern that also appears in the current shell command kills that shell.
+- Honeycomb+NNN tree entropy: E ln(13/2 - S) = 1.851141618820952232936924139646552031884 (40 digits); no relation
+  with logs of 2,3,7,13 and Dirichlet L(chi_D,2) for D = -3,-4,-7,-15,-84 -> probably an elliptic-curve L-value.
+- Kagome sandpile P1 from our pipeline equals the value published in arXiv:2609.10352 (independent validation).
