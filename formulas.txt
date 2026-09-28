@@ -31,6 +31,7 @@ INDEX OF RESULTS (see each entry for derivation, verification and novelty notes)
 29  Flip-flop Grover walk on the king lattice (third-kind elliptic Pi(3/4|7/8))  not found
 30  Axis-bond resistance of any square lattice with diagonal bonds (4 conductances)  not found as one formula
 31  Honeycomb + next-nearest-neighbour resistor network: elliptic closed form ...... not found
+32  Lazy flip-flop Grover walk on the triangular lattice (any laziness) ......... not found
 "Not found" = my web searches found no prior statement; OEIS/arXiv were not directly
 accessible from this environment, so experts should confirm novelty.
 ==========================================================================================
@@ -1431,3 +1432,38 @@ engine at w = 1 (both resistances, 20 digits).  Novelty: not found.
             R_NNN = 1/3 - (2/3) g = 0.22607348359634057407, g = 4K(64/189)/(3 sqrt21 pi).
      w = 0.5: R_NN = 0.30727305092382204842;  w = 2: R_NN = 0.14004558271112753592.
   Code: inline (session); lattices/builders.py honeycomb_nnn; engine check via gen.transfer_matrix
+
+
+==========================================================================================
+FORMULA 32 — LAZY flip-flop Grover (Szegedy) walk on the TRIANGULAR lattice: exact trapping as a
+             function of the laziness (triangular analogue of Formula 21)
+Found: 2026-09-28.  Status: amplitudes from the Szegedy flat bands; the two needed Green functions
+were fitted as polynomial-coefficient combinations of g, g' by PSLQ at five energies and confirmed
+at a sixth; the assembled closed form matches direct evaluation to 1e-20 at eps = 0.05, 0.2, 0.5,
+0.8 (the residual is the precision of the stored +1 constant); eps -> 0 reproduces Formula 7 to 20
+digits; simulations (300 steps): eps = 0.2: 0.316536 vs 0.316531, eps = 0.5: 0.353934 vs 0.353886.
+Novelty: not found (the real-modulus Green-function formula below is probably equivalent to known
+continuations of Horiguchi's result).
+==========================================================================================
+  Walk: triangular lattice, stay with probability eps, else move to one of the 6 neighbours; Szegedy
+  coin 2|s><s| - I, flip-flop shift on the 6 moving arcs, the loop arc stays. Start on the +e1 arc.
+  Put t = 3(1 + eps)/(1 - eps) and S = cos k1 + cos k2 + cos(k1 - k2).
+  TRIANGULAR GREEN FUNCTION BEYOND THE BAND (any t > 3/2; real modulus):
+     g(t) = E_k[1/(t + S)] = 2 K(m) / (pi ((t-1)^3 (t+3))^{1/4}),   m = 1/2 - (t^2 - 3)/(2 (t-1)^{3/2} sqrt(t+3))
+     (t = 7 and t = 15 give Formulas 12 and 23: 135^{1/4}, 3087^{1/4}; derived from the quartic
+      (1 - c^2)(c^2 + (2t-2)c + t^2 - 2), roots +-1 and -(t-1) +- i sqrt(2t-3).)
+     g' = dg/dt follows by the chain rule with dK/dm = (E(m) - (1-m)K(m))/(2m(1-m)).
+  Green functions needed (distance 1, sqrt3, 2):
+     G1  = (1 - t g)/3
+     Gs3 = -2/3 + ((2t^2 + 3t - 6)/3) g + ((t-1)(t+3)(2t-3)/3) g'
+     G2  = -2(t-1)/3 - ((2t^2 + 4t - 9)/3) g - (2(t-1)(t+3)(2t-3)/3) g'
+  -1 flat-band amplitudes (start arc +e1):
+     A(+e1) = 1/3 + (t-3) g/6,        A(-e1) = -(g + 2 G1 + G2)/4,
+     A(two arcs adjacent to +e1) = -(g + 3 G1)/4,   A(two remaining arcs) = -(g + 2 G1 + Gs3)/4,
+     A(loop) = -(sqrt(t-3)/6) (1 + (3 - t) g)
+  RESULT:
+     pbar(eps) = (43 pi^2 - 120 sqrt3 pi + 324)/(72 pi^2)                 [+1 band, unchanged by laziness]
+               + A(+e1)^2 + A(-e1)^2 + 2 A(adj)^2 + 2 A(rem)^2 + A(loop)^2
+  Values: eps = 0.05: 0.28336682002461117107;  0.2: 0.31653136185695229253;  0.5: 0.35388644533661557374;
+          0.8: 0.37475947673168127334.  (eps -> 0: 0.26795570253708055129 = Formula 7.)
+  Code: lazyff/lazy_tri.py
