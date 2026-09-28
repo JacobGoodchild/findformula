@@ -37,6 +37,7 @@ INDEX OF RESULTS (see each entry for derivation, verification and novelty notes)
 35  Sandpile height-1 prob.: 4.8.8, star, dice, Lieb, Union Jack, snub square, checkerboard, triakis; diamond 2/27  not found (kagome/honeycomb known)
 36  3D sandpile height-1 probabilities: simple cubic, BCC, FCC, pyrochlore (Watson integrals)  not found
 37  Lazy flip-flop Grover walk on the honeycomb lattice (any laziness) .......... not found
+38  Lazy flip-flop Grover walk on the diamond lattice (FCC Green fn, Joyce) .... not found
 "Not found" = my web searches found no prior statement; OEIS/arXiv were not directly
 accessible from this environment, so experts should confirm novelty.
 ==========================================================================================
@@ -1643,3 +1644,27 @@ triangular Green function, and all needed values are expressed through g alone);
      pbar(eps) = [ g^2 r^2 (r-3)^2 (r-1)(r+3) - 4 g r (r-4)(r-3)(r+3) + 4 (r^2 - 4r + 9) ] / 288
   Checks: r = 3 (eps = 0) gives 24/288 = 1/12.  eps = 0.3: 0.19828553171385187388;  eps = 0.6: 0.24968334326346156426.
   Code: lazyff/lazy_hc.py (numerics + simulation), lazyff/lazy_hc_closed.py (closed form)
+
+
+==========================================================================================
+FORMULA 38 — LAZY flip-flop Grover walk on the DIAMOND lattice: exact trapping for any laziness via
+             the FCC lattice Green function (Joyce's closed form, a square of K)
+Found: 2026-09-28.  Status: derived exactly as Formula 37 (diamond's second-neighbour differences are
+FCC nearest-neighbour vectors, so only g = FCC Green function enters, no derivatives); checked against
+direct numerical integration (eps = 0.2, 0.5, 18 digits), eps -> 0 gives 1/6 (Formula 11/24), and an
+INDEPENDENT Bloch-grid diagonalisation of the actual lazy walk operator (loops included): eps = 0.5,
+-1 part 0.20618443984547 (grids 12^3 and 18^3, identical) vs closed form 0.2061844398455; +1 part
+0.083250 -> 0.083309 -> 1/12.  Novelty: not found.
+==========================================================================================
+  Walk: diamond lattice (4 neighbours), stay with probability eps, else step to a random neighbour;
+  Szegedy coin, flip-flop shift, start on a moving arc. Put r = 4(1 + eps)/(1 - eps), tau = (r^2 - 4)/4 and
+     g = E[1/(tau - s)],  s = c1c2 + c2c3 + c3c1  (FCC Green function; c_i = cos of the cubic half-angles),
+     g = (1/tau) L(3/tau),  L(x) = 3^{3/2} (3+x)^{-3/2} (2 - sqrt(1-x)) (2K(k)/pi)^2,
+     k^2 = 1/2 - (sqrt3/2)(3+x)^{-3/2} (4x + (3-x) sqrt(1-x))          (Joyce; checked to 1e-18 here)
+  -1 band amplitudes: start arc (g r^2 - 4 g r + 4)/16; the other three arcs -(g r^3 - 6 g r^2 + 8 g r - 4r + 24)/96;
+     loop arc squared (r - 4)(g r^2 - 4 g r - 4)^2 / 512.  +1 band unchanged: 1/12.
+  RESULT:
+     pbar(eps) = [ g^2 r^2 (r-4)^2 (r-2)(r+4) - 8 g r (r-6)(r-4)(r+4) + 16 (r^2 - 6r + 40) ] / 3072
+  Checks: r = 4 gives 512/3072 = 1/6.  eps = 0.2: 0.23844935921566846595;  eps = 0.5: 0.28951777317880711373.
+  (Compare the honeycomb, Formula 37: the same pattern with z = 3 in place of z = 4.)
+  Code: lazyff/lazy_diamond.py, lazyff/lazy_diamond_grid.py
