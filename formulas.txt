@@ -1667,4 +1667,13 @@ INDEPENDENT Bloch-grid diagonalisation of the actual lazy walk operator (loops i
      pbar(eps) = [ g^2 r^2 (r-4)^2 (r-2)(r+4) - 8 g r (r-6)(r-4)(r+4) + 16 (r^2 - 6r + 40) ] / 3072
   Checks: r = 4 gives 512/3072 = 1/6.  eps = 0.2: 0.23844935921566846595;  eps = 0.5: 0.28951777317880711373.
   (Compare the honeycomb, Formula 37: the same pattern with z = 3 in place of z = 4.)
+  GENERAL FORM (any z-regular bipartite lattice of girth >= 6 whose vertex symmetry is 2-transitive on the
+  arcs: honeycomb, diamond, Laves graph/srs, d-dimensional diamond). Let a2(k) = |f(k)|^2 - z be the
+  second-neighbour dispersion, r = z(1 + eps)/(1 - eps), h = E[1/(r^2 - z - a2)] and u = h r (r - z). Then
+     start arc  A = (2u + z - 2)/(2z),
+     each of the other z - 1 arcs  A = -(u (r - z + 2) - r + 2z - 2) / (2z(z - 1)),
+     loop arc  A^2 = (r - z)(1 - u)^2 / (2 z^2),
+     pbar(eps) = (z - 2)^2/(4z(z - 1)) + A_start^2 + (z - 1) A_other^2 + A_loop^2.
+  (Symbolically reduces to Formula 37 for z = 3, h = g/2, and to the diamond formula above for z = 4, h = g/4;
+   at eps = 0 it gives (z-2)^2/(2z(z-1)), Formula 24's equality case.)
   Code: lazyff/lazy_diamond.py, lazyff/lazy_diamond_grid.py
