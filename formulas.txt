@@ -35,6 +35,7 @@ INDEX OF RESULTS (see each entry for derivation, verification and novelty notes)
 33  NNN resistors on bipartite girth>=6 lattices: reduction (diamond -> FCC Green fn)  not found
 34  Abelian sandpile on the king lattice: exact height-1 probability ............ not found
 35  Sandpile height-1 prob.: 4.8.8, star, dice, Lieb, Union Jack, snub square; diamond 2/27  not found (kagome/honeycomb known)
+36  3D sandpile height-1 probabilities: simple cubic, BCC, FCC (Watson integrals)  not found
 "Not found" = my web searches found no prior statement; OEIS/arXiv were not directly
 accessible from this environment, so experts should confirm novelty.
 ==========================================================================================
@@ -1564,3 +1565,36 @@ arXiv:0912.3331; triangular: arXiv:1708.03493).
   honeycomb (z = 3): 1/12 (known, arXiv:0912.3331 -- reproduced, and also by the engine to 25 digits);
   Laves graph / srs (z = 3): 1/12;   DIAMOND (z = 4): 2/27 = 0.0740740...;   d-dimensional diamond:
   z = d + 1.  (The same symmetry gives honeycomb R_2 = 1 and diamond R_2 = 2/3.)
+
+
+==========================================================================================
+FORMULA 36 — Abelian sandpile in THREE dimensions: exact height-1 probabilities on the simple
+             cubic, BCC and FCC lattices in terms of their Watson integrals
+Found: 2026-09-28.  Status: Majumdar-Dhar defect matrix (5x5, 7x7, 11x11) with exact resistances;
+each resistance identified by PSLQ (25 digits, coefficients <= 36) in the basis {1, W, 1/(pi^2 W)};
+symbolic determinant checked against the purely numerical determinant (17+ digits) and independent
+of which bond is kept. Independent SAMPLING-FREE check: exact P1 at the centre of finite boxes with
+dissipative boundary, which converges to the formula as the box grows:
+   SC  N=16,24,32: 0.0546206, 0.0545941, 0.0545875 -> 0.0545825
+   BCC N=16,24,32: 0.0424902, 0.0424653, 0.0424590 -> 0.0424542
+   FCC N=12,18,24,30: 0.0291795, 0.0291427, 0.0291335, 0.0291301 -> 0.0291265
+Monte-Carlo (32^3-44^3): SC 0.05451(23), BCC 0.04244(21), FCC 0.02865(17) and 0.02926(8) (slow mixing).
+Novelty: not found (the literature I could reach states exact height probabilities are known only in 2D;
+Majumdar & Dhar's original method applies in any dimension but I found no closed form in 3D).
+==========================================================================================
+  SIMPLE CUBIC (z = 6). W = sqrt6/(32 pi^3) G(1/24)G(5/24)G(7/24)G(11/24) = 1.5163860591519780...
+     (the Watson integral E[1/(1 - (c1+c2+c3)/3)]), alpha = (7W + 54/(pi^2 W))/36 = R(1,1,0).
+     Resistances: R(1,0,0) = 1/3, R(1,1,0) = alpha, R(2,0,0) = 2 - 4 alpha.
+     P1 = (4/3) alpha^3 (2 - 3 alpha)^2 = 0.054582470221053656104
+  BODY-CENTRED CUBIC (z = 8). W = Gamma(1/4)^4/(4 pi^3) = 1.3932039297... (= E[1/(1 - c1c2c3)]), q = 1/(pi^2 W).
+     Resistances (neighbours (+-1,+-1,+-1)): R(1,1,1) = 1/4, R(2,0,0) = (W - 4q)/4, R(2,2,0) = 4q,
+     R(2,2,2) = (8 - 3W - 36q)/4.
+     P1 = (3q/128) (W + 4q)^3 (4 - W - 12q)^3 = 0.042454248763323867910
+  FACE-CENTRED CUBIC (z = 12). W = 3 Gamma(1/3)^6/(2^{14/3} pi^4) = 0.4482203944... (= E[1/(3 - s)],
+     s = c1c2 + c2c3 + c3c1), q = 1/(pi^2 W).
+     Resistances (neighbours = permutations of (+-1,+-1,0)): R(1,1,0) = 1/6, R(2,0,0) = (4W - 3q)/6,
+     R(2,1,1) = (2W + 3q - 1)/3, R(2,2,0) = (8 - 12W - 9q)/3.
+     P1 = (5 - 4W - 6q)^2 (7 - 8W - 3q)^3 (8W + 3q + 1)^3 (16W + 15q - 5)^3 / 6^10 = 0.029126520511690535258
+  (With Formula 35's diamond value 2/27 this gives exact P1 for all four common 3D lattices.)
+  Code: sandpile/sc.py, bcc.py, fcc.py (resistances + PSLQ), box_fcc.py (exact finite-box check),
+        sim_sc.py, sim_bcc.py, sim_fcc.py (simulations)
