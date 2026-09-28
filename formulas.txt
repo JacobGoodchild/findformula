@@ -38,6 +38,7 @@ INDEX OF RESULTS (see each entry for derivation, verification and novelty notes)
 36  3D sandpile height-1 probabilities: simple cubic, BCC, FCC, pyrochlore (Watson integrals)  not found
 37  Lazy flip-flop Grover walk on the honeycomb lattice (any laziness) .......... not found
 38  Lazy flip-flop Grover walk on the diamond lattice (FCC Green fn, Joyce) .... not found
+39  Uniform spanning tree degree distribution on SC, BCC, FCC (closed forms) .. not found (method: cf. arXiv:2312.14992)
 "Not found" = my web searches found no prior statement; OEIS/arXiv were not directly
 accessible from this environment, so experts should confirm novelty.
 ==========================================================================================
@@ -1677,3 +1678,37 @@ INDEPENDENT Bloch-grid diagonalisation of the actual lazy walk operator (loops i
   (Symbolically reduces to Formula 37 for z = 3, h = g/2, and to the diamond formula above for z = 4, h = g/4;
    at eps = 0 it gives (z-2)^2/(2z(z-1)), Formula 24's equality case.)
   Code: lazyff/lazy_diamond.py, lazyff/lazy_diamond_grid.py
+
+
+==========================================================================================
+FORMULA 39 — Degree distribution of the uniform spanning tree at a vertex of the simple cubic,
+             BCC and FCC lattices, in closed form (Watson integrals)
+Found: 2026-09-28.  Status: exact (transfer-current theorem + the exact star resistances of Formula 36);
+generating function computed symbolically; each distribution sums to 1 and has mean degree exactly 2
+(checked to 1e-16); degree 1 equals z * P1 of the sandpile (Formula 36), as it must. The method
+reproduces the known square-lattice values of Manna, Dhar & Majumdar (0.2945, 0.4470, 0.2224, 0.0361).
+Novelty: not found as closed forms. CAVEAT: A. Rapoport (arXiv:2312.14992) develops the general
+fermionic/determinant approach to UST degree statistics; I could not check whether 3D values are listed.
+==========================================================================================
+  Method: with Y the transfer-current (Kirchhoff) matrix of the z edges at a vertex,
+     SUM_k P(deg = k) x^k = det( I + (x - 1) Y )        (multilinearity; Burton-Pemantle),
+  and Y(a,b) = (R(o,a) + R(o,b) - R(a,b))/2 from the resistances of Formula 36.
+  SIMPLE CUBIC, alpha = (7W + 54/(pi^2 W))/36 = 0.39507915234185137202 (W = SC Watson integral):
+     P(1) = 8 alpha^3 (3alpha - 2)^2                                     = 0.327494821326321937
+     P(2) = -4 alpha^2 (3alpha - 2)(30alpha^2 - 25alpha + 6)             = 0.409830450502259425
+     P(3) = 2 alpha (360alpha^4 - 600alpha^3 + 379alpha^2 - 108alpha + 12) = 0.204859445598002115
+     P(4) = -(2alpha - 1)(360alpha^4 - 480alpha^3 + 241alpha^2 - 52alpha + 4) = 0.0511275258040971377
+     P(5) = 2 (2alpha - 1)^2 (3alpha - 1)(15alpha^2 - 10alpha + 2)       = 0.00637070295715199769
+     P(6) = -(2alpha - 1)^3 (3alpha - 1)^2                               = 0.000317053812167388351
+  BCC (W = Gamma(1/4)^4/(4pi^3), q = 1/(pi^2 W)):
+     P(1) = (3q/16)(W + 4q)^3 (4 - W - 12q)^3 = 0.339633990106590943
+     P(8) = (12q - 1)(W + 4q - 2)^3 (W + 12q - 2)^3 / 64 = 1.17884249933455210e-6
+     P(2..7) = 0.396899834327573484, 0.198394002525827674, 0.0549872200047765170, 0.00912662118210439495,
+               0.000907154083237214763, 0.0000499989273904367292   (polynomials in W, q: ust/bcc.log)
+  FCC (W = 3Gamma(1/3)^6/(2^{14/3}pi^4), q = 1/(pi^2 W)):
+     P(1)  = (5 - 4W - 6q)^2 (7 - 8W - 3q)^3 (8W + 3q + 1)^3 (16W + 15q - 5)^3 / 5038848 = 0.349518246140286417
+     P(12) = (4W + 6q - 3)^2 (8W + 3q - 5)^3 (8W + 3q - 4)^3 (16W + 15q - 11)^3 / 5038848 = 2.71562067991580072e-12
+     P(2..11) = 0.386626493043882751, 0.193190086170098912, 0.0575692234057412107, 0.0113694553720313427,
+                0.00156279097152104867, 0.000152591339149984242, 0.0000105854643512313797,
+                5.11387887310726762e-7, 1.63887053737321624e-8, 3.13628797744622369e-10   (ust/fcc.log)
+  Code: ust/ustdeg.py (method + square check), ust/ust3d.py
