@@ -1324,4 +1324,12 @@ be known there (the spanning-tree literature I could reach gives only integrals 
   ln 6 + E ln det_king(1/6) = 3.146737101515328... = Union Jack value (checked). The genus screen also
   flags the breathing kagome, but Delta-Y + series reduction maps it to a uniform honeycomb network
   (conductance 3w/(1+w)), so that family is elementary and not new.
-  Code: lattices/king.py (Rdiag, Elogdet), lattices/genus_scan.py, genus_scan2.py (how lattices were flagged)
+  COROLLARY (checkerboard / planar-pyrochlore lattice with crossed-diagonal conductance w): even sites
+  carry diagonal bonds only along (1,1), odd sites only along (1,-1), so with independent angles
+  alpha = k1 + k2, beta = k1 - k2 and a = 1 - cos(alpha), b = 1 - cos(beta):
+     det = 4(w+1) [2(a+b) + (w-1) a b],
+  which is the king determinant (2+4w')(a+b) - 4w' a b up to a constant, with w' = (1-w)/(2(1+w)).
+  So all checkerboard resistances and entropies follow from the formulas above (w = 1 is the line
+  graph of Z^2, w' = 0). Checked: w = 1/2 gives E ln det = 5.7181100581270955... both ways; the
+  diagonal resistance at w = 1 is 1/2 - 1/(2 pi) (PSLQ).
+  Code: lattices/king.py (Rdiag, Elogdet), lattices/genus_scan.py, genus_scan2.py, checker.py
