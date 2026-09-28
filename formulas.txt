@@ -1624,7 +1624,7 @@ Majumdar & Dhar's original method applies in any dimension but I found no closed
      s = c1c2 + c2c3 + c3c1), q = 1/(pi^2 W).
      Resistances (neighbours = permutations of (+-1,+-1,0)): R(1,1,0) = 1/6, R(2,0,0) = (4W - 3q)/6,
      R(2,1,1) = (2W + 3q - 1)/3, R(2,2,0) = (8 - 12W - 9q)/3.
-     P1 = (5 - 4W - 6q)^2 (7 - 8W - 3q)^3 (8W + 3q + 1)^3 (16W + 15q - 5)^3 / 6^10 = 0.029126520511690535258
+     P1 = (5 - 4W - 6q)^2 (7 - 8W - 3q)^3 (8W + 3q + 1)^3 (16W + 15q - 5)^3 / 6^10 = 0.029126520511690534744  (corrected 2026-09-28: the 18th+ digits of the earlier stored decimal came from a 17-digit numerical determinant; this is the exact value of the closed form, 60-digit evaluation)
   (With Formula 35's diamond value 2/27 this gives exact P1 for all four common 3D lattices.)
   PYROCHLORE (z = 6; corner-sharing tetrahedra). Key simplification used here: the Majumdar-Dhar matrix
      M is exactly the transfer-current matrix Y at the site (M_ab = (R(o,a) + R(o,b) - R(a,b))/2 = Y(a,b)),

@@ -1,0 +1,680 @@
+% paper2_sandpiles_and_lattice_entropy.tex
+% REVTeX 4-2, Physical Review E style.
+% Scope: Formulas 1, 25-28, 30-31, 33-36 of formulas.txt (Formula 2 deliberately excluded).
+\documentclass[aps,pre,10pt,twocolumn,superscriptaddress,nofootinbib]{revtex4-2}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Cl}{\operatorname{Cl}_2}
+\newcommand{\sq}{\sqrt{3}}
+\newcommand{\arccosh}{\operatorname{arccosh}}
+\newcommand{\arcsinh}{\operatorname{arcsinh}}
+
+\begin{document}
+
+\title{Exact height-one probabilities of three-dimensional Abelian sandpiles,\\
+spanning-tree entropies of the snub-square and Cairo lattices,\\
+and elementary resistor-network reductions}
+
+\author{Jacob Goodchild}
+\affiliation{Independent researcher}
+
+\date{September 28, 2026}
+
+\begin{abstract}
+We compute exact closed forms for three related lattice quantities: the probability $P_1$
+that a site of the Abelian sandpile has minimal height, the spanning-tree entropy, and
+two-point resistances. All three are controlled by the same Kirchhoff transfer
+currents. In three dimensions we obtain $P_1$ for the simple-cubic, body-centred cubic,
+face-centred cubic and pyrochlore lattices as polynomials in the corresponding Watson
+integral $W$ and in $1/(\pi^2 W)$. For example, on the simple cubic lattice
+$P_1=\tfrac43\alpha^3(2-3\alpha)^2=0.054582470221\ldots$ with
+$\alpha=(7W+54/(\pi^2W))/36$. For bipartite lattices of girth at least 6 with symmetric
+second neighbours we prove $P_1=(z-2)^{z-1}/[z(z-1)^{z-1}]$, which gives $1/12$ for the
+honeycomb (known) and the Laves graph, and $2/27$ for diamond. In two dimensions we give exact
+$P_1$ for the king, 4.8.8, Union Jack, star, dice, Lieb, snub-square, checkerboard, triakis
+and next-nearest-neighbour honeycomb lattices. The spanning-tree entropy of the snub-square
+(Shastry--Sutherland) lattice is $z=\tfrac{10}{3\pi}G+\tfrac13\ln(2+\sq)$, and that of its dual,
+the Cairo pentagonal lattice, is $\tfrac{20}{9\pi}G+\tfrac29\ln(2+\sq)$, where $G$ is Catalan's
+constant. The Shastry--Sutherland network with arbitrary dimer conductance has elementary
+resistances and a Clausen-function entropy. The king lattice has
+$z=20G/(3\pi)$. We give a single elementary formula for the axis-bond resistance of any
+square lattice with diagonal bonds, and we reduce next-nearest-neighbour networks on bipartite
+girth-$\ge6$ lattices to one Green function (elliptic for the honeycomb, Joyce's FCC form for
+diamond). Every result was identified by PSLQ at 25--60 digits and confirmed independently by
+exact finite-volume computations or Monte Carlo simulation. An appendix gives a Hurwitz-zeta
+closed form for the added mass of a sphere touching the inside of a spherical container.
+\end{abstract}
+
+\maketitle
+
+%=====================================================================
+\section{Introduction}
+\label{sec:intro}
+%=====================================================================
+
+The Abelian sandpile model~\cite{BTW1987,Dhar1990} is the standard exactly solvable model of
+self-organized criticality. Majumdar and Dhar showed that the probability $P_1$ that a site
+has the minimal height in the stationary state is a finite determinant of lattice Green
+functions~\cite{MajumdarDhar1991}. On the square lattice this gives
+$P_1=2/\pi^2-4/\pi^3$. Priezzhev computed the higher heights~\cite{Priezzhev1994}. Exact values
+have since been obtained on the honeycomb~\cite{AzimiTafreshi2010}, triangular and
+hexagonal~\cite{PonceletRuelle2017}, and, very recently, kagome~\cite{Liu2026} lattices. The
+Majumdar--Dhar method applies in any dimension. Nevertheless, to our knowledge no closed form for
+$P_1$ on a three-dimensional lattice has appeared. The obstacle is the need for exact
+resistances beyond nearest neighbours.
+
+We remove that obstacle by identifying every needed resistance in the natural basis
+$\{1,W,1/(\pi^2W)\}$ of the relevant Watson integral~\cite{Watson1939,GlasserZucker1977}. The
+same machinery, based on Kirchhoff's transfer currents~\cite{Kirchhoff1847} and their spanning-tree
+interpretation~\cite{BurtonPemantle1993,LyonsPeres2016}, also gives new spanning-tree entropies.
+Numerical values for many Archimedean lattices are known from Chang and Wang~\cite{ChangWang2006},
+Chang and Shrock~\cite{ChangShrock2006}, and Guttmann and Rogers~\cite{GuttmannRogers2012}; we add
+closed forms. It also gives exact resistances on networks whose resistances were previously known
+only numerically~\cite{Owaidat2013} or via mappings~\cite{Cserti2011}.
+
+\emph{Status of novelty.} All statements were checked by web search against the literature. The
+honeycomb and kagome values of $P_1$ are known~\cite{AzimiTafreshi2010,Liu2026}; we reproduce them
+as validation. The king-lattice entropy $20G/(3\pi)$ may be implicit in the Mahler-measure
+literature~\cite{GuttmannRogers2012}. For the remaining results our searches found no prior closed
+form. Novelty should be read in that limited sense.
+
+\subsection*{Notation}
+All resistors are $1\,\Omega$ unless a conductance is specified, and $R(x)$ is the effective
+resistance between the origin and $x$. For an arc $a=(o\to h_a)$ the transfer current is
+$Y_{ab}=\tfrac12[R(h_a)+R(h_b)-R(h_a-h_b)]$. $G$ denotes Catalan's constant, and
+$\Cl(\theta)=\sum_{n\ge1}\sin(n\theta)/n^2$ is the Clausen function. Complete elliptic integrals
+use the parameter convention $K(m)=\int_0^{\pi/2}(1-m\sin^2\theta)^{-1/2}\,d\theta$.
+$\E_k$ denotes the normalized Brillouin-zone average.
+
+%=====================================================================
+\section{Abelian sandpiles on 3D lattices}
+\label{sec:3d}
+%=====================================================================
+
+\subsection{Method}
+
+In the Abelian sandpile on a graph, a site $v$ topples when its height exceeds $\deg(v)$ and
+sends one grain to each neighbour. Majumdar and Dhar~\cite{MajumdarDhar1991} showed that
+\begin{equation}
+P_1=\det(I-M),\qquad M_{jk}=D(x_j)+D(x_k)-D(x_j-x_k),
+\label{eq:md}
+\end{equation}
+where $D=R/2$ and $x_j$ runs over the $z-1$ neighbours of the origin whose bonds are removed
+by the defect (one bond is kept). The matrix $M$ is exactly the transfer-current matrix $Y$
+restricted to $z-1$ arcs. Hence
+\begin{equation}
+P_1=\det(I-Y'),
+\label{eq:md-Y}
+\end{equation}
+with $Y'$ equal to $Y$ minus one arc. An internal consistency check is that $P_1$ must not depend on which
+bond is kept. The check is nontrivial when the bonds at a site are inequivalent, and it holds for every result below.
+
+\emph{Corollary (UST leaves).} Since $P_1$ is independent of the kept bond, the probability that a
+degree-$z$ vertex is a leaf of the uniform spanning tree is exactly $zP_1$. On the square lattice this
+reproduces the known value $(8/\pi^2)(1-2/\pi)$.
+
+\subsection{Watson integrals}
+
+Table~\ref{tab:watson} lists the three constants we need. For FCC we use
+$W_f=\E[1/(3-s)]$, which is one third of Watson's normalization $\E[1/(1-s/3)]$.
+
+\begin{table*}
+\caption{Watson integrals ($c_i=\cos k_i$, $s=c_1c_2+c_2c_3+c_3c_1$).}
+\label{tab:watson}
+\begin{ruledtabular}
+\begin{tabular}{lll}
+Lattice & Definition and closed form & Value\\
+\hline
+SC & $\E\bigl[\tfrac{1}{1-(c_1+c_2+c_3)/3}\bigr]=\tfrac{\sqrt6\,\Gamma(\frac1{24})\Gamma(\frac5{24})\Gamma(\frac7{24})\Gamma(\frac{11}{24})}{32\pi^3}$ & $1.51638605915$\\
+BCC & $\E\bigl[\tfrac{1}{1-c_1c_2c_3}\bigr]=\tfrac{\Gamma(\frac14)^4}{4\pi^3}$ & $1.39320392969$\\
+FCC & $\E\bigl[\tfrac{1}{3-s}\bigr]=\tfrac{3\,\Gamma(\frac13)^6}{2^{14/3}\pi^4}$ & $0.44822039439$\\
+\end{tabular}
+\end{ruledtabular}
+\end{table*}
+
+\subsection{Resistances and results}
+
+In each case below, $q\equiv1/(\pi^2W)$ with $W$ the lattice's own Watson integral.
+
+\emph{Simple cubic} ($z=6$). The resistances are $R(1,0,0)=1/3$, $R(1,1,0)=\alpha$ and
+$R(2,0,0)=2-4\alpha$, with
+\begin{equation}
+\alpha=\frac{7W+54/(\pi^2W)}{36}=0.395079152341851372\ldots
+\end{equation}
+The $5\times5$ determinant factorizes:
+\begin{equation}
+P_1^{\rm SC}=\tfrac43\,\alpha^3(2-3\alpha)^2=0.054582470221053656104\ldots
+\end{equation}
+
+\emph{Body-centred cubic} ($z=8$, neighbours $(\pm1,\pm1,\pm1)$). The resistances are
+$R(1,1,1)=1/4$, $R(2,0,0)=(W-4q)/4$, $R(2,2,0)=4q$ and $R(2,2,2)=(8-3W-36q)/4$. Then
+\begin{align}
+P_1^{\rm BCC}&=\frac{3q}{128}(W+4q)^3(4-W-12q)^3\nonumber\\
+&=0.042454248763323867910\ldots
+\end{align}
+
+\emph{Face-centred cubic} ($z=12$, neighbours are the permutations of $(\pm1,\pm1,0)$). The resistances are
+$R(1,1,0)=1/6$, $R(2,0,0)=(4W-3q)/6$, $R(2,1,1)=(2W+3q-1)/3$ and $R(2,2,0)=(8-12W-9q)/3$. Then
+\begin{align}
+P_1^{\rm FCC}&=6^{-10}(5-4W-6q)^2(7-8W-3q)^3\nonumber\\
+&\quad\times(8W+3q+1)^3(16W+15q-5)^3\nonumber\\
+&=0.029126520511690534744\ldots
+\end{align}
+
+\emph{Pyrochlore} ($z=6$, corner-sharing tetrahedra, $W=W_f$, $X=1/(\pi^2W_f)$). The Laplacian
+transfer currents from an edge are $1/3$ (self), $1/6$ (the two other edges of the same
+tetrahedron), $(1+8W+3X)/48$ (collinear partner) and $(15-8W-3X)/96$ (the other two). Then
+Eq.~\eqref{eq:md-Y} gives a perfect square:
+\begin{align}
+P_1^{\rm pyro}&=\Bigl[\frac{(31-8W-3X)(67+24W+9X)}{9216}\Bigr]^2\nonumber\\
+&=0.053582950138955615678\ldots
+\end{align}
+
+\emph{Diamond} follows from the general theorem of Sec.~\ref{sec:bip}: $P_1=2/27$.
+
+\subsection{Independent verification}
+
+We computed $P_1$ \emph{without sampling} at the centre of finite boxes with dissipative
+boundaries, by exact linear algebra (no sampling). The sequences converge to the formulas:
+\begin{center}
+\footnotesize
+\begin{tabular}{lll}
+\toprule
+Lattice & Boxes & Exact finite-box $P_1$\\
+\midrule
+SC & $N=16,24,32$ & $0.0546206,\ 0.0545941,\ 0.0545875$\\
+BCC & $N=16,24,32$ & $0.0424902,\ 0.0424653,\ 0.0424590$\\
+FCC & $N=12,18,24$ & $0.0291795,\ 0.0291427,\ 0.0291335$\\
+FCC & $N=30$ & $0.0291301$\\
+Pyrochl. & $N=10,16,22$ & $0.0536309,\ 0.0535949,\ 0.0535876$\\
+Diamond & $N$ increasing & $0.0742235,\ 0.0741125,\ 0.0740859$\\
+Laves & $N=10,16,24$ & $0.0834488,\ 0.0833615,\ 0.0833418$\\
+\bottomrule
+\end{tabular}
+\end{center}
+Monte Carlo simulations on $32^3$--$44^3$ lattices give SC $0.05451(23)$, BCC $0.04244(21)$ and
+FCC $0.02926(8)$. An earlier FCC run gave $0.02865(17)$, which we attribute to slow mixing; the exact
+finite-box sequence resolves the discrepancy in favour of the formula. The corresponding UST leaf
+probabilities $zP_1$ are SC $0.3274948$, BCC $0.3396340$, FCC $0.3495182$, pyrochlore $0.3214977$
+and diamond $8/27$.
+
+%=====================================================================
+\section{Exact $P(h=1)$ calculations}
+\label{sec:p1}
+%=====================================================================
+
+\subsection{A general theorem for bipartite lattices}
+\label{sec:bip}
+
+\emph{Theorem 1.} Let the lattice be $z$-regular, bipartite, of girth at least 6 (so that
+$A^2=zI+A_2$), and edge-transitive, and let its second-neighbour graph $A_2$ also be edge-transitive.
+Then $R(\text{nearest})=2/z$, $R(\text{second})=2/(z-1)$, and
+\begin{equation}
+P_1=\frac{(z-2)^{z-1}}{z\,(z-1)^{z-1}} .
+\label{eq:bip}
+\end{equation}
+\emph{Proof.} Write $L_2=z^2I-A^2=LQ$. This operator acts within each sublattice, so
+$R_L(u,v)=z\,R_{L_2}(u,v)$ for $u,v$ on the same sublattice. Foster's theorem~\cite{Foster1949} on
+the edge-transitive second-neighbour graph gives $R_{L_2}=2/[z(z-1)]$ across a second-neighbour bond.
+Hence $Y'$ has the constant diagonal $2/z$ and constant off-diagonal entries. Its determinant then
+factorizes into Eq.~\eqref{eq:bip}. $\square$
+
+The theorem gives $1/12$ for the honeycomb, which is known~\cite{AzimiTafreshi2010}, and $1/12$ for
+the Laves graph (srs). It gives $2/27=0.0740740\ldots$ for diamond and applies to $d$-dimensional
+diamond with $z=d+1$.
+
+\subsection{The king lattice}
+
+Take $\mathbb{Z}^2$ with all eight king-move neighbours ($z=8$). Put $p=1/\pi$ and
+$L=\ln(2+\sq)/(\pi\sq)=0.24202564754285515484$. The resistances are
+\begin{align}
+R(1,0)&=L, & R(1,1)&=\tfrac12-L,\nonumber\\
+R(2,0)&=\tfrac4\pi-4L, & R(2,1)&=6L-\tfrac12-\tfrac2\pi,\nonumber\\
+R(2,2)&=5-\tfrac4\pi-14L,
+\end{align}
+and the $7\times7$ determinant factorizes as
+\begin{align}
+P_1^{\rm king}&=-\tfrac1{2048}(3+4p-14L)(1+4p-2L)(6L+12p-7)\nonumber\\
+&\quad\times(13-32p+48p^2-52L-12L^2)^2\nonumber\\
+&=0.0420560364703691189817\ldots
+\end{align}
+A Monte Carlo simulation on $96\times96$ gives $0.04218\pm0.00033$.
+
+\subsection{Further two-dimensional lattices}
+
+Table~\ref{tab:p1} collects the remaining exact values. We write
+$c=\sqrt2\arccos(1/3)/\pi=0.55412642397957198712$ for the 4.8.8/Union Jack constant, $p=1/\pi$ and
+$r=\sq/\pi$.
+
+\begin{table*}
+\caption{Exact height-one probabilities $P_1$ of the Abelian sandpile. Each value is independent
+of which bond is kept in Eq.~\eqref{eq:md}.}
+\label{tab:p1}
+\begin{ruledtabular}
+\begin{tabular}{llr}
+Lattice (site, degree) & $P_1$ & Value\\
+\hline
+4.8.8 (3) & $c(4-3c)/16$ & $0.08095858841632017693$\\
+Union Jack, face centre (4) & $9c^2(1-c)/8$ & $0.15402172338027135905$\\
+Union Jack, corner (8) & $\tfrac1{256}(9c-2-4p)(6-7c-4p)(7-9c-4p)(81c^2-105c+34-4p-16p^2)^2$ & $0.02043343799324922073$\\
+Star 3.12.12 (3) & $7/100$ & $0.07$\\
+Dice, rim (3) & $3/16$ & $0.1875$\\
+Dice, hub (6) & $\bigl[(1+2r)(11-6r)/144\bigr]^2$ & $0.01261518916334840149$\\
+Lieb, corner (4) & $(\pi-2)/(4\pi^3)$ & $0.00920452869398469827$\\
+Lieb, edge (2) & $1/4$ & $0.25$\\
+Snub square (5) & $\tfrac{8953}{3888}-\tfrac{281\sq}{216}+\bigl(\tfrac{44\sq}{27}-\tfrac{11}4\bigr)p+\bigl(\tfrac{17}{36}-\tfrac{\sq}3\bigr)p^2$ & $0.06191455535342906165$\\
+Checkerboard (6) & $13(7-8p)(11+8p)(1+16p-16p^2)/65536$ & $0.05351525370368361765$\\
+Triakis, lattice vertex (12) & $(6r-1)(5+18r)^2(41-42r)^2/45562500$ & $0.00359238258113540057$\\
+Triakis, triangle centre (3) & $27/100$ & $0.27$\\
+Kagome (4) [known~\cite{Liu2026}] & $(5+3r)(17-6r)/1296$ & $0.07029827383269397637$\\
+Laves graph (3) & $1/12$ & $0.08\overline{3}$\\
+Diamond (4) & $2/27$ & $0.\overline{074}$\\
+\end{tabular}
+\end{ruledtabular}
+\end{table*}
+
+\emph{Honeycomb with next-nearest neighbours} (unit weights, $z=9$). Let
+$g=4K(64/189)/(3\sqrt{21}\pi)=0.16088977460548913890$, the triangular Green function at $t=13/2$,
+and let $g'=dg/dt$. All resistances among the site and its nine neighbours are rational combinations
+of $1,r,g,g'$, and
+\begin{align}
+P_1&=\frac{(2-7g)(12r-14-105g-1120g')\,\mathcal P^2}{196036848},\nonumber\\
+\mathcal P&=729120gg'+1764gr^2-7224gr+9163g+8202600g'^2\nonumber\\
+&\quad-136080g'r+305760g'+792r^2-2688r+2548,
+\end{align}
+which evaluates to $P_1=0.037899503465150422174$. Exact finite boxes of $40^2$, $80^2$ and $160^2$ cells give
+$0.0379335$, $0.0379082$ and $0.0379017$.
+
+\emph{Validation against the literature.} The same pipeline gives the kagome value
+$(5+3r)(17-6r)/1296$, which matches the value reported in Ref.~\cite{Liu2026}. It gives $1/12$ for the
+honeycomb~\cite{AzimiTafreshi2010} and reproduces the square lattice's $2/\pi^2-4/\pi^3$ to 20 digits.
+Monte Carlo checks on open patches: 4.8.8 $0.0807$--$0.0817\,(\pm0.0006)$; star
+$0.0697$--$0.0706\,(\pm0.0008)$; dice hub $0.01273(30)$, rim $0.1888(10)$; Union Jack corner
+$0.02024(30)$, centre $0.1535(8)$. The checkerboard and triakis values were confirmed by exact
+finite boxes ($40^2,80^2,160^2$ cells): $0.0535660$, $0.0535281$, $0.0535185$ and
+$0.0035988$, $0.0035940$, $0.0035928$.
+
+%=====================================================================
+\section{Spanning-tree entropy on Cairo and snub-square lattices}
+\label{sec:entropy}
+%=====================================================================
+
+The number of spanning trees of an $N$-vertex piece of a lattice grows as $e^{zN}$~\cite{Wu1977}. For a
+periodic lattice, $z$ is $|V_{\rm cell}|^{-1}\E_k\ln\det L(k)$.
+
+\subsection{Snub square and Cairo}
+
+For the snub square tiling $3^2.4.3.4$ (the Shastry--Sutherland lattice, 4 vertices per cell),
+\begin{align}
+\det L(k)&=2\bigl(170-72(\cos k_1+\cos k_2)-28\cos k_1\cos k_2\nonumber\\
+&\qquad+\cos2k_1+\cos2k_2\bigr).
+\end{align}
+We find
+\begin{equation}
+\E_k\ln\det L=\frac{40}{3\pi}G+\frac43\ln(2+\sq),
+\end{equation}
+and hence
+\begin{align}
+z_{\rm snub}&=\frac{10}{3\pi}G+\frac13\ln(2+\sq)\nonumber\\
+&=1.41085564574433483667\ldots,\\
+z_{\rm Cairo}&=\frac{20}{9\pi}G+\frac29\ln(2+\sq)\nonumber\\
+&=0.94057043049622322445\ldots
+\end{align}
+The Cairo pentagonal tiling is the planar dual. It has the same number of trees per cell but 6 vertices per cell.
+
+\emph{Why it closes.} The $z_2$-discriminant of the spectral curve $\det L=0$ has only one simple factor,
+$z_1^2-98z_1+1$, whose roots are $(\sq\pm\sqrt2)^4$. After the node at $k=0$ is removed, the curve therefore has genus zero. The entropy must then be
+a combination of dilogarithms at algebraic points. PSLQ over
+$\{\ln2,\ln3,\ln(1+\sqrt2),\ln(2+\sq),\ln(\sqrt2+\sq),G/\pi,\Cl(\pi/3)/\pi,\Cl(\pi/12)/\pi,\Cl(5\pi/12)/\pi\}$
+returned $-3\,\E\ln\det L+4\ln(2+\sq)+40G/\pi=0$~\cite{PSLQ1999} with residual below $10^{-58}$ at 60 digits. The numerical value
+$1.41086$ is known~\cite{ChangWang2006}; we found no prior closed form.
+
+The same genus-zero structure gives \emph{algebraic} resistances (Table~\ref{tab:res}):
+$R_{\rm tri\text{-}sq}=\tfrac12-\sq/18$ and $R_{\rm tri\text{-}tri}=2\sq/9$. Foster's sum rule
+$8(\tfrac12-\sq/18)+2(2\sq/9)=4$ holds exactly. Planar duality, $R(e)+R(e^*)=1$ (an edge is in the
+spanning tree exactly when its dual edge is not in the dual tree), then gives the Cairo values
+$\tfrac12+\sq/18$ and $1-2\sq/9$. The remaining transfer currents at a snub-square vertex are
+$Y(a,b)=1-\sq/2$, $Y(a,d)=\sq/9$, $Y(a',b')=(3-\sq)/6$, $Y(d,a')=\tfrac12-2\sq/9$,
+$Y(a,a')=5\sq/9-1+1/(2\pi)$ and $Y(a,b')=\tfrac12-\sq/9-1/(2\pi)$. Here $d$ is the dimer arc; $a,b$ each
+form a triangle with $d$; $a',b'$ form a triangle with each other; $a'$ is collinear with $a$ and $b'$ with $b$.
+
+\subsection{Shastry--Sutherland network with arbitrary dimer conductance}
+
+Give the square bonds conductance 1 and the dimer bonds conductance $w\ge0$, and let
+$\Phi=\arccos\bigl(1/(w+1)\bigr)$. Then
+\begin{align}
+R_{\rm dimer}&=\frac{2\Phi}{\pi\sqrt{w(w+2)}},\\
+R_{\rm square}&=\frac12-\frac{\sqrt w\,\Phi}{2\pi\sqrt{w+2}},\\
+z(w)&=\frac1\pi\Bigl[2G+\Phi\arccosh(w+1)\nonumber\\
+&\qquad+\Cl\bigl(\tfrac\pi2+\Phi\bigr)+\Cl\bigl(\tfrac\pi2-\Phi\bigr)\Bigr].
+\label{eq:ssz}
+\end{align}
+\emph{Derivation.} Start from $z(0)=4G/\pi$. Kirchhoff's relation
+$\partial z/\partial w=\tfrac12R_{\rm dimer}(w)$ (the derivative of the log tree count with respect to a
+conductance is the sum of the corresponding edge resistances) then integrates via $u+1=\sec\phi$ and
+\begin{align}
+\int_0^\Phi\phi\sec\phi\,d\phi&=\Phi\ln\tan\bigl(\tfrac\pi4+\tfrac\Phi2\bigr)-2G\nonumber\\
+&\quad+\Cl\bigl(\tfrac\pi2+\Phi\bigr)+\Cl\bigl(\tfrac\pi2-\Phi\bigr).
+\end{align}
+\emph{Special cases.} At $w=1$, $\Phi=\pi/3$, and $\Cl(\pi/6)+\Cl(5\pi/6)=4G/3$ recovers the snub-square
+values. At $w=2$, $z(2)=1.57336855075766435824$, which coincides with the independently computed
+Union Jack entropy per vertex. As $w\to\infty$, $z=\tfrac12\ln(2w)+2G/\pi+o(1)$.
+
+\subsection{The king lattice}
+
+Take $\mathbb{Z}^2$ with unit axis bonds and diagonal conductance $w$, and let $\varphi=\arccos(2w)$. Then
+\begin{align}
+R_{\rm axis}&=\frac{\arccos(2w)}{\pi\sqrt{1-4w^2}},\\
+R_{\rm diag}&=\frac1{2w}-\frac{\arccos(2w)}{\pi w\sqrt{1-4w^2}},
+\end{align}
+for $w<\tfrac12$. For $w>\tfrac12$, use the continuation $\arccosh(2w)/\sqrt{4w^2-1}$. The entropy is
+\begin{align}
+z(w)&=\frac{4G}\pi+\ln w+\frac2\pi\Bigl[\varphi\ln\tan\bigl(\tfrac\pi4+\tfrac\varphi2\bigr)\nonumber\\
+&\qquad+\Cl\bigl(\tfrac\pi2+\varphi\bigr)+\Cl\bigl(\tfrac\pi2-\varphi\bigr)\Bigr],
+\end{align}
+and at $w=1$ (the plain king graph)
+\begin{equation}
+z_{\rm king}=\frac{20G}{3\pi}=1.94373936020545853426\ldots,
+\end{equation}
+with $R_{\rm axis}=\ln(2+\sq)/(\pi\sq)$ and $R_{\rm diag}=\tfrac12-R_{\rm axis}$. The determinant
+$9-(1+x+x^{-1})(1+y+y^{-1})$ belongs to a family of Mahler measures, so $20G/(3\pi)$ may be implicit
+in that literature~\cite{GuttmannRogers2012}. The elementary structure has a simple origin: after
+the exact $k_2$ average and the substitution $x=-1+t^2$, the remaining integrand has discriminant
+$8w+(2w-1)^2=(2w+1)^2$, a perfect square.
+
+\emph{Corollaries.} (i) Eliminating each face centre of the Union Jack lattice with centre-bond
+conductance $w$ (star--mesh) yields the king lattice with axis conductance $1+w/2$ and diagonal
+ratio $w'=w/(4+2w)$. At $w=1$ this reproduces $R_{\rm corner\text{-}corner}=c/2$.
+(ii) The checkerboard lattice with crossed-diagonal conductance $w$ has
+$\det=4(w+1)[2(a+b)+(w-1)ab]$, with $a=1-\cos(k_1+k_2)$ and $b=1-\cos(k_1-k_2)$. This is the king
+determinant with $w'=(1-w)/(2(1+w))$.
+
+%=====================================================================
+\section{Resistor network reductions}
+\label{sec:res}
+%=====================================================================
+
+\subsection{Adjacent resistances on Archimedean and Laves tilings}
+
+\begin{table}
+\caption{Exact adjacent-node resistances ($1\,\Omega$ resistors). $c=\sqrt2\arccos(1/3)/\pi$.
+Pairs related by planar duality satisfy $R(e)+R(e^*)=1$.}
+\label{tab:res}
+\begin{ruledtabular}
+\begin{tabular}{lll}
+Tiling, edge & $R$ & Value\\
+\hline
+Snub square, tri--sq & $\tfrac12-\tfrac{\sq}{18}$ & $0.40377495513506237$\\
+Snub square, tri--tri & $\tfrac{2\sq}{9}$ & $0.38490017945975051$\\
+Cairo, dual of tri--sq & $\tfrac12+\tfrac{\sq}{18}$ & $0.59622504486493763$\\
+Cairo, dual of tri--tri & $1-\tfrac{2\sq}{9}$ & $0.61509982054024949$\\
+4.8.8, square & $\tfrac12+\tfrac c4$ & $0.63853160599489299$\\
+4.8.8, oct--oct & $1-\tfrac c2$ & $0.72293678801021400$\\
+Union Jack, corner--corner & $\tfrac c2$ & $0.27706321198978599$\\
+Union Jack, corner--centre & $\tfrac{2-c}{4}$ & $0.36146839400510700$\\
+King, axis & $\tfrac{\ln(2+\sq)}{\pi\sq}$ & $0.24202564754285515$\\
+King, diagonal & $\tfrac12-\tfrac{\ln(2+\sq)}{\pi\sq}$ & $0.25797435245714485$\\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+The 4.8.8 and Union Jack lattices are dual, and the entries in Table~\ref{tab:res} satisfy
+$R(e)+R(e^*)=1$ identically. The 4.8.8 determinant factorizes as $64-4(3+\cos k_1)(3+\cos k_2)$,
+which is the origin of $\arccos(1/3)$. Owaidat computed Union Jack resistances numerically~\cite{Owaidat2013};
+Cserti \emph{et al.}\ gave exact mappings for kagome, dice and decorated lattices~\cite{Cserti2011}.
+Kirchhoff solves on $120\times120$-cell tori, Richardson-extrapolated, agree with the table to about
+$10^{-7}$.
+
+\subsection{Square lattice with arbitrary diagonal bonds}
+
+Give conductance $w_1$ to bonds along $e_1$, $w_2$ along $e_2$, $w_+$ along $e_1+e_2$ and $w_-$ along
+$e_1-e_2$. Let $\sigma=w_++w_-$ and $\Delta=4w_+w_--w_1^2$. Then
+\begin{equation}
+R(e_1)=\begin{cases}
+\dfrac{2}{\pi\sqrt\Delta}\arcsinh\sqrt{\dfrac{\Delta}{(w_1+\sigma)(w_1+w_2)}}, & \Delta>0,\\[2ex]
+\dfrac{2}{\pi\sqrt{-\Delta}}\arcsin\sqrt{\dfrac{-\Delta}{(w_1+\sigma)(w_1+w_2)}}, & \Delta<0,\\[2ex]
+\dfrac{2}{\pi\sqrt{(w_1+\sigma)(w_1+w_2)}}, & \Delta=0 .
+\end{cases}
+\end{equation}
+\emph{Derivation.} At fixed $x=\cos k_1$ the $k_2$ average of $1/\det$ is $1/\sqrt{A^2-M^2}$ with
+$A^2-M^2=4(1-x)(p+qx)$, where $p=(w_1+w_2+\sigma)^2-w_2^2-(w_+-w_-)^2$ and $q=\Delta$. The factor $1-x$ is
+the node at $k=0$. Then $R(e_1)=\pi^{-1}\int_{-1}^1dx/\sqrt{(1+x)(p+qx)}$, and $p-q=2(w_1+\sigma)(w_1+w_2)$.
+\emph{Special cases.} The square lattice gives $1/2$; the king lattice gives $\arccos(2w)$ as above; and the
+triangular lattice ($w_-=0$) gives Kenyon's isoradial value~\cite{Kenyon2002}, $1/3$ in the isotropic case.
+Together with Foster's identity $w_1R(e_1)+w_2R(e_2)+w_+R(e_1+e_2)+w_-R(e_1-e_2)=1$, this also gives the
+diagonal resistances when $w_+=w_-$. The formula agrees with direct 2D integration to $\sim10^{-26}$
+for random conductances.
+
+\subsection{Next-nearest-neighbour networks on bipartite lattices}
+
+Let the lattice be $z$-regular, bipartite and of girth at least 6, with unit nearest-neighbour
+bonds and conductance $w$ on second neighbours. Since $A^2=zI+A_2$,
+\begin{equation}
+L=(z+z(z-1)w)I-A-w(A^2-zI),
+\end{equation}
+\begin{equation}
+\det=u(1+2zw+w^2u),\qquad u=z^2-|f(k)|^2 .
+\end{equation}
+The symmetry identity $\E[\mathrm{Re}f/\det]=\E[|f|^2/(z\det)]$ collapses the nearest-neighbour resistance to
+\begin{align}
+R_{\rm NN}(w)&=2\Bigl(w+\frac1z\Bigr)\E_k\Bigl[\frac1{1+2zw+w^2(z^2-|f(k)|^2)}\Bigr],\\
+R_{\rm NNN}(w)&=\frac{2-zR_{\rm NN}}{z(z-1)w}.
+\end{align}
+\emph{Honeycomb} ($z=3$, $|f|^2=3+2S$, $S=\cos k_1+\cos k_2+\cos(k_1-k_2)$). Here
+$\det=2T(6w+1+2w^2T)$ with $T=3-S$. Horiguchi's formula~\cite{Horiguchi1972} with $e=3+1/w$ gives
+\begin{align}
+m&=\frac{16w^3(3w+1)}{(2w+1)^3(6w+1)},\\
+R_{\rm NN}&=\frac{4(3w+1)K(m)}{3\pi(2w+1)^{3/2}\sqrt{6w+1}},
+\end{align}
+and $R_{\rm NNN}=(2-3R_{\rm NN})/(6w)$. At $w=1$: $m=64/189$,
+$R_{\rm NN}=16K(64/189)/(9\sqrt{21}\pi)=0.21451969947398551853$ and
+$R_{\rm NNN}=0.22607348359634057407$.
+\emph{Diamond} ($z=4$). Here
+\begin{equation}
+R_{\rm NN}=\frac{4w+1}{8w^2}\,P_{\rm FCC}\Bigl(3+\frac{8w+1}{4w^2}\Bigr),
+\end{equation}
+where $P_{\rm FCC}(t)=\E[1/(t-s)]$ is the FCC Green function in Joyce's closed form~\cite{Joyce1998}. At $w=1$
+($t=21/4$), $R_{\rm NN}=0.12347073437196593577$ and $R_{\rm NNN}=(1-2R_{\rm NN})/(6w)=0.12550975520934468$.
+Three-dimensional Kirchhoff solves on $12^3$, $16^3$ and $20^3$ tori give
+$0.1234547\to0.1234640\to0.1234673$.
+
+%=====================================================================
+\section{Discussion and conclusion}
+\label{sec:conclusion}
+%=====================================================================
+
+Three observations organize the results. First, the Majumdar--Dhar matrix \emph{is} the
+transfer-current matrix, Eq.~\eqref{eq:md-Y}. Sandpile height probabilities, UST leaf and degree
+statistics, and resistances therefore all come from the same $z\times z$ matrix at a vertex. Second, in
+three dimensions every needed resistance lies in the three-dimensional space spanned by
+$\{1,W,1/(\pi^2W)\}$. This is why $P_1$ becomes a polynomial in the Watson integral, and why the
+determinants factor so strikingly. Third, in two dimensions, closed forms arise whenever the spectral curve has
+genus zero after removal of the node at $k=0$. That gives algebraic or elementary resistances and
+Clausen-type entropies (snub square, Cairo, Shastry--Sutherland, king). Otherwise complete elliptic
+integrals appear (next-nearest-neighbour honeycomb).
+
+Open questions include the higher height probabilities $P_2,P_3,\ldots$ in three dimensions, the
+ruby and snub-hexagonal lattices (for which PSLQ found no closed form in natural bases), and a
+conceptual explanation of the perfect-square factorization of the pyrochlore $P_1$.
+
+\appendix
+
+\section{Added mass of a sphere touching a spherical container}
+\label{app:added}
+
+A companion image-sum result is recorded here because it has the same flavour: an infinite
+image series collapses to a single special value. Consider a ball of radius $a$ that touches, from
+inside, a fixed spherical tank of radius $b>a$ filled with ideal (inviscid, incompressible,
+irrotational) fluid. The ball moves along the line of centres, and its added mass is
+$M=C\rho\tfrac43\pi a^3$. With $r=a/b$ and $q=1/(1-r)$,
+\begin{equation}
+C(r)=\frac32\sum_{k=0}^\infty\frac1{[1+k(1-r)]^3}-1=\frac32q^3\zeta(3,q)-1,
+\end{equation}
+where $\zeta(s,q)$ is the Hurwitz zeta function. More generally, let the ball touch a sphere of
+\emph{signed} radius $b$ ($b>0$ a container, $b=\infty$ a plane, $b<0$ an external ball of radius
+$|b|$) and set $\lambda=1-a/b$. Then $C=\tfrac32\sum_{k\ge0}(1+k\lambda)^{-3}-1$. Special cases:
+a flat wall gives $\tfrac32\zeta(3)-1=0.8030853\ldots$ (known); $r=\tfrac12$ gives $12(\zeta(3)-1)-1=1.4246828\ldots$;
+and two equal touching balls give $\tfrac{21}{16}\zeta(3)-1=0.5776997\ldots$
+
+\emph{Derivation.} The image of an axial dipole in a rigid sphere is an axial dipole at the
+inverse point with strength scaled by $-(R/f)^3$~\cite{Hicks1880,Lamb1932}. Inverting about the contact
+point maps both spheres to parallel planes, so the image positions form an arithmetic progression.
+The strength ratios then telescope:
+$A_k=A_0\,b^3/[a+k(b-a)]^3$. The added mass, $-(\rho/U)\oint\phi\,n_x\,dS$ over the ball, is a sum of
+Hurwitz-zeta values.
+
+\emph{Verification.} We reconstructed the flow from the images and checked both boundary conditions at
+2000 random surface points. Brute-force surface integration, with no zeta functions used, gives, for example,
+$1.424682623$ ($N=6000$ images) against $1.424682838$ for $a=1,b=2$. The truncation gap shrinks by a factor
+of about 4 per doubling of $N$. This result is probably a routine extension of classical image methods.
+
+\begin{acknowledgments}
+The computations and the first draft of this manuscript were carried out with the assistance
+of an AI coding agent (Claude Code). All numerical code is available in the accompanying
+repository.
+\end{acknowledgments}
+
+\begin{thebibliography}{99}
+
+\bibitem{BTW1987}
+P.~Bak, C.~Tang, and K.~Wiesenfeld,
+Self-organized criticality: An explanation of the $1/f$ noise,
+\href{https://doi.org/10.1103/PhysRevLett.59.381}{Phys.\ Rev.\ Lett.\ \textbf{59}, 381 (1987)}.
+
+\bibitem{Dhar1990}
+D.~Dhar,
+Self-organized critical state of sandpile automaton models,
+\href{https://doi.org/10.1103/PhysRevLett.64.1613}{Phys.\ Rev.\ Lett.\ \textbf{64}, 1613 (1990)};
+Erratum, Phys.\ Rev.\ Lett.\ \textbf{64}, 2837 (1990).
+
+\bibitem{MajumdarDhar1991}
+S.~N.~Majumdar and D.~Dhar,
+Height correlations in the Abelian sandpile model,
+\href{https://doi.org/10.1088/0305-4470/24/7/008}{J.\ Phys.\ A: Math.\ Gen.\ \textbf{24}, L357 (1991)}.
+
+\bibitem{Priezzhev1994}
+V.~B.~Priezzhev,
+Structure of two-dimensional sandpile. I. Height probabilities,
+\href{https://doi.org/10.1007/BF02188212}{J.\ Stat.\ Phys.\ \textbf{74}, 955 (1994)}.
+
+\bibitem{AzimiTafreshi2010}
+N.~Azimi-Tafreshi, H.~Dashti-Naserabadi, S.~Moghimi-Araghi, and P.~Ruelle,
+The Abelian sandpile model on the honeycomb lattice,
+\href{https://doi.org/10.1088/1742-5468/2010/02/P02004}{J.\ Stat.\ Mech.\ (2010) P02004},
+arXiv:0912.3331.
+
+\bibitem{PonceletRuelle2017}
+A.~Poncelet and P.~Ruelle,
+Sandpile probabilities on triangular and hexagonal lattices,
+\href{https://doi.org/10.1088/1751-8121/aa9255}{J.\ Phys.\ A: Math.\ Theor.\ \textbf{51}, 015002 (2018)},
+arXiv:1708.03493.
+
+\bibitem{Liu2026}
+Q.~Liu, J.-N.~Herre, P.~Baruah, S.~Dreizler, C.~Karrasch, W.~Ruszel, and D.~Schuricht,
+Universal correlations in the Abelian sandpile model,
+arXiv:2609.10352 (2026).
+
+\bibitem{Watson1939}
+G.~N.~Watson,
+Three triple integrals,
+\href{https://doi.org/10.1093/qmath/os-10.1.266}{Q.\ J.\ Math.\ \textbf{os-10}, 266 (1939)}.
+
+\bibitem{GlasserZucker1977}
+M.~L.~Glasser and I.~J.~Zucker,
+Extended Watson integrals for the cubic lattices,
+\href{https://doi.org/10.1073/pnas.74.5.1800}{Proc.\ Natl.\ Acad.\ Sci.\ USA \textbf{74}, 1800 (1977)}.
+
+\bibitem{Kirchhoff1847}
+G.~Kirchhoff,
+\"Uber die Aufl\"osung der Gleichungen, auf welche man bei der Untersuchung der linearen
+Vertheilung galvanischer Str\"ome gef\"uhrt wird,
+\href{https://doi.org/10.1002/andp.18471481202}{Ann.\ Phys.\ Chem.\ \textbf{72}, 497 (1847)}.
+
+\bibitem{BurtonPemantle1993}
+R.~Burton and R.~Pemantle,
+Local characteristics, entropy and limit theorems for spanning trees and domino tilings via
+transfer-impedances,
+\href{https://doi.org/10.1214/aop/1176989121}{Ann.\ Probab.\ \textbf{21}, 1329 (1993)}.
+
+\bibitem{LyonsPeres2016}
+R.~Lyons and Y.~Peres,
+\emph{Probability on Trees and Networks},
+Cambridge Series in Statistical and Probabilistic Mathematics Vol.~42
+(Cambridge University Press, Cambridge, 2016).
+
+\bibitem{ChangWang2006}
+S.-C.~Chang and W.~Wang,
+Spanning trees on lattices and integration identities,
+J.\ Phys.\ A: Math.\ Gen.\ \textbf{39}, 10263 (2006),
+arXiv:cond-mat/0604589.
+
+\bibitem{ChangShrock2006}
+S.-C.~Chang and R.~Shrock,
+Some exact results for spanning trees on lattices,
+J.\ Phys.\ A: Math.\ Gen.\ \textbf{39}, 5653 (2006),
+arXiv:cond-mat/0602574.
+
+\bibitem{GuttmannRogers2012}
+A.~J.~Guttmann and M.~D.~Rogers,
+Spanning tree generating functions and Mahler measures,
+\href{https://doi.org/10.1088/1751-8113/45/49/494001}{J.\ Phys.\ A: Math.\ Theor.\ \textbf{45}, 494001 (2012)}.
+
+\bibitem{Owaidat2013}
+M.~Owaidat,
+On the uniform tiling with electrical resistors,
+arXiv:1305.5839 (2013).
+
+\bibitem{Cserti2011}
+J.~Cserti, G.~Sz\'echenyi, and G.~D\'avid,
+Uniform tiling with electrical resistors,
+J.\ Phys.\ A: Math.\ Theor.\ \textbf{44}, 215201 (2011),
+arXiv:1102.4537.
+
+\bibitem{Foster1949}
+R.~M.~Foster,
+The average impedance of an electrical network,
+in \emph{Reissner Anniversary Volume: Contributions to Applied Mechanics}
+(J.~W.~Edwards, Ann Arbor, 1949), pp.~333--340.
+
+\bibitem{Wu1977}
+F.~Y.~Wu,
+Number of spanning trees on a lattice,
+J.\ Phys.\ A: Math.\ Gen.\ \textbf{10}, L113 (1977).
+
+\bibitem{Kenyon2002}
+R.~Kenyon,
+The Laplacian and Dirac operators on critical planar graphs,
+\href{https://doi.org/10.1007/s00222-002-0249-4}{Invent.\ Math.\ \textbf{150}, 409 (2002)}.
+
+\bibitem{Horiguchi1972}
+T.~Horiguchi,
+Lattice Green's functions for the triangular and honeycomb lattices,
+\href{https://doi.org/10.1063/1.1666155}{J.\ Math.\ Phys.\ \textbf{13}, 1411 (1972)}.
+
+\bibitem{Joyce1998}
+G.~S.~Joyce,
+On the cubic modular transformation and the cubic lattice Green functions,
+J.\ Phys.\ A: Math.\ Gen.\ \textbf{31}, 5105 (1998).
+
+\bibitem{Hicks1880}
+W.~M.~Hicks,
+On the motion of two spheres in a fluid,
+\href{https://doi.org/10.1098/rstl.1880.0013}{Philos.\ Trans.\ R.\ Soc.\ Lond.\ \textbf{171}, 455 (1880)}.
+
+\bibitem{Lamb1932}
+H.~Lamb,
+\emph{Hydrodynamics}, 6th ed.\ (Cambridge University Press, Cambridge, 1932).
+
+\bibitem{PSLQ1999}
+H.~R.~P.~Ferguson, D.~H.~Bailey, and S.~Arno,
+Analysis of PSLQ, an integer relation finding algorithm,
+\href{https://doi.org/10.1090/S0025-5718-99-00995-3}{Math.\ Comp.\ \textbf{68}, 351 (1999)}.
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,901 @@
+% paper1_quantum_walks_and_graph_laws.tex
+% REVTeX 4-2, Physical Review A style.
+% Scope: Formulas 3-21, 24, 32, 37-40 of formulas.txt (Formula 2 deliberately excluded).
+\documentclass[aps,pra,10pt,twocolumn,superscriptaddress,nofootinbib]{revtex4-2}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\pbar}{\bar{p}}
+\newcommand{\Cl}{\operatorname{Cl}_2}
+\newcommand{\erfc}{\operatorname{erfc}}
+\newcommand{\sq}{\sqrt{3}}
+\newcommand{\YQ}{Y^{Q}}
+
+\begin{document}
+
+\title{Exact localization of Grover quantum walks on crystal lattices:\\
+transfer currents, a universal bound, and uniform-spanning-tree degree laws}
+
+\author{Jacob Goodchild}
+\affiliation{Independent researcher}
+
+\date{September 28, 2026}
+
+\begin{abstract}
+Discrete-time Grover walks on periodic graphs localize: a finite fraction of the
+wave function stays at the starting vertex forever because the walk operator
+has flat (momentum-independent) eigenvalues. We compute the long-time average
+return probability $\pbar$ exactly for a large family of lattices. For the
+moving-shift walk on $\mathbb{Z}^d$ we show that
+$\pbar$ is governed by $A_d=\int_0^\infty \erfc(\sqrt{s})^d\,ds$, and we obtain
+$A_3=\tfrac12-(3-\sq)/\pi$,
+$A_4=\tfrac12-(18-8\sq)/(3\pi)$ and an arccosine closed form for $A_5$.
+For the flip-flop walk we prove that the $\pm1$ flat-band projectors are
+$I-Y$ and $I-\YQ$, where $Y$ and $\YQ$ are the Kirchhoff transfer-current matrices
+of the Laplacian and signless Laplacian. This reduces the trapping probability to
+lattice Green functions. It gives closed forms in terms of Watson integrals
+(simple cubic, body-centred cubic, face-centred cubic), complete elliptic
+integrals (triangular, kagome, checkerboard, star, line graphs), and elementary
+functions of the bond anisotropy. We prove the universal lower bound
+$\pbar\ge (d-2)^2/[2d(d-1)]$ for edge-transitive $d$-regular lattices, where $d$
+is the vertex degree. The bound is attained exactly on bipartite lattices whose vertex
+stabilizer acts 2-transitively on the incident edges (honeycomb, diamond, the
+Laves graph, $d$-dimensional diamond). We also solve lazy (Szegedy) versions on the
+square, triangular, honeycomb and diamond lattices as explicit functions of the
+laziness. The same transfer-current matrix yields the vertex-degree distribution
+of the uniform spanning tree. On 2-arc-transitive lattices it is exactly
+$1+\mathrm{Binomial}(z-1,1/(z-1))$, and we give closed forms for the simple-cubic,
+BCC, FCC, pyrochlore, king and snub-square lattices. All closed forms were
+identified by integer-relation (PSLQ) searches at 25--80 digits and checked
+independently by Brillouin-zone diagonalization, direct simulation, or both.
+\end{abstract}
+
+\maketitle
+
+%=====================================================================
+\section{Introduction}
+\label{sec:intro}
+%=====================================================================
+
+Quantum walks are the unitary analogues of classical random
+walks~\cite{Kempe2003}. They underpin quantum search algorithms, in particular
+Szegedy's quantization of Markov chains~\cite{Szegedy2004} and the lackadaisical
+(lazy) walks introduced by Wong~\cite{Wong2015}. A striking feature of the Grover
+walk in two or more dimensions is \emph{localization}: even on a perfect lattice,
+the probability of finding the walker at its starting site does not decay to zero.
+Inui, Konishi and Konno established this for the two-dimensional Grover walk
+and computed the limiting return probability~\cite{Inui2004}. Higuchi, Konno, Sato
+and Segawa related localization of Grover walks on crystal lattices to flat
+bands of the walk operator and gave integral descriptions in any
+dimension~\cite{Higuchi2014}. What has been missing is a systematic set of
+\emph{closed forms} beyond the square lattice.
+
+This paper supplies them. The main structural observation (Sec.~\ref{sec:model}) is
+that for the flip-flop Grover walk the $+1$ and $-1$ flat-band projectors are the
+projectors onto the cycle spaces of the Laplacian $L=D-A$ and of the signless
+Laplacian $Q=D+A$. Their matrix elements between arcs at a vertex are therefore
+Kirchhoff transfer currents~\cite{Kirchhoff1847,BurtonPemantle1993}, the same
+objects that give edge correlations of the uniform spanning tree (UST). Three
+consequences follow.
+(i) Exact trapping probabilities reduce to lattice Green functions at the two
+band edges. These are classical in several cases: Watson
+integrals~\cite{Watson1939,GlasserZucker1977}, Joyce's cubic Green
+functions~\cite{Joyce1994,Joyce1998} and Horiguchi's triangular and honeycomb
+formulas~\cite{Horiguchi1972}.
+(ii) Foster's theorem~\cite{Foster1949} and the Cauchy--Schwarz inequality give a
+universal lower bound, attained on 2-arc-transitive bipartite lattices
+(Sec.~\ref{sec:bound}).
+(iii) The UST degree distribution at a vertex is
+$\det[I+(x-1)Y]$~\cite{BurtonPemantle1993}, which gives an exact binomial law in the
+symmetric case (Sec.~\ref{sec:ust}).
+
+We also treat the moving-shift walk on $\mathbb{Z}^d$ in any dimension
+(Sec.~\ref{sec:higherd}). There the trapping integral is a Cauchy or Gaussian average that
+closes in elementary terms for $d\le5$.
+
+\emph{Status of novelty.} Every result below was checked against the literature by
+web search. Items we believe are already known, or probably known, are flagged
+explicitly: the two-dimensional moving-shift values~\cite{Inui2004}, the integral
+$A_5$ (which is equivalent to a mean-square maximum of half-normal variables
+treated by Finch~\cite{Finch2011}), Kenyon's isoradial diagonal transfer
+currents~\cite{Kenyon2002}, and the mean-field limit of the UST degree law. For the
+remaining statements our searches found no prior closed form. Novelty should be
+understood in that limited sense.
+
+%=====================================================================
+\section{Model setup}
+\label{sec:model}
+%=====================================================================
+
+\subsection{Grover walks on periodic graphs}
+
+Let $G$ be a locally finite periodic graph. The walk lives on arcs (directed edges)
+$a=(o\to h_a)$, and each vertex $v$ of degree $d_v$ carries the Grover coin
+$C_v=\tfrac{2}{d_v}J-I$. In the \emph{flip-flop} walk, the shift sends the arc
+$(o\to h)$ to its reverse $(h\to o)$. In the \emph{moving-shift} walk on
+$\mathbb{Z}^d$, the coin state $\pm e_i$ is transported by $\pm e_i$ and keeps its label.
+For an initial state $\psi_0$ localized at $o$, the long-time average return
+probability is
+\begin{equation}
+\pbar=\lim_{T\to\infty}\frac1T\sum_{t=0}^{T-1}\sum_{a:\,\text{tail}(a)=o}
+|\langle a|U^t\psi_0\rangle|^2 .
+\label{eq:pbar-def}
+\end{equation}
+After Fourier transformation, the continuous spectrum of $U(k)$ contributes
+nothing to Eq.~\eqref{eq:pbar-def} by the Riemann--Lebesgue lemma. Only the flat
+eigenvalues $\lambda$ (eigenvalues of $U(k)$ that do not depend on $k$) survive, and
+\begin{equation}
+\pbar=\sum_{\lambda\ \text{flat}}\ \sum_{a\ \text{at}\ o}
+\bigl|\langle a|\,\overline{\Pi}_\lambda\,|\psi_0\rangle\bigr|^2,
+\qquad
+\overline{\Pi}_\lambda=\E_k\,\Pi_\lambda(k),
+\label{eq:pbar-flat}
+\end{equation}
+where $\E_k$ denotes the normalized Brillouin-zone average.
+
+\subsection{Flat bands as cycle spaces: the transfer-current principle}
+
+\emph{Theorem 1 (transfer-current form of flip-flop trapping).}
+For the flip-flop Grover walk on any periodic graph, starting on arc $a$ at vertex $o$,
+\begin{align}
+\pbar(a)&=\tfrac14\sum_{b\ \text{at}\ o}(\delta_{ab}-Y_{ab})^2
++\tfrac14\sum_{b\ \text{at}\ o}(\delta_{ab}-\YQ_{ab})^2 \nonumber\\
+&\quad+\sum_{\mu}\,(\text{flat-band terms}\ \ge 0).
+\label{eq:principle}
+\end{align}
+Here $Y_{ab}$ is the current through arc $b$ when a unit current enters at $o$
+and leaves at $h_a$ in a unit-resistor network (the Kirchhoff transfer
+current). $\YQ$ is the same object built from $Q=D+A$ in place of $L=D-A$. The
+last sum runs over flat bands $\mu$ of the simple random walk $D^{-1/2}AD^{-1/2}$.
+
+\emph{Derivation outline.}
+(1) Let $u$ be the vector with components $d_v^{-1/2}$ on the arcs at $v$, and let $S$ be the
+flip-flop shift, so $U=S(2uu^{*}-I)$. The flat eigenvalue $+1$ is supported on
+$K=\{\psi:\langle u,\psi\rangle=0=\langle u,S\psi\rangle\}$, where $U=-S$.
+(2) Divergence-free (circulating) flows satisfy both constraints. The $+1$ eigenspace
+is therefore the cycle space of the graph, and its projector is
+$\tfrac12(I-S)-\tfrac12(I-S)uu^{*}(I-S)/\langle u,(I-S)u\rangle$.
+(3) Averaged over $k$, the projector onto the orthogonal complement of the cycle space
+(the cut space) has matrix elements $Y_{ab}=\tfrac12[R(o,h_a)+R(o,h_b)-R(h_a,h_b)]$,
+written with the resistance distance $R$, that is, with the Green function
+$G(x)=\E_k[\cos(k\cdot x)/\sum_r(1-\cos k\cdot\delta_r)]$.
+(4) Replacing $S$ by $-S$ interchanges $L$ and $Q$, which gives the $-1$ channel.
+For bipartite graphs $Q$ is unitarily equivalent to $L$, so the two channels are equal.
+(5) Every other flat eigenvalue of $U$ comes, through the Szegedy correspondence,
+from a flat band $\mu$ of the random walk, with $\lambda=\mu\pm i\sqrt{1-\mu^2}$.
+
+Two identities hold throughout:
+\begin{align}
+\sum_{b}Y_{ab}&=\sum_b\YQ_{ab}=1, \label{eq:rowsum}\\
+\sum_{e\in\text{cell}}Y_{ee}&=\sum_{e\in\text{cell}}\YQ_{ee}=|V_{\text{cell}}|.
+\label{eq:foster}
+\end{align}
+Equation~\eqref{eq:rowsum} is current conservation. Equation~\eqref{eq:foster} is Foster's
+theorem~\cite{Foster1949} per unit cell (the trace of $L^{-1}L$). On an edge-transitive
+$d$-regular lattice it forces $Y_{aa}=\YQ_{aa}=2/d$.
+
+\subsection{Flip-flop walks on the cubic lattices}
+
+For a Bravais lattice with neighbour vectors $\pm\delta_1,\dots,\pm\delta_P$,
+Eq.~\eqref{eq:principle} becomes $\pbar(\phi)=\|M_+\phi\|^2+\|M_-\phi\|^2$ with
+$M_+=\tfrac12 I-N$ and
+\begin{equation}
+N_{(s,p),(t,q)}=\tfrac14\bigl[G(0)-G(\delta_p)-G(\delta_q)+G(t\delta_q-s\delta_p)\bigr].
+\end{equation}
+
+\emph{Simple cubic.} Let
+\begin{equation}
+W=\frac{\sqrt6}{32\pi^3}\,\Gamma(\tfrac1{24})\Gamma(\tfrac5{24})\Gamma(\tfrac7{24})\Gamma(\tfrac{11}{24})
+=1.5163860591519780\ldots
+\end{equation}
+be Watson's simple-cubic integral~\cite{Watson1939,GlasserZucker1977}. Then
+$N_{\rm diag}=1/6$, $N(+i,-i)=\alpha=(7W+54/(\pi^2W)-12)/36$, and
+$N(i,j\ne i)=\beta=(24-7W-54/(\pi^2W))/144$, with $\alpha+4\beta=1/3$. Starting in one coin
+state,
+\begin{equation}
+\pbar_{\rm SC}=2\Bigl[\tfrac19+\alpha^2+4\beta^2\Bigr]=0.26672720352085343375\ldots
+\label{eq:sc}
+\end{equation}
+The uniform coin state escapes completely ($\pbar=0$).
+
+\emph{Body-centred cubic.} With $W_b=\Gamma(\tfrac14)^4/(4\pi^3)=1.39320392968567685918\ldots$,
+we have $N_{\rm diag}=1/8$ and
+$\alpha=(3W_b+36/(\pi^2W_b)-6)/16$,
+$\beta_s=(2-W_b+4/(\pi^2W_b))/16$ and
+$\beta_d=(1-8/(\pi^2W_b))/8$. Hence
+\begin{equation}
+\pbar_{\rm BCC}=2\Bigl[\tfrac9{64}+\alpha^2+3\beta_s^2+3\beta_d^2\Bigr]
+=0.32150479124143771009\ldots
+\end{equation}
+
+\emph{Face-centred cubic.} FCC is not bipartite, so the $-1$ channel requires the
+Green function at the opposite band edge, $G'(x)=\E_k[\cos(k\cdot x)/(6+2s)]$ with
+$s=c_1c_2+c_2c_3+c_3c_1$ and $c_i=\cos k_i$. We find that the far-edge value is governed by
+the \emph{simple-cubic} Watson constant:
+\begin{equation}
+G'(0)=\frac{W}{6\sqrt2}
+=\frac{\sq\,\Gamma(\tfrac1{24})\Gamma(\tfrac5{24})\Gamma(\tfrac7{24})\Gamma(\tfrac{11}{24})}{192\pi^3}.
+\label{eq:fcc-far}
+\end{equation}
+This identity probably follows from Joyce's analysis of the FCC Green
+function~\cite{Joyce1998}. With $Y=\sqrt2W$ we further have $G'(1,1,0)=(2-Y)/12$,
+$G'(2,0,0)=(7Y+108/(\pi^2Y)-36\sq/\pi)/72$,
+$G'(2,1,1)=(2Y-3-27/(\pi^2Y))/9$, and
+$G'(2,2,0)=(Y+54/(\pi^2Y)+6\sq/\pi-8)/6$. All of these satisfy the FCC lattice equations to a residual of
+$3\times10^{-42}$. With
+\begin{equation}
+W_f=\frac{3\,\Gamma(\tfrac13)^6}{2^{14/3}\pi^4}=0.44822039439\ldots,
+\end{equation}
+the ordinary channel follows from $W_f$ and $1/(\pi^2W_f)$. The totals are
+\begin{align}
+\pbar_{\rm FCC}&=0.18948881307124000416+0.18942581798307167926\nonumber\\
+&=0.37891463105431168342\ldots
+\end{align}
+
+\subsection{Two-dimensional lattices}
+
+\emph{Triangular.} The Laplacian resistances are
+$a(1)=1/3$, $a(\sq)=2\sq/\pi-2/3$ and $a(2)=8/3-4\sq/\pi$. At the far band edge we find
+\begin{equation}
+X\equiv\E_k\Bigl[\frac1{3+\cos k_1+\cos k_2+\cos(k_1-k_2)}\Bigr]
+=\frac{2^{2/3}\Gamma(\tfrac13)^3}{8\pi^2},
+\end{equation}
+with $G'(1)=(1-3X)/3$, $G'(\sq)=(9X-2-\sq/(\pi X))/3$ and $G'(2)=(3X-4+2\sq/(\pi X))/3$. The two channels are
+\begin{align}
+\text{(+1)}&=\frac{43\pi^2-120\sq\pi+324}{72\pi^2},\\
+\text{($-$1)}&=X^2-\frac X2+\frac{19}{72}-\frac{\sq}{6\pi}-\frac{\sq}{18\pi X}+\frac1{8\pi^2X^2},
+\end{align}
+with total $\pbar=0.26795570253708055129\ldots$.
+The square lattice gives $\pbar=\tfrac12-\tfrac2\pi+\tfrac3{\pi^2}$, which is very likely known.
+
+\emph{Honeycomb and kagome.} On the honeycomb lattice, Eq.~\eqref{eq:foster} and edge
+transitivity force $Y=(2/3,1/6,1/6)$, so $\pbar=1/12$ exactly. Kagome has a flat band
+$\mu=-1/2$ of the random walk. This produces two extra walk eigenvalues
+$\lambda=e^{\pm2\pi i/3}$, each contributing
+$(19-42\sq/\pi+108/\pi^2)/648$. With $K=K(m)$ and $E=E(m)$ at parameter
+$m=5/32$ (we use the parameter convention $K(m)=\int_0^{\pi/2}(1-m\sin^2\theta)^{-1/2}d\theta$
+throughout), the total is
+\begin{align}
+\pbar_{\rm kag}&=\frac{103}{144}-\frac{7\sq}{48\pi}+\frac3{8\pi^2}
+-\frac{23\sqrt2E}{12\pi}+\frac{127\sqrt2K}{288\pi}\nonumber\\
+&\quad+\frac{4E^2}{\pi^2}-\frac{13KE}{6\pi^2}+\frac{61K^2}{144\pi^2}\nonumber\\
+&=0.19146243000085471390\ldots
+\end{align}
+The elliptic input is the identity
+$\E_k[1/(11-\cos k_1-\cos k_2-\cos(k_1-k_2))]=K(5/32)/(4\sqrt2\pi)$.
+
+\emph{Lieb, dice, 4.8.8, checkerboard and star.} Table~\ref{tab:2d} collects
+these results. We write $c=\sqrt2\arccos(1/3)/\pi$. The 4.8.8 Laplacian determinant
+factorizes as $64-4(3+\cos k_1)(3+\cos k_2)$, which is the origin of $\arccos(1/3)$. For the star
+lattice, $\kappa=\sqrt6\,K(3/128)/\pi$.
+
+\begin{table*}
+\caption{Exact long-time return probabilities of the flip-flop Grover walk on
+two-dimensional lattices, from Eq.~\eqref{eq:principle}. $c=\sqrt2\arccos(1/3)/\pi$,
+$\kappa=\sqrt6K(3/128)/\pi$, and $K,E$ in the checkerboard rows are at parameter $m=1/4$.}
+\label{tab:2d}
+\begin{ruledtabular}
+\begin{tabular}{lll}
+Lattice, start & Closed form & Value\\
+\hline
+Lieb, corner & $(1-4/\pi+6/\pi^2)/4$ & $0.0836718892797159856$\\
+Lieb, edge site & $1/8$ & $0.125$\\
+Dice, hub & $(31-20\sq/\pi+45/\pi^2)/144$ & $0.17036718996853721$\\
+Dice, rim & $11/48$ & $0.2291\overline{6}$\\
+4.8.8, square edge & $(4-6c+3c^2)/16$ & $0.0997756085862333247$\\
+4.8.8, bridge edge & $3c^2/16$ & $0.0575730175785728199$\\
+Star 3.12.12, triangle edge & $1883/10800-7\kappa/96+3\kappa^2/128$ & $0.1200922563314837021$\\
+Star 3.12.12, bridge edge & $107/2700+\kappa/48+3\kappa^2/128$ & $0.1008716548141747862$\\
+Checkerboard, collinear &
+$\frac{2097}{1024}-\frac{185}{128\pi}+\frac{79}{32\pi^2}+\frac{123K}{32\pi}-\frac{93E}{8\pi}
++\frac{39K^2}{16\pi^2}-\frac{57KE}{4\pi^2}+\frac{43E^2}{2\pi^2}$ & $0.2915287743505391057$\\
+Checkerboard, perpendicular &
+$\frac{777}{1024}-\frac{37}{64\pi}+\frac{25}{32\pi^2}+\frac{45K}{64\pi}-\frac{33E}{16\pi}
++\frac{3K^2}{4\pi^2}-\frac{3KE}{\pi^2}+\frac{7E^2}{2\pi^2}$ & $0.2954779129769429679$\\
+\end{tabular}
+\end{ruledtabular}
+\end{table*}
+
+\subsection{Line graphs}
+
+Let $L(G)$ be the line graph of a Bravais lattice $G$ with bond vectors $e_1,\dots,e_P$, and put
+$B(k)=(1+e^{ik\cdot e_t})_{t=1}^P$. Then $A_{L(G)}+2=B^\dagger B$, the degree is $4P-2$, and
+\begin{align}
+L^{-1}&=\tfrac1{4P}\bigl[I+B^\dagger B/(4P-BB^\dagger)\bigr],\\
+Q^{-1}&=\tfrac1{4P-4}\bigl[I-B^\dagger B/(4P-4+BB^\dagger)\bigr],\\
+F&=I-B^\dagger B/(BB^\dagger),
+\end{align}
+where $F$ is the projector onto the flat band $\mu=-2/(4P-2)$. Every trapping channel on
+$L(G)$ is therefore a finite combination of Green functions of $G$ at three energies.
+The checkerboard ($=L(\mathbb{Z}^2)$) and kagome ($=L$(honeycomb)) are instances.
+
+\emph{Line graph of $\mathbb{Z}^3$} (degree 10). Let $g(t)=\E[1/(t-\cos k_1-\cos k_2-\cos k_3)]$ and
+$g_j=g^{(j)}(7)$. Every channel is a polynomial in $W$, $X=1/(\pi^2W)$ and the $g_j$. For the collinear start,
+\begin{align}
+(+1)&=\tfrac{65}{324}-\tfrac{109W}{2592}-\tfrac{9X}{16}+\tfrac{45701W^2}{2985984}
++\tfrac{9347WX}{27648}+\tfrac{1973X^2}{1024},\nonumber\\
+\text{(flat)}&=\tfrac{259}{1296}-\tfrac{6233W}{41472}-\tfrac{453X}{256}
++\tfrac{773765W^2}{23887872}\nonumber\\
+&\quad+\tfrac{166595WX}{221184}+\tfrac{37685X^2}{8192},
+\end{align}
+and $\pbar=0.38013642908365187096$ (perpendicular start: $0.38100581744260323594$).
+Joyce's closed form for $g$~\cite{Joyce1994} makes the $-1$ channel a polynomial in
+complete elliptic integrals.
+
+\emph{Line graphs of BCC and FCC and of the triangular lattice.} These are solved completely
+in the same way. The totals are listed in Table~\ref{tab:lg}. The BCC case needs, besides $W_b$,
+the Green function $\E[1/(10+4c_1c_2c_3)]=\kappa^2/10$ with $\kappa=2K(m)/\pi$ and
+$m=\tfrac12-\sqrt{21}/10$. The triangular case needs the Green function \emph{below} the band.
+Its modulus is complex, but a modular transformation gives the real form
+\begin{equation}
+\E_k\Bigl[\frac1{7+\cos k_1+\cos k_2+\cos(k_1-k_2)}\Bigr]=\frac{K(m_*)}{135^{1/4}\pi},
+\end{equation}
+where $m_*=\tfrac12-\tfrac{23\sqrt{15}}{180}$ is a root of $2160m^2-2160m+11$.
+
+\begin{table}
+\caption{Flip-flop trapping on line graphs (start classes by the angle between the
+start bond and the site's own bond).}
+\label{tab:lg}
+\begin{ruledtabular}
+\begin{tabular}{llr}
+Line graph & start & $\pbar$\\
+\hline
+$L(\text{triangular})$ & collinear & $0.37891749229289535007$\\
+ & $60^\circ$ & $0.37983613893989158023$\\
+ & $120^\circ$ & $0.38314651208017409854$\\
+$L(\text{SC})$ & collinear & $0.38013642908365187096$\\
+ & perpendicular & $0.38100581744260323594$\\
+$L(\text{BCC})$ & collinear & $0.41704934756699764035$\\
+ & $70.5^\circ$ & $0.41732104849596726107$\\
+ & $109.5^\circ$ & $0.41775946732413853940$\\
+$L(\text{FCC})$ & collinear & $0.44924601047168703813$\\
+ & $60^\circ$ & $0.44932628436614800807$\\
+ & $90^\circ$ & $0.44943990277365356359$\\
+ & $120^\circ$ & $0.44977663121249284644$\\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+\subsection{Pyrochlore}
+
+The pyrochlore lattice ($=L$(diamond), degree 6) has a doubly degenerate flat band
+$\mu=-1/3$. Its projector is $F=I-B^\dagger(BB^\dagger)^{-1}B$, where $B$ is the diamond
+incidence matrix. With $W=W_f$ and $X=1/(\pi^2W)$, the Laplacian transfer currents from an edge are
+$1/3$ (self), $1/6$ (the two other edges of the same tetrahedron),
+$(1+8W+3X)/48$ (collinear partner) and $(15-8W-3X)/96$ (the other two). The channels are
+\begin{align}
+(+1)&=\tfrac{W^2}{96}+\tfrac{WX}{128}-\tfrac{13W}{1152}+\tfrac{3X^2}{2048}-\tfrac{13X}{3072}+\tfrac{2531}{18432},\\
+\text{(flat)}&=\tfrac{3W^2}{64}+\tfrac{9WX}{256}-\tfrac{13W}{256}+\tfrac{27X^2}{4096}-\tfrac{39X}{2048}+\tfrac{163}{4096}.
+\end{align}
+The $-1$ channel is a quadratic polynomial in $g_0,g_1,g_2$, the FCC Green function
+$g(t)=\E[1/(t-s)]$ and its first two derivatives at $t=15$, which Joyce's formula makes explicit.
+The total is $\pbar_{\rm pyro}=0.29388359496\ldots$.
+
+\subsection{Anisotropic walks}
+
+\emph{Square lattice.} Take the random walk with $P(\pm x)=\alpha/2$ and $P(\pm y)=\beta/2$
+($\alpha+\beta=1$), its Szegedy walk, and $\theta=\arcsin\sqrt\alpha$. The key integral is
+$\E[(1-\cos k_1)/(\alpha(1-\cos k_1)+\beta(1-\cos k_2))]=2\theta/(\pi\alpha)$. It gives
+\begin{align}
+Y(+x,+x)&=2\theta/\pi,\qquad
+Y(+x,-x)=\tfrac2\pi(\cot\theta-\theta\cot^2\theta),\\
+Y(+x,\pm y)&=\tfrac{\tan\theta}{2}\Bigl[1-\tfrac2\pi(\theta+\cot\theta-\theta\cot^2\theta)\Bigr],
+\end{align}
+and $\pbar(\alpha)=\tfrac12[(1-2\theta/\pi)^2+Y(+x,-x)^2+2Y(+x,y)^2]$. As checks,
+$\alpha=1/4$ gives $0.25400036756659953284$ and $\alpha=0.7$ gives $0.10771461463761465554$.
+
+\emph{Honeycomb.} Choose bond type $i$ with probability $p_i$, and set
+$\theta_i=\arctan(\lambda p_i)$ with $\lambda=(p_1p_2p_3)^{-1/2}$, so that $\sum\theta_i=\pi$.
+Write $t_i=\theta_i/\pi$. Then $T(1,1)=2t_1$ (Kenyon~\cite{Kenyon2002}) and
+\begin{equation}
+T(1,j)=\bigl[\tfrac12-p_k-p_1t_1-p_jt_j+p_kt_k\bigr]/p_1,\quad\{j,k\}=\{2,3\},
+\end{equation}
+so that $\pbar=\tfrac12[(1-2t_1)^2+(p_1/p_2)T(1,2)^2+(p_1/p_3)T(1,3)^2]$. For example,
+$p=(1/2,1/4,1/4)$ gives $\pbar=0.04680597938234766442$.
+
+\emph{Triangular.} For conductances $q_i$ with $\sum q_i=1$, set
+$\theta_i=\arctan(\lambda q_i)$ with $\lambda=(q_1q_2+q_2q_3+q_3q_1)^{-1/2}$, so that $\sum\theta_i=\pi/2$.
+Let $t_i=\theta_i/\pi$ and $c_1=\cot\theta_1$. The six currents at the origin for a unit
+current from $o$ to its $+e_1$ neighbour are
+\begin{align}
+T(+e_1)&=2t_1,\qquad T(-e_1)=\tfrac2\pi(c_1-\theta_1c_1^2),\nonumber\\
+T(+e_2)&=-\tfrac{q_2}{2q_3}+\tfrac{q_2(q_1+q_3)}{q_1q_3}t_1+\tfrac{q_2+q_3}{q_3}t_2,\nonumber\\
+T(-e_2)&=\tfrac{q_2(q_1+q_3)}{q_1^2}t_1+\tfrac{q_2+q_3}{q_2}t_2-\tfrac{c_1}{\pi},\nonumber\\
+T(+e_3)&=\tfrac12-\tfrac{q_1-q_3}{q_1}t_1-\tfrac{q_2+q_3}{q_2}t_2,
+\end{align}
+and $T(-e_3)=1-\sum(\text{others})$. The diagonal is Kenyon's isoradial theorem~\cite{Kenyon2002}.
+
+\subsection{Lazy (Szegedy) flip-flop walks}
+\label{sec:lazy}
+
+Add a self-loop with holding probability $\varepsilon$ and use the Szegedy coin. Self-loops
+carry no circulation, so the $+1$ channel is unchanged, while the $-1$ channel acquires a
+loop amplitude.
+
+\emph{Square lattice.} Let $k=(1-\varepsilon)/(1+\varepsilon)$, $\mathcal K=K(k^2)/\pi$ and
+$\mathcal E=E(k^2)/\pi$. The amplitudes are
+$A(+x)=\tfrac14+\tfrac12(1-k)\mathcal K$,
+$A(-x)=-\tfrac14[1-2/k+2(k-1)\mathcal K+4\mathcal E/k]$,
+$A(\pm y)=-\tfrac14[1+(2/k-2)\mathcal K-2\mathcal E/k]$ and
+$A(\text{loop})=-\sqrt{(1-k)/(2k)}\,(\tfrac12-(1-k)\mathcal K)$. Then
+\begin{equation}
+\pbar(\varepsilon)=\tfrac14-\tfrac1\pi+\tfrac3{2\pi^2}+A(+x)^2+A(-x)^2+2A(y)^2+A(\text{loop})^2 .
+\end{equation}
+
+\emph{Triangular lattice.} Let $t=3(1+\varepsilon)/(1-\varepsilon)$ and $S=\cos k_1+\cos k_2+\cos(k_1-k_2)$.
+For $t>3/2$ the Green function has the real-parameter form
+\begin{equation}
+g(t)=\E_k\Bigl[\frac1{t+S}\Bigr]=\frac{2K(m)}{\pi[(t-1)^3(t+3)]^{1/4}},
+\end{equation}
+\begin{equation}
+m=\frac12-\frac{t^2-3}{2(t-1)^{3/2}\sqrt{t+3}}.
+\label{eq:tri-real}
+\end{equation}
+We need $G_1=(1-tg)/3$, together with
+\begin{align}
+G_{\sq}&=-\tfrac23+\tfrac{2t^2+3t-6}{3}g+\tfrac{(t-1)(t+3)(2t-3)}{3}g',\\
+G_2&=-\tfrac{2(t-1)}3-\tfrac{2t^2+4t-9}{3}g-\tfrac{2(t-1)(t+3)(2t-3)}{3}g'.
+\end{align}
+The $-1$ amplitudes are
+$A(+e_1)=\tfrac13+(t-3)g/6$,
+$A(-e_1)=-(g+2G_1+G_2)/4$,
+$A(\text{adj})=-(g+3G_1)/4$ (two arcs),
+$A(\text{rem})=-(g+2G_1+G_{\sq})/4$ (two arcs) and
+$A(\text{loop})=-\tfrac{\sqrt{t-3}}6(1+(3-t)g)$, and
+\begin{align}
+\pbar(\varepsilon)&=\frac{43\pi^2-120\sq\pi+324}{72\pi^2}+A(+e_1)^2+A(-e_1)^2\nonumber\\
+&\quad+2A(\text{adj})^2+2A(\text{rem})^2+A(\text{loop})^2 .
+\end{align}
+For example, $\pbar(0.2)=0.31653136185695229253$ and $\pbar(0.5)=0.35388644533661557374$.
+
+\emph{Honeycomb.} Let $r=3(1+\varepsilon)/(1-\varepsilon)$, $m=16r/[(r-1)^3(r+3)]$ and
+$g=4K(m)/(\pi\sqrt{(r-1)^3(r+3)})$. Then
+\begin{align}
+288\,\pbar(\varepsilon)&=g^2r^2(r-3)^2(r-1)(r+3)\nonumber\\
+&\quad-4gr(r-4)(r-3)(r+3)+4(r^2-4r+9).
+\end{align}
+At $\varepsilon=0$ this gives $1/12$.
+
+\emph{Diamond.} Let $r=4(1+\varepsilon)/(1-\varepsilon)$ and $\tau=(r^2-4)/4$, and let $g=\E[1/(\tau-s)]$ be the FCC Green
+function in Joyce's closed form~\cite{Joyce1998},
+$g=\tau^{-1}\mathcal L(3/\tau)$ with
+$\mathcal L(x)=3^{3/2}(3+x)^{-3/2}(2-\sqrt{1-x})(2K(m)/\pi)^2$ and
+$m=\tfrac12-\tfrac{\sq}{2}(3+x)^{-3/2}(4x+(3-x)\sqrt{1-x})$. Then
+\begin{align}
+3072\,\pbar(\varepsilon)&=g^2r^2(r-4)^2(r-2)(r+4)\nonumber\\
+&\quad-8gr(r-6)(r-4)(r+4)+16(r^2-6r+40).
+\end{align}
+At $\varepsilon=0$ this gives $1/6$.
+
+\emph{General $z$.} For a $z$-regular bipartite lattice of girth at least 6 whose vertex symmetry acts
+2-transitively on the arcs, let $a_2(k)=|f(k)|^2-z$, $r=z(1+\varepsilon)/(1-\varepsilon)$,
+$h=\E[1/(r^2-z-a_2)]$ and $u=hr(r-z)$. The amplitudes are
+$A_{\rm start}=(2u+z-2)/(2z)$,
+$A_{\rm other}=-[u(r-z+2)-r+2z-2]/[2z(z-1)]$ and
+$A_{\rm loop}^2=(r-z)(1-u)^2/(2z^2)$, and
+\begin{equation}
+\pbar(\varepsilon)=\frac{(z-2)^2}{4z(z-1)}+A_{\rm start}^2+(z-1)A_{\rm other}^2+A_{\rm loop}^2 .
+\end{equation}
+
+%=====================================================================
+\section{The universal localization bound theorem}
+\label{sec:bound}
+%=====================================================================
+
+\emph{Theorem 2.} Consider the flip-flop Grover walk on a periodic graph, started on an arc $a$
+at a vertex of degree $d$. Then
+\begin{equation}
+\pbar(a)\ \ge\ \frac{d}{4(d-1)}\Bigl[(1-Y_{aa})^2+(1-\YQ_{aa})^2\Bigr].
+\label{eq:bound-general}
+\end{equation}
+If the lattice is edge-transitive and $d$-regular, where $d$ is the \emph{vertex degree}
+and not the spatial dimension, then
+\begin{equation}
+\pbar\ \ge\ \frac{(d-2)^2}{2d(d-1)} .
+\label{eq:bound}
+\end{equation}
+
+\emph{Proof.} The flat-band terms in Eq.~\eqref{eq:principle} are nonnegative, so it
+suffices to bound each $\pm1$ channel. By Eq.~\eqref{eq:rowsum}, the $d-1$ off-diagonal
+entries $Y_{ab}$ ($b\ne a$) sum to $1-Y_{aa}$. The Cauchy--Schwarz inequality then gives
+$\sum_{b\ne a}Y_{ab}^2\ge(1-Y_{aa})^2/(d-1)$. Hence
+\begin{align}
+\tfrac14\sum_b(\delta_{ab}-Y_{ab})^2
+&\ge\tfrac14\Bigl[(1-Y_{aa})^2+\tfrac{(1-Y_{aa})^2}{d-1}\Bigr]\nonumber\\
+&=\tfrac{d}{4(d-1)}(1-Y_{aa})^2,
+\end{align}
+and likewise for $\YQ$. Under edge transitivity, Eq.~\eqref{eq:foster} gives $Y_{aa}=\YQ_{aa}=2/d$,
+and substituting yields Eq.~\eqref{eq:bound}. $\square$
+
+\emph{Equality.} Equality holds if and only if (i) all off-diagonal currents from $a$ are equal
+in both channels and (ii) there are no additional flat bands. Both hold for bipartite
+lattices whose vertex stabilizer permutes the $d$ arcs 2-transitively, because then $\YQ$
+equals $Y$ up to signs. This gives the exact values
+\begin{equation}
+\begin{array}{ll}
+\text{honeycomb }(d=3): & \pbar=1/12,\\
+\text{Laves graph / srs }(d=3): & \pbar=1/12,\\
+\text{diamond }(d=4): & \pbar=1/6,\\
+d\text{-dim.\ diamond }(D=d+1): & \pbar=\dfrac{(d-1)^2}{2d(d+1)}.
+\end{array}
+\end{equation}
+In particular, 4D diamond has $\pbar=9/40$. Brillouin-zone averages of the walk's own eigenprojectors
+give $0.16650$ ($12^3$ grid) and $0.16660$ ($16^3$) for diamond, and $0.22490$ ($8^4$) for 4D diamond.
+
+\emph{Tightness elsewhere.} Comparing with the exact values of Sec.~\ref{sec:model}:
+square $0.1673438$ vs.\ $1/6$; triangular $0.2679557$ vs.\ $4/15$;
+simple cubic $0.2667272$ vs.\ $4/15$; BCC $0.3215048$ vs.\ $9/28$;
+FCC $0.3789146$ vs.\ $25/66$. The bound is within $10^{-3}$ in every case we examined,
+and within $10^{-4}$ for simple cubic and BCC.
+
+%=====================================================================
+\section{Higher-dimensional trapping integrals}
+\label{sec:higherd}
+%=====================================================================
+
+\subsection{Moving-shift Grover walk on $\mathbb{Z}^d$}
+
+Consider the Grover coin $G=\tfrac1dJ-I$ on the $2d$ coin states $\pm e_i$ with the moving
+shift. In momentum space $S(k)G$ has eigenvalues $\pm1$ for every $k$. Solving
+$G\psi=\lambda S(k)^*\psi$ gives flat-band components $(1\pm i\tan\tfrac{k_i}{2})/2$ for $\lambda=+1$
+and $(1\mp i\cot\tfrac{k_i}{2})/2$ for $\lambda=-1$. When $k_i$ is uniform on the circle,
+$\tan(k_i/2)$ and $\cot(k_i/2)$ are standard Cauchy variables $t_i$. Hence
+\begin{equation}
+\overline M=\tfrac A2J+\tfrac B2\,\mathrm{blockdiag}\begin{pmatrix}1&-1\\-1&1\end{pmatrix},
+\end{equation}
+with
+\begin{equation}
+A_d=\E\Bigl[\frac1{d+\sum_it_i^2}\Bigr]=\int_0^\infty\erfc(\sqrt s)^d\,ds,
+\qquad B_d=\frac{1-dA_d}{d}.
+\label{eq:Ad}
+\end{equation}
+The second form of $A_d$ follows from $1/x=\int_0^\infty e^{-sx}ds$ and
+$\E[e^{-st^2}]=e^s\erfc\sqrt s$. With $u=(1,\dots,1)/\sqrt{2d}$ and $P_{\rm anti}$ the projector
+onto $\{e_{+i}-e_{-i}\}$,
+\begin{equation}
+\pbar(\phi)=2\bigl[(dA_d)^2|\langle u|\phi\rangle|^2+B_d^2\|P_{\rm anti}\phi\|^2\bigr],
+\end{equation}
+so that $\pbar(+e_1)=dA_d^2+B_d^2$ and $\pbar(u)=2d^2A_d^2$. The exact values are
+\begin{align}
+A_2&=\tfrac12-\tfrac1\pi,\\
+A_3&=\tfrac12-\tfrac{3-\sq}{\pi}=0.09639923687042003490\ldots,\\
+A_4&=\tfrac12-\tfrac{18-8\sq}{3\pi}=0.06035107068870143614\ldots,\\
+A_5&=\tfrac12-\tfrac{10}\pi+\tfrac{40\sq}{3\pi}-\tfrac{20\sq\arccos(1/4)}{\pi^2}\nonumber\\
+&=0.04153865644854222924\ldots
+\end{align}
+The $d=2$ case reproduces Inui \emph{et al.}~\cite{Inui2004}. The 3D headline values are
+$\pbar(+e_1)=0.08401620467429515245$ and $\pbar(u)=0.1672706316455882907$; in 5D,
+$\pbar(+e_1)=0.03373729729788322185$. Because $A_d=\tfrac12\E[\min_kZ_k^2]$ for independent standard
+normals, min/max inclusion--exclusion turns $A_5$ into
+$\E[\max_{k\le5}Z_k^2]=1+20\sq/\pi-40\sq\arccos(\tfrac14)/\pi^2$. That is a mean-square maximum of
+half-normals, the setting considered by Finch~\cite{Finch2011}, so the integral itself is probably
+known. $A_5$ closes because it is a moment over a region of the even-dimensional
+sphere $S^4$. For $d=6$ ($S^5$) no closed form was found.
+
+\subsection{Weighted coins: a general-$d$ theorem}
+
+Replace the Grover coin by $2|s\rangle\langle s|-I$ with
+$|s\rangle=(\sqrt{p_1/2},\sqrt{p_1/2},\dots,\sqrt{p_d/2},\sqrt{p_d/2})$ and $\sum p_i=1$. Let $Z_i$ be
+independent standard normals and define
+\begin{equation}
+A=\tfrac12\E\bigl[\min_kZ_k^2/p_k\bigr]=\int_0^\infty\prod_k\erfc\bigl(\sqrt{p_ku}\bigr)\,du,
+\end{equation}
+together with $\pi_i=P(\text{coordinate $i$ attains the minimum})$.
+
+\emph{Theorem 3.} Starting in coin state $+e_1$,
+\begin{equation}
+\pbar=2\Bigl[\tfrac{\pi_1^2}4+\bigl(p_1A-\tfrac{\pi_1}2\bigr)^2+\tfrac{p_1(1-p_1)A^2}2\Bigr].
+\end{equation}
+The proof uses the Cauchy identities $\E[1/(1+\sum p t^2)]=A$ and
+$\E[t_i^2/(1+\sum pt^2)]=\pi_i/p_i-A$.
+
+In $d=3$ everything is elementary. For $\{i,j,k\}=\{1,2,3\}$,
+\begin{align}
+\pi_i&=\tfrac2\pi\Bigl[\arctan\sqrt{\tfrac{p_i}{p_j}}+\arctan\sqrt{\tfrac{p_i}{p_k}}
+-\arctan\sqrt{\tfrac{p_i}{p_jp_k}}\Bigr],\\
+A&=\tfrac12\sum_i\Bigl[\tfrac{\pi_i}{p_i}-\tfrac2\pi\Bigl(\tfrac{\sqrt{p_k/p_i}}{1+\sqrt{p_j}}
++\tfrac{\sqrt{p_j/p_i}}{1+\sqrt{p_k}}\Bigr)\Bigr].
+\end{align}
+These are obtained from solid angles of the three cones meeting at $(\sqrt{p_1},\sqrt{p_2},\sqrt{p_3})$
+together with Stokes' theorem for $\int_Tx_i^2\,d\sigma$. For example, $p=(0.2,0.3,0.5)$ gives
+$\pbar=0.05362025915918515966$. The $d=2$ case may overlap earlier work on generalized Grover coins.
+
+\subsection{Lackadaisical moving-shift walk}
+
+Add a self-loop of weight $l$ to the moving-shift walk, so that
+$|s\rangle=(1,\dots,1,\sqrt l)/\sqrt{2d+l}$~\cite{Wong2015}. The $-1$ flat band disappears. With
+\begin{equation}
+a(l)=\tfrac12\int_0^\infty e^{-ls/2}\erfc(\sqrt s)^d\,ds,\qquad b=\frac{1-(2d+l)a}{2d},
+\end{equation}
+the return probability is $l(2d+l)a^2$ from the loop state and $2da^2+2b^2+la^2$ from a moving
+state. The closed forms are
+\begin{align}
+d=2:&\quad a=\tfrac1l\Bigl[1-\tfrac4\pi\tfrac{\arctan q}{q}\Bigr],\qquad q=\sqrt{1+l/2},\\
+d=3:&\quad a=\tfrac1l\Bigl[1-3\sqrt{\tfrac{2}{l+2}}\Bigl(1+\tfrac2\pi\Bigl(\arcsin\tfrac2{l+4}\nonumber\\
+&\qquad\qquad-2\arcsin\sqrt{\tfrac2{l+4}}\Bigr)\Bigr)\Bigr].
+\end{align}
+The $d=3$ case rests on the lemma
+\begin{align}
+\int_0^\infty e^{-bx^2}\erfc(x)^2dx
+&=\tfrac12\sqrt{\tfrac\pi b}\Bigl[1+\tfrac2\pi\Bigl(\arcsin\tfrac1{b+1}\nonumber\\
+&\qquad-2\arcsin\tfrac1{\sqrt{b+1}}\Bigr)\Bigr],
+\end{align}
+which is proved via a trivariate Gaussian orthant probability.
+
+\subsection{Moving-shift triangular walk (partial)}
+
+On the triangular lattice with the moving shift, the $-1$ channel from $+e_1$ is
+$\tfrac5{12}-\tfrac{4\sq}{3\pi}+\tfrac{57}{16\pi^2}=0.04251818949677224475$. The $+1$ channel is
+$0.04312949681537029391$, for which no closed form was found in bases built from
+$\pi$, $\sq$, logarithms, Clausen values, Catalan's constant and $\arccos(1/3)$. The total is
+$\pbar=0.08564768631214253866$.
+
+%=====================================================================
+\section{UST degree laws}
+\label{sec:ust}
+%=====================================================================
+
+Let $Y$ be the $z\times z$ transfer-current matrix of the edges at a vertex. By the transfer-current
+theorem of Burton and Pemantle~\cite{BurtonPemantle1993} and multilinearity of the determinant,
+the degree of the vertex in the uniform spanning tree satisfies
+\begin{equation}
+\sum_kP(\deg=k)\,x^k=\det\bigl[I+(x-1)Y\bigr].
+\label{eq:ust-gf}
+\end{equation}
+The method reproduces the square-lattice values of Manna, Dhar and Majumdar~\cite{Manna1992}.
+
+\emph{Theorem 4 (binomial law).} Suppose the lattice is edge-transitive and the vertex symmetry
+acts 2-transitively on its $z$ edges (honeycomb, diamond, Laves graph, $d$-dimensional
+diamond). Then
+\begin{equation}
+\deg\ \stackrel{d}{=}\ 1+\mathrm{Binomial}\Bigl(z-1,\frac1{z-1}\Bigr).
+\end{equation}
+\emph{Proof.} 2-transitivity forces $Y=aI+b(J-I)$. Foster's theorem gives $a=2/z$, and
+Eq.~\eqref{eq:rowsum} gives $a+(z-1)b=1$. So $Y$ has eigenvalue $1$ on the all-ones vector and
+$a-b=1/(z-1)$ with multiplicity $z-1$. Hence
+$\det[I+(x-1)Y]=x\bigl(\tfrac{z-2}{z-1}+\tfrac{x}{z-1}\bigr)^{z-1}$. $\square$
+
+For the honeycomb this gives $(1/4,1/2,1/4)$ and for diamond $(8/27,4/9,2/9,1/27)$. As
+$z\to\infty$ the law tends to $1+\mathrm{Poisson}(1)$, the known mean-field limit.
+\emph{The law does not hold} for the pyrochlore, king or snub-square lattices, whose
+vertex symmetry is not 2-transitive on the edges. Their distributions are given below.
+
+\emph{Simple cubic.} With $\alpha=(7W+54/(\pi^2W))/36=0.39507915234185137202$,
+\begin{align}
+P(1)&=8\alpha^3(3\alpha-2)^2,\nonumber\\
+P(2)&=-4\alpha^2(3\alpha-2)(30\alpha^2-25\alpha+6),\nonumber\\
+P(3)&=2\alpha(360\alpha^4-600\alpha^3+379\alpha^2-108\alpha+12),\nonumber\\
+P(4)&=-(2\alpha-1)(360\alpha^4-480\alpha^3+241\alpha^2-52\alpha+4),\nonumber\\
+P(5)&=2(2\alpha-1)^2(3\alpha-1)(15\alpha^2-10\alpha+2),\nonumber\\
+P(6)&=-(2\alpha-1)^3(3\alpha-1)^2 .
+\end{align}
+Numerically these are $0.327494821326$, $0.409830450502$, $0.204859445598$, $0.0511275258041$,
+$0.00637070295715$ and $0.000317053812167$.
+
+\emph{BCC and FCC.} With $q=1/(\pi^2W)$ for the respective Watson constant,
+\begin{align}
+P_{\rm BCC}(1)&=\tfrac{3q}{16}(W+4q)^3(4-W-12q)^3\nonumber\\
+&=0.339633990106590943,\nonumber\\
+P_{\rm BCC}(8)&=\tfrac1{64}(12q-1)(W+4q-2)^3(W+12q-2)^3\nonumber\\
+&=1.17884249933455210\times10^{-6},\\
+P_{\rm FCC}(1)&=\tfrac{1}{5038848}(5-4W-6q)^2(7-8W-3q)^3\nonumber\\
+&\quad\times(8W+3q+1)^3(16W+15q-5)^3\nonumber\\
+&=0.349518246140286417 .
+\end{align}
+The intermediate degrees are polynomials in $W$ and $q$.
+
+\emph{Pyrochlore} ($W=W_f$, $X=1/(\pi^2W)$):
+\begin{align}
+P(1)&=\tfrac{1}{14155776}[(31-8W-3X)(67+24W+9X)]^2\nonumber\\
+&=0.321497700833733694,\nonumber\\
+P(6)&=\tfrac{1}{28311552}[(8W+3X+1)(24W+9X-29)]^2\nonumber\\
+&=0.000257114517586699387 .
+\end{align}
+
+\emph{King lattice} ($p=1/\pi$, $L=\ln(2+\sq)/(\pi\sq)$):
+\begin{align}
+P(8)&=\tfrac1{128}(1+2p-7L)(4p-1-2L)(6L+12p-5)\nonumber\\
+&\quad\times(1+20L-12L^2-32p+48p^2)^2\nonumber\\
+&=8.81169962728673452\times10^{-7}.
+\end{align}
+
+\emph{Snub square} ($p=1/\pi$), all degrees:
+\begin{align}
+P(1)&=\tfrac{5}{3888}\bigl[8953-5058\sq+(6336\sq-10692)p\nonumber\\
+&\qquad+(1836-1296\sq)p^2\bigr],\nonumber\\
+P(2)&=\tfrac1{972}\bigl[30245\sq-51893+(52758-30708\sq)p\nonumber\\
+&\qquad+(5940\sq-9666)p^2\bigr],\nonumber\\
+P(3)&=\tfrac1{648}\bigl[56447-32500\sq+(28872\sq-50112)p\nonumber\\
+&\qquad+(9504-5400\sq)p^2\bigr],\nonumber\\
+P(4)&=\tfrac1{972}\bigl[32055\sq-55511+(45522-26172\sq)p\nonumber\\
+&\qquad+(4860\sq-8694)p^2\bigr],\nonumber\\
+P(5)&=\tfrac1{3888}\bigl[50057-28910\sq+(22608\sq-38988)p\nonumber\\
+&\qquad+(7236-4320\sq)p^2\bigr].
+\end{align}
+
+\emph{Further two-dimensional laws.} Again $c=\sqrt2\arccos(1/3)/\pi$ and $r=\sq/\pi$.
+The 4.8.8 lattice has $P(1)=P(3)=3c(4-3c)/16$ and $P(2)=(9c^2-12c+8)/8$.
+The star lattice has $(21/100,29/50,21/100)$.
+The kagome lattice has
+$P=\tfrac{(5+3r)(17-6r)}{324},\tfrac{18r^2-21r+158}{324},\tfrac{18r^2-21r+77}{324},\tfrac{(4-3r)(1+6r)}{324}$,
+with $P(1)-P(4)=P(2)-P(3)=\tfrac14$ exactly.
+The dice rim site and the triakis triangle centre are themselves binomial:
+$1+\mathrm{Bin}(2,\tfrac14)$ and $1+\mathrm{Bin}(2,\tfrac1{10})$.
+For the triangular lattice, $P(1)=(3r-1)(6r-5)^2(6r+1)^2/108$, consistent with the known triangular
+sandpile height-one probability~\cite{PonceletRuelle2017}. The general determinantal approach of
+Rapoport~\cite{Rapoport2023} covers such degree statistics in principle.
+In every case the distribution sums to $1$ and has mean exactly $2$, and $P(1)$ equals $z$
+times the sandpile height-one probability (the companion paper).
+
+%=====================================================================
+\section{Numerical and symbolic verification methodology}
+\label{sec:methods}
+%=====================================================================
+
+\emph{Exact Bloch engine.} For a two-dimensional periodic graph with Bloch Laplacian $L(k)$, we
+evaluate every needed average $\E_k[\,\cdot\,]$ by an exact residue sum in $z_2=e^{ik_2}$ (the roots
+of $\det L$, polished by Newton iteration, with a contour integral around clustered roots near the
+node at $k=0$), followed by tanh--sinh quadrature in $k_1$ at 25--60 digits. The three-dimensional
+engine integrates $k_3$ exactly and the remaining two dimensions by quadrature. It was validated
+on the simple-cubic Watson integral to 12 digits, and BCC Green functions were computed by accelerated
+exact binomial series to 45 digits.
+
+\emph{Integer-relation identification.} Closed forms were found with PSLQ~\cite{PSLQ1999} (mpmath
+implementation) over small bases. Relations were accepted only when the coefficients were small and
+the relation was stable under an increase of precision. Representative precisions: $A_3,A_4$ at 60
+digits; $A_5$ at 80 digits (residual $<10^{-80}$); simple-cubic currents at 40 digits (rechecked at
+70); FCC at 32 and 50 digits; kagome and triangular at 35--45 digits; the line graph of FCC at 34 digits,
+with the energy-8 relations re-verified at 60 digits. In that last case one 34-digit relation proved
+\emph{spurious} and was corrected. This cautions against accepting PSLQ output at marginal precision.
+
+\emph{Independent checks.} (a) Symbolic assembly of each channel was compared with the engine's direct
+value (typically 20--40 digits). (b) Brillouin-zone diagonalization of the full walk operator $U(k)$ on
+grids ($64^3$ for the moving shift, $36^3$ for $L$(SC), $90\times90$ for kagome), averaging each flat
+projector. (c) Direct simulation of the walk. Examples: square $0.16734263$ vs.\ $0.16734378$;
+triangular $0.2679596$ vs.\ $0.2679557$; honeycomb $0.083337$ vs.\ $1/12$; lazy triangular
+$\varepsilon=0.2$ $0.316536$ vs.\ $0.316531$. 3D simulations are memory-limited to $t\lesssim90$, and
+their residual decays like $t^{-3/2}$, as expected for the escaping part of the wave. (d) Closed-form
+Green functions were checked against the lattice equations, for example
+$6G'(x)+\tfrac12\sum_{\rm nbrs}G'(x+e)=\delta_{x,0}$ on FCC with residual $3\times10^{-42}$.
+(e) Every UST distribution was checked to sum to 1 with mean exactly 2 (to $10^{-16}$), and against
+the independent sandpile determinant.
+
+%=====================================================================
+\section{Discussion and conclusion}
+\label{sec:conclusion}
+%=====================================================================
+
+The transfer-current principle, Eq.~\eqref{eq:principle}, turns Grover-walk localization into a
+problem of classical electrical networks. This explains why the trapping probabilities involve exactly
+the constants of lattice potential theory: Watson integrals, Joyce's elliptic forms, and Horiguchi's
+triangular Green function. It also explains why the signless Laplacian, that is, the Green function at the
+\emph{opposite} band edge, governs the $-1$ channel of non-bipartite lattices. A by-product is the
+far-edge FCC identity, Eq.~\eqref{eq:fcc-far}, and the real-parameter triangular Green function,
+Eq.~\eqref{eq:tri-real}.
+
+The universal bound, Theorem~2, is sharp on 2-arc-transitive bipartite lattices and within $10^{-3}$ of
+every exact value we computed. So localization in flip-flop Grover walks is controlled, to excellent
+accuracy, by the vertex degree alone. The same symmetry yields the binomial UST degree law of
+Theorem~4, which connects quantum-walk localization to spanning-tree combinatorics.
+
+Open problems include a closed form for the $+1$ channel of the moving-shift triangular walk, the
+integral $A_6$, and the $-1$ channel of the anisotropic triangular walk. The latter needs a signless
+Green function whose elliptic parameter depends on the weights.
+
+\begin{acknowledgments}
+The computations and the first draft of this manuscript were carried out with the assistance
+of an AI coding agent (Claude Code). All numerical code is available in the accompanying
+repository.
+\end{acknowledgments}
+
+\begin{thebibliography}{99}
+
+\bibitem{Kempe2003}
+J.~Kempe,
+Quantum random walks: An introductory overview,
+\href{https://doi.org/10.1080/00107151031000110776}{Contemp.\ Phys.\ \textbf{44}, 307 (2003)},
+arXiv:quant-ph/0303081.
+
+\bibitem{Szegedy2004}
+M.~Szegedy,
+Quantum speed-up of Markov chain based algorithms,
+in \emph{Proceedings of the 45th Annual IEEE Symposium on Foundations of Computer Science (FOCS 2004)}
+(IEEE, 2004), pp.~32--41,
+\href{https://doi.org/10.1109/FOCS.2004.53}{doi:10.1109/FOCS.2004.53}.
+
+\bibitem{Wong2015}
+T.~G.~Wong,
+Grover search with lackadaisical quantum walks,
+\href{https://doi.org/10.1088/1751-8113/48/43/435304}{J.\ Phys.\ A: Math.\ Theor.\ \textbf{48}, 435304 (2015)}.
+
+\bibitem{Inui2004}
+N.~Inui, Y.~Konishi, and N.~Konno,
+Localization of two-dimensional quantum walks,
+\href{https://doi.org/10.1103/PhysRevA.69.052323}{Phys.\ Rev.\ A \textbf{69}, 052323 (2004)}.
+
+\bibitem{Higuchi2014}
+Yu.~Higuchi, N.~Konno, I.~Sato, and E.~Segawa,
+Spectral and asymptotic properties of Grover walks on crystal lattices,
+\href{https://doi.org/10.1016/j.jfa.2014.09.003}{J.\ Funct.\ Anal.\ \textbf{267}, 4197 (2014)}, arXiv:1401.0154.
+
+\bibitem{Kirchhoff1847}
+G.~Kirchhoff,
+\"Uber die Aufl\"osung der Gleichungen, auf welche man bei der Untersuchung der linearen
+Vertheilung galvanischer Str\"ome gef\"uhrt wird,
+\href{https://doi.org/10.1002/andp.18471481202}{Ann.\ Phys.\ Chem.\ \textbf{72}, 497 (1847)}.
+
+\bibitem{BurtonPemantle1993}
+R.~Burton and R.~Pemantle,
+Local characteristics, entropy and limit theorems for spanning trees and domino tilings via
+transfer-impedances,
+\href{https://doi.org/10.1214/aop/1176989121}{Ann.\ Probab.\ \textbf{21}, 1329 (1993)}.
+
+\bibitem{Watson1939}
+G.~N.~Watson,
+Three triple integrals,
+\href{https://doi.org/10.1093/qmath/os-10.1.266}{Q.\ J.\ Math.\ \textbf{os-10}, 266 (1939)}.
+
+\bibitem{GlasserZucker1977}
+M.~L.~Glasser and I.~J.~Zucker,
+Extended Watson integrals for the cubic lattices,
+\href{https://doi.org/10.1073/pnas.74.5.1800}{Proc.\ Natl.\ Acad.\ Sci.\ USA \textbf{74}, 1800 (1977)}.
+
+\bibitem{Joyce1994}
+G.~S.~Joyce,
+On the cubic lattice Green functions,
+\href{https://doi.org/10.1098/rspa.1994.0072}{Proc.\ R.\ Soc.\ Lond.\ A \textbf{445}, 463 (1994)}.
+
+\bibitem{Joyce1998}
+G.~S.~Joyce,
+On the cubic modular transformation and the cubic lattice Green functions,
+J.\ Phys.\ A: Math.\ Gen.\ \textbf{31}, 5105 (1998).
+
+\bibitem{Horiguchi1972}
+T.~Horiguchi,
+Lattice Green's functions for the triangular and honeycomb lattices,
+\href{https://doi.org/10.1063/1.1666155}{J.\ Math.\ Phys.\ \textbf{13}, 1411 (1972)}.
+
+\bibitem{Foster1949}
+R.~M.~Foster,
+The average impedance of an electrical network,
+in \emph{Reissner Anniversary Volume: Contributions to Applied Mechanics}
+(J.~W.~Edwards, Ann Arbor, 1949), pp.~333--340.
+
+\bibitem{Finch2011}
+S.~R.~Finch,
+Mean width of a regular cross-polytope,
+arXiv:1112.0499 (2011).
+
+\bibitem{Kenyon2002}
+R.~Kenyon,
+The Laplacian and Dirac operators on critical planar graphs,
+\href{https://doi.org/10.1007/s00222-002-0249-4}{Invent.\ Math.\ \textbf{150}, 409 (2002)}.
+
+\bibitem{Manna1992}
+S.~S.~Manna, D.~Dhar, and S.~N.~Majumdar,
+Spanning trees in two dimensions,
+\href{https://doi.org/10.1103/PhysRevA.46.R4471}{Phys.\ Rev.\ A \textbf{46}, R4471 (1992)}.
+
+\bibitem{PonceletRuelle2017}
+A.~Poncelet and P.~Ruelle,
+Sandpile probabilities on triangular and hexagonal lattices,
+\href{https://doi.org/10.1088/1751-8121/aa9255}{J.\ Phys.\ A: Math.\ Theor.\ \textbf{51}, 015002 (2018)},
+arXiv:1708.03493.
+
+\bibitem{Rapoport2023}
+A.~Rapoport,
+Correlations in uniform spanning trees: a fermionic approach,
+arXiv:2312.14992 (2023).
+
+\bibitem{PSLQ1999}
+H.~R.~P.~Ferguson, D.~H.~Bailey, and S.~Arno,
+Analysis of PSLQ, an integer relation finding algorithm,
+\href{https://doi.org/10.1090/S0025-5718-99-00995-3}{Math.\ Comp.\ \textbf{68}, 351 (1999)}.
+
+\end{thebibliography}
+
+\end{document}
